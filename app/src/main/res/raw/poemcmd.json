@@ -1,0 +1,7 @@
+{
+  "_scene": "com.skyworthdigital.voice.dingdang.SkyPoemActivity",
+  "_commands": {
+    "stop": [ "停止播放","停止","播放停止","退出播放","退出"],
+    "play": [ "$PLAY" ]
+  }
+}

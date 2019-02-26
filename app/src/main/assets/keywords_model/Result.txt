@@ -1,0 +1,3 @@
+sensitivity   FRR(conexant_microsemi)   FRR(microsemi)   FAR(conexant)   FAR2(microsemi)    FAR3(music)    FAR4(conexant tv+music)  FAR5(qqmusic_corpus)    FAR6(recording_2)
+0.75          3.77                      6.67             2.61            0.00               2.97           N/A                      3.05                    0.30
+0.73          4.12                      7.38             2.61            0.00               2.97           0.52                     2.69                    0.00

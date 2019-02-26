@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false">
+
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/img_simple_cell_view"
+        android:layout_width="@dimen/dip_160"
+        android:layout_height="@dimen/dip_221_3"
+        fresco:actualImageScaleType="fitXY"
+        fresco:fadeDuration="100"
+        fresco:failureImage="@drawable/index_default_postersbg"
+        fresco:failureImageScaleType="fitXY"
+        fresco:placeholderImage="@drawable/index_default_postersbg"
+        fresco:placeholderImageScaleType="fitXY"
+        fresco:roundAsCircle="false"
+        fresco:roundBottomLeft="false"
+        fresco:roundBottomRight="false"
+        fresco:roundedCornerRadius="@dimen/dip_4" />
+
+    <com.skyworthdigital.voice.dingdang.domains.videosearch.generalview.SkyMarqueeTextView
+        android:id="@+id/tv_cell_name"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dip_36"
+        android:layout_alignEnd="@+id/img_simple_cell_view"
+        android:layout_alignStart="@+id/img_simple_cell_view"
+        android:layout_below="@+id/img_simple_cell_view"
+        android:background="@drawable/cellview_name_bg"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:paddingEnd="@dimen/dip_10"
+        android:paddingStart="@dimen/dip_10"
+        android:singleLine="true"
+        android:textColor="#333333"
+        android:textSize="@dimen/txt_22_6" />
+
+    <ImageView
+        android:id="@+id/img_vip_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/img_simple_cell_view"
+        android:layout_alignTop="@+id/img_simple_cell_view"
+        android:contentDescription="@string/str_empty"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/score_layout"
+        android:layout_width="@dimen/dip_42_6"
+        android:layout_height="@dimen/dip_16"
+        android:layout_alignStart="@+id/img_simple_cell_view"
+        android:layout_alignTop="@+id/img_simple_cell_view"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_video_score"
+            android:layout_width="@dimen/dip_24"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/dip_minus2_5"
+            android:gravity="top|center_horizontal"
+            android:textColor="@color/white"
+            android:textSize="@dimen/txt_13" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/source_icon_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/img_simple_cell_view"
+        android:layout_alignTop="@+id/img_simple_cell_view"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/img_simple_cell_view"
+        android:layout_alignEnd="@+id/img_simple_cell_view"
+        android:layout_alignStart="@+id/img_simple_cell_view"
+        android:gravity="right"
+        android:orientation="vertical">
+
+        <com.skyworthdigital.voice.dingdang.domains.videosearch.generalview.SkyMarqueeTextView
+            android:id="@+id/tv_series_info"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dip_22_6"
+            android:background="@drawable/channel_lable01"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxEms="7"
+            android:paddingEnd="@dimen/dip_8"
+            android:paddingStart="@dimen/dip_8"
+            android:singleLine="true"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/txt_16"
+            android:visibility="gone" />
+
+        <ProgressBar
+            android:id="@+id/history_progress"
+            style="@style/cellview_progress_style"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dip_2_6"
+            android:background="@drawable/video_history_progress_style"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/delete_model_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/img_simple_cell_view"
+        android:layout_alignEnd="@+id/img_simple_cell_view"
+        android:layout_alignStart="@+id/img_simple_cell_view"
+        android:layout_alignTop="@+id/img_simple_cell_view"
+        android:background="@drawable/cell_video_delete_corners_bg"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/img_delete"
+            android:layout_width="@dimen/dip_46"
+            android:layout_height="@dimen/dip_46"
+            android:layout_centerInParent="true"
+            android:background="@drawable/user_icon_delete" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/img_update_state"
+        android:layout_width="@dimen/dip_10"
+        android:layout_height="@dimen/dip_10"
+        android:layout_alignEnd="@+id/img_simple_cell_view"
+        android:layout_alignTop="@+id/img_simple_cell_view"
+        android:layout_marginEnd="@dimen/dip_minus5"
+        android:layout_marginTop="@dimen/dip_minus5"
+        android:background="@drawable/user_update"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/img_special_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/source_icon_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/img_simple_cell_view"
+        android:layout_alignTop="@+id/img_simple_cell_view"
+        android:layout_marginEnd="@dimen/dip_minus20"
+        android:layout_marginTop="@dimen/dip_minus6"
+        android:background="@drawable/index_list_label_1"
+        android:visibility="visible" />
+</RelativeLayout>

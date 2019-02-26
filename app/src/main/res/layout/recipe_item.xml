@@ -1,0 +1,45 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/dip_368"
+    android:layout_height="@dimen/dip_113"
+    android:layout_gravity="center"
+    android:layout_marginRight="@dimen/dip_5"
+    android:duplicateParentState="true"
+    android:orientation="horizontal"
+    android:paddingBottom="@dimen/dip_3"
+    android:paddingLeft="@dimen/dip_2"
+    android:paddingRight="@dimen/dip_2"
+    android:paddingTop="@dimen/dip_3">
+
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/img"
+        android:layout_width="@dimen/dip_173"
+        android:layout_height="@dimen/dip_97"
+        android:layout_gravity="center"
+        android:layout_marginTop="0dp"
+        fresco:actualImageScaleType="fitXY"
+        fresco:fadeDuration="100"
+        fresco:failureImage="@drawable/index_default_postersbg"
+        fresco:failureImageScaleType="fitXY"
+        fresco:placeholderImage="@drawable/index_default_postersbg"
+        fresco:placeholderImageScaleType="fitXY"
+        fresco:roundAsCircle="false"
+        fresco:roundBottomLeft="false"
+        fresco:roundBottomRight="false"
+        fresco:roundedCornerRadius="0dp" />
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="@dimen/dip_219"
+        android:layout_height="@dimen/dip_97"
+        android:layout_gravity="center"
+        android:background="@drawable/bg_color_selector"
+        android:ellipsize="end"
+        android:gravity="left|center_vertical"
+        android:maxLines="3"
+        android:paddingLeft="@dimen/dip_10"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/txt_18_67" />
+
+</LinearLayout>

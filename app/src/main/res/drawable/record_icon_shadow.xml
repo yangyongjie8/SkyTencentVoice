@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 阴影图片，android:left表示阴影图片左边到背景图片左边的距离
+    android:top表示阴影图片上边到背景图片上边的距离-->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#d94e10" />
+        </shape>
+    </item>
+</layer-list>

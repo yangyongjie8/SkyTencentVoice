@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/review_shortvideo_bg">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dip_52"
+        android:layout_marginTop="@dimen/dip_68"
+        android:background="@drawable/badge" />
+
+    <TextView
+        android:id="@+id/sport_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dip_100"
+        android:layout_marginTop="@dimen/dip_78"
+        android:gravity="left"
+        android:text="@string/str_sport_schedule"
+        android:textColor="#d94e10"
+        android:textSize="@dimen/txt_30"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dip_10"
+        android:layout_marginTop="@dimen/dip_88"
+        android:layout_toRightOf="@+id/sport_title"
+        android:gravity="left"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/txt_22" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sport_title"
+        android:layout_marginBottom="@dimen/dip_10"
+        android:layout_marginLeft="@dimen/dip_100"
+        android:layout_marginTop="@dimen/dip_10"
+        android:gravity="left"
+        android:text="@string/str_sports_note"
+        android:textColor="#80ffffff"
+        android:textSize="@dimen/txt_22" />
+
+    <ListView
+        android:id="@+id/lv_sports"
+        android:layout_width="@dimen/dip_1092"
+        android:layout_height="@dimen/listview_height"
+        android:layout_below="@+id/date"
+        android:layout_marginLeft="@dimen/dip_100"
+        android:layout_marginTop="@dimen/dip_70"
+        android:divider="@null"
+        android:scrollbarSize="@dimen/dip_3"
+        android:scrollbarThumbVertical="@drawable/sidebar"
+        android:scrollbarTrackVertical="@drawable/sidebarbg"
+        android:transcriptMode="alwaysScroll" />
+</RelativeLayout>

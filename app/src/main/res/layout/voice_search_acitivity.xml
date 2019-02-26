@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_black_gray"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/dip_50"
+        android:clipChildren="false"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/search_result_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dip_20"
+            android:layout_marginTop="@dimen/dip_13"
+            android:textColor="@color/half_white"
+            android:textSize="@dimen/txt_23_33" />
+
+        <com.skyworthdigital.voice.dingdang.domains.videosearch.generalview.MetroRecyclerView
+            android:id="@+id/search_content_list"
+            android:layout_width="@dimen/dip_1200"
+            android:layout_height="@dimen/dip_488"
+            android:layout_marginBottom="@dimen/dip_166"
+            android:layout_marginTop="0dip"
+            android:clipToPadding="false"
+            android:padding="0dip"
+            app:delayBindEnable="true"
+            app:focusViewOnFrontEnable="false"
+            app:itemSpaceBottom="0dip"
+            app:itemSpaceLeft="@dimen/dip_2_5"
+            app:itemSpaceRight="@dimen/dip_2_5"
+            app:itemSpaceTop="0dip"
+            app:recyclerPaddingLeft="@dimen/dip_4_5"
+            app:recyclerPaddingRight="@dimen/dip_10"
+            app:recyclerPaddingTop="@dimen/dip_10"
+            app:supportVLeftKey="false"
+            app:supportVRightKey="true" />
+    </LinearLayout>
+
+    <com.skyworthdigital.voice.dingdang.domains.videosearch.generalview.SkyLoadingView
+        android:id="@+id/detail_playlist_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/loading90"
+        android:clipChildren="false" />
+
+    <TextView
+        android:id="@+id/no_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/no_content_tips"
+        android:textColor="@color/half_white"
+        android:textSize="@dimen/txt_30"
+        android:visibility="gone" />
+</RelativeLayout>

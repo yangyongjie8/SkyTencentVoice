@@ -1,0 +1,140 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/train_ticket_item_height"
+    android:gravity="center_vertical"
+    android:minHeight="@dimen/train_ticket_item_height"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dip_63"
+        android:background="#2b353f"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/trainnum"
+            android:layout_width="@dimen/dip_100"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dip_20"
+            android:gravity="left"
+            android:text="G11"
+            android:textColor="@color/white"
+            android:textSize="@dimen/txt_23" />
+
+        <TextView
+            android:id="@+id/starttime"
+            android:layout_width="@dimen/dip_80"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="left"
+            android:text="22:00"
+            android:textColor="@color/white"
+            android:textSize="@dimen/txt_23"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/origin"
+            android:layout_width="@dimen/dip_120"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="left"
+            android:text="纽卡斯尔rrrrrrrrrrrrrr"
+            android:textColor="#80ffffff"
+            android:textSize="@dimen/txt_23" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/arrow" />
+
+        <TextView
+            android:id="@+id/arrivetime"
+            android:layout_width="@dimen/dip_80"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:text="01:00"
+            android:textColor="@color/white"
+            android:textSize="@dimen/txt_23"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/destination"
+            android:layout_width="@dimen/dip_120"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="纽卡斯尔"
+            android:textColor="#80ffffff"
+            android:textSize="@dimen/txt_23" />
+
+        <TextView
+            android:id="@+id/totaltime"
+            android:layout_width="@dimen/dip_180"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dip_70"
+            android:gravity="left"
+            android:text="10小时"
+            android:textColor="@color/white"
+            android:textSize="@dimen/txt_23" />
+
+        <TextView
+            android:id="@+id/txtprice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text="¥1770起"
+            android:textColor="@color/white"
+            android:textSize="@dimen/txt_23" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dip_63"
+        android:background="#414b55"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/info1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="120dp"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="5.4折"
+            android:textColor="#80ffffff"
+            android:textSize="@dimen/txt_19" />
+
+        <TextView
+            android:id="@+id/info2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="5.4折"
+            android:textColor="#80ffffff"
+            android:textSize="@dimen/txt_19" />
+
+        <TextView
+            android:id="@+id/info3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="5.4折"
+            android:textColor="#80ffffff"
+            android:textSize="@dimen/txt_19" />
+
+        <TextView
+            android:id="@+id/info4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="5.4折"
+            android:textColor="#80ffffff"
+            android:textSize="@dimen/txt_19" />
+    </LinearLayout>
+</LinearLayout>

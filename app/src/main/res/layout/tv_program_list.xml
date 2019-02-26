@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/review_shortvideo_bg">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dip_52"
+        android:layout_marginTop="@dimen/dip_68"
+        android:background="@drawable/badge" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dip_101"
+        android:layout_marginTop="@dimen/dip_78"
+        android:gravity="left"
+        android:text="@string/app_name"
+        android:textColor="#d94e10"
+        android:textSize="@dimen/txt_30"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dip_10"
+        android:layout_marginTop="@dimen/dip_88"
+        android:layout_toRightOf="@+id/title"
+        android:gravity="left"
+        android:text="@string/app_name"
+        android:textColor="#d94e10"
+        android:textSize="@dimen/txt_21" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:layout_marginLeft="@dimen/dip_101"
+        android:layout_marginTop="@dimen/dip_10"
+        android:gravity="left"
+        android:text="@string/str_tvlist_note"
+        android:textColor="#80ffffff"
+        android:textSize="@dimen/txt_21" />
+
+    <ImageView
+        android:id="@+id/channel"
+        android:layout_width="@dimen/dip_140"
+        android:layout_height="@dimen/dip_100"
+        android:layout_marginLeft="@dimen/dip_1073"
+        android:layout_marginTop="@dimen/dip_95"
+        android:background="@drawable/transparent"
+        android:focusable="true" />
+
+    <Button
+        android:id="@+id/ricon"
+        android:layout_width="@dimen/dip_160"
+        android:layout_height="@dimen/dip_54"
+        android:layout_marginLeft="@dimen/dip_1033"
+        android:layout_marginTop="@dimen/dip_105"
+        android:background="@drawable/transparent"
+        android:ellipsize="end"
+        android:focusable="true"
+        android:gravity="center"
+        android:singleLine="true"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/txt_28" />
+
+    <Button
+        android:id="@+id/micon"
+        android:layout_width="@dimen/dip_160"
+        android:layout_height="@dimen/dip_54"
+        android:layout_marginLeft="@dimen/dip_873"
+        android:layout_marginTop="@dimen/dip_105"
+        android:background="@drawable/transparent"
+        android:ellipsize="end"
+        android:focusable="true"
+        android:gravity="center"
+        android:singleLine="true"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/txt_28" />
+
+    <Button
+        android:id="@+id/licon"
+        android:layout_width="@dimen/dip_160"
+        android:layout_height="@dimen/dip_54"
+        android:layout_marginLeft="@dimen/dip_713"
+        android:layout_marginTop="@dimen/dip_105"
+        android:background="@drawable/transparent"
+        android:ellipsize="end"
+        android:focusable="true"
+        android:gravity="center"
+        android:singleLine="true"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/txt_28" />
+
+    <ListView
+        android:id="@+id/lv_tvlist"
+        android:layout_width="@dimen/dip_1092"
+        android:layout_height="@dimen/dip_444"
+        android:layout_marginBottom="@dimen/dip_30"
+        android:layout_marginLeft="@dimen/dip_101"
+        android:layout_marginTop="@dimen/dip_194"
+        android:divider="@null"
+        android:listSelector="@drawable/transparent"
+        android:scrollbarSize="@dimen/dip_3"
+        android:scrollbarThumbVertical="@drawable/sidebar"
+        android:scrollbarTrackVertical="@drawable/sidebarbg"
+        android:transcriptMode="alwaysScroll" />
+</RelativeLayout>

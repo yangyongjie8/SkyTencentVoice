@@ -1,0 +1,7 @@
+{
+  "_scene": "com.skyworthdigital.voice.dingdang.SkyAudioPlayActivity",
+  "_commands": {
+    "stop": [ "停止播放","停止","播放停止","不想听了","退出播放","退出"],
+    "play": [ "$PLAY" ]
+  }
+}

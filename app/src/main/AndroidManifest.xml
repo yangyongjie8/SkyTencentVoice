@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.skyworthdigital.voice.dingdang"
+    android:sharedUserId="android.uid.system">
+
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <!-- 用于读取手机当前的状态 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- 写入扩展存储，向扩展卡写入数据，用于写入离线定位数据 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- 访问网络，网络定位需要上网 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 获取运营商信息，用于支持提供运营商信息相关的接口 -->
+
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <!-- imsdk所需权限 -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <!-- 这个权限用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- 这个权限用于访问GPS定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- 获取运营商信息，用于支持提供运营商信息相关的接口 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <!-- SD卡读取权限，用户写入离线定位数据 -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <!-- 允许应用读取低级别的系统日志文件 -->
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <!-- END:Add permission for get YiPhone account info -->
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!-- ************************  Baidu Wallet End ************************ -->
+
+
+    <!-- 糯米组件化sdkStart -->
+    <uses-permission android:name="android.permission.ACCESS_GPS" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <uses-permission android:name="android.permission.PERMISSION_NAME" />
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="com.htc.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.webkit.permission.PLUGIN" />
+    <uses-permission android:name="com.tencent.mtt.extension.Player" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER" />
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="com.baidu.permission.SHARE" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <!-- 糯米组件化sdkEnd -->
+    <!-- 糯米sdkstart -->
+    <uses-permission android:name="android.permission.SET_WALLPAPER_HINTS" />
+    <uses-permission android:name="android.permission.SET_WALLPAPER" />
+    <uses-permission android:name="android.permission.BATTERY_STATS" />
+    <uses-permission android:name="android.permission.GET_PACKAGE_SIZE" />
+    <uses-permission android:name="android.permission.RESTART_PACKAGES" />
+    <uses-permission android:name="android.permission.WRITE_SMS" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+    <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
+    <uses-permission android:name="huawei.permission.USE_SMARTKEY" />
+    <uses-permission android:name="com.android.browser.permission.READ_HISTORY_BOOKMARKS" />
+    <uses-permission android:name="com.android.browser.permission.WRITE_HISTORY_BOOKMARKS" />
+
+    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
+    <uses-permission android:name="android.permission.BIND_ACCESSIBILITY_SERVICE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
+
+    <application
+        android:name="com.skyworthdigital.voice.dingdang.VoiceApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@android:style/Theme.Wallpaper.NoTitleBar.Fullscreen">
+
+        <meta-data
+            android:name="com.tencent.rdm.uuid"
+            android:value="07c7e2e3-982c-4995-bcc8-56332db07812" />
+
+        <activity
+            android:name=".domains.videosearch.SkyBeeSearchAcitivity"
+            android:label="@string/app_name"
+            android:launchMode="standard">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <action android:name="com.skyworthdigital.voice.dingdang.beesearch" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".domains.sports.SportsScheduleActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <action android:name="com.skyworthdigital.voice.dingdang.sports" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".domains.sports.SportsRecordActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <action android:name="com.skyworthdigital.voice.dingdang.sportsrecord" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".domains.poem.SkyPoemActivity"
+            android:launchMode="singleTask">
+        </activity>
+
+        <activity
+            android:name=".domains.fm.SkyAudioPlayActivity"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <action android:name="com.skyworthdigital.voice.dingdang.fmplay" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".domains.train.TrainTicketActivity"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <action android:name="com.skyworthdigital.voice.dingdang.trainticket" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".domains.flight.SearchTicketActivity"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <action android:name="com.skyworthdigital.voice.dingdang.flightticket" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".domains.baike.SkyBaikeVideoActivity"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="com.skyworthdigital.voice.dingdang.baikevideo" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".domains.recipe.RecipeActivity">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <action android:name="com.skyworthdigital.voice.dingdang.recipe" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.skyworthdigital.voice.TestActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name="com.skyworthdigital.voice.dingdang.service.RecognizeService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibilityservice" />
+        </service>
+
+        <receiver android:name="com.skyworthdigital.voice.dingdang.receiver.BootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="com.skyworthdigital.scene.danmaku" />
+                <action android:name="com.skyworthdigital.scene.search" />
+                <action android:name="com.tencent.qqmusictvforthird" />
+                <action android:name="com.skyworth.action.CHANGEVOLUME" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name="com.skyworthdigital.voice.dingdang.scene.SkySceneService">
+            <intent-filter>
+                <action android:name="com.skyworthdigital.voiceassistant.topActivity.COMMIT" />
+                <action android:name="com.skyworthdigital.voiceassistant.app.CALL" />
+                <action android:name="com.skyworthdigital.voiceassistant.topActivity.RELEASE" />
+            </intent-filter>
+        </service>
+        <service android:name=".service.BeeRecognizeService" />
+
+
+        <receiver android:name=".domains.alarm.AlarmReceiver" />
+        <receiver android:name=".receiver.BeeReceiver" >
+            <intent-filter>
+                <action android:name="com.skyworthdigital.voice.ACTIVATE"/>
+                <action android:name="com.skyworthdigital.voice.RECOGNIZE"/>
+                <action android:name="com.skyworthdigital.voice.CANCEL"/>
+            </intent-filter>
+        </receiver>
+    </application>
+
+</manifest>

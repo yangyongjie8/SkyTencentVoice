@@ -1,0 +1,9 @@
+{
+  "_scene": "com.skyworthdigital.voice.dingdang.SkyVoiceSearchAcitivity",
+  "_commands": {
+    "next": [ "换一批","换一页","下一页","换一瓶","换EP","下一批","关你屁"],
+    "previous": [ "前一批","上一页","前一页","上一瓶","上一批"],
+    "play": [ "$PLAY" ],
+    "jianjie": [ "jianjie"]
+  }
+}

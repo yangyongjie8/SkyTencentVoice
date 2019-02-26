@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dip_63_5"
+    android:layout_gravity="center_vertical"
+    android:gravity="center_vertical"
+    android:minHeight="@dimen/dip_63_5">
+
+    <ImageView
+        android:id="@+id/week1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dip_5"
+        android:background="@drawable/sunday"
+        android:scaleType="fitXY" />
+
+    <TextView
+        android:id="@+id/programname1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dip_5"
+        android:layout_toRightOf="@+id/week1"
+        android:ellipsize="end"
+        android:gravity="left|center_vertical"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:maxWidth="@dimen/dip_470"
+        android:singleLine="true"
+        android:text="周一23:07"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/txt_23" />
+
+    <ImageView
+        android:id="@+id/icon1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/dip_5"
+        android:layout_toRightOf="@+id/programname1"
+        android:background="@drawable/playing" />
+
+    <ImageView
+        android:id="@+id/week2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dip_546" />
+
+    <TextView
+        android:id="@+id/programname2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dip_5"
+        android:layout_toRightOf="@+id/week2"
+        android:ellipsize="end"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:maxWidth="@dimen/dip_470"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:text="星空剧场:扶摇(58)"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/txt_23" />
+
+    <ImageView
+        android:id="@+id/icon2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/dip_5"
+        android:layout_toRightOf="@+id/programname2"
+        android:background="@drawable/playing" />
+</RelativeLayout>
+

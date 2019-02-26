@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:clipChildren="false" >
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/img_simple_h_cell_view"
+        android:layout_width="@dimen/dip_246_6"
+        android:layout_height="@dimen/dip_138"
+        fresco:actualImageScaleType="fitXY"
+        fresco:fadeDuration="100"
+        fresco:failureImage="@drawable/index_default_postersbg"
+        fresco:failureImageScaleType="fitXY"
+        fresco:placeholderImage="@drawable/index_default_postersbg"
+        fresco:placeholderImageScaleType="fitXY"
+        fresco:roundAsCircle="false"
+        fresco:roundBottomLeft="false"
+        fresco:roundBottomRight="false"
+        fresco:roundedCornerRadius="@dimen/dip_4" />
+
+    <ImageView
+        android:id="@+id/img_vip_icon"
+        android:layout_width="@dimen/dip_48"
+        android:layout_height="@dimen/dip_48"
+        android:layout_alignStart="@+id/img_simple_h_cell_view"
+        android:layout_alignTop="@+id/img_simple_h_cell_view"
+        android:background="@drawable/label_vip"
+        android:contentDescription="@string/str_empty"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/score_layout"
+        android:layout_width="@dimen/dip_53"
+        android:layout_height="@dimen/dip_20"
+        android:layout_alignEnd="@+id/img_simple_h_cell_view"
+        android:layout_alignTop="@+id/img_simple_h_cell_view"
+        android:layout_marginEnd="@dimen/dip_7"
+        android:layout_marginTop="@dimen/dip_7"
+        android:background="@drawable/label_doubanscore"
+        android:visibility="gone" >
+
+        <TextView
+            android:id="@+id/tv_video_score"
+            android:layout_width="@dimen/dip_33"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/dip_minus2"
+            android:gravity="top|center_horizontal"
+            android:textColor="@color/white"
+            android:textSize="@dimen/txt_16" />
+    </RelativeLayout>
+	<ImageView
+        android:id="@+id/source_icon_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/img_simple_h_cell_view"
+        android:layout_alignTop="@+id/img_simple_h_cell_view"
+        android:layout_marginEnd="@dimen/dip_7"
+        android:layout_marginTop="@dimen/dip_7"
+        android:background="@drawable/label_souhu"
+        android:visibility="gone" />
+
+	<RelativeLayout
+	    android:id="@+id/h_cell_name_space"
+	    android:layout_width="@dimen/dip_230"
+	    android:layout_height="@dimen/dip_93_3"
+	    android:layout_below="@+id/img_simple_h_cell_view"
+	    android:layout_alignEnd="@+id/img_simple_h_cell_view"
+	    android:layout_alignStart="@+id/img_simple_h_cell_view"
+	    android:background="@drawable/channel_list__posters_txtbg2"
+	    android:layout_marginTop="@dimen/dip_minus50"
+	    android:clipChildren="false"
+	    android:clipToPadding="false"
+	    android:paddingTop="@dimen/dip_50" >
+
+	    <com.skyworthdigital.voiceassistant.videosearch.generalview.SkyMarqueeTextView
+	        android:id="@+id/tv_h_cell_name"
+	        android:layout_width="@dimen/horizontal_cell_name_width"
+	        android:layout_height="wrap_content"
+			android:layout_centerHorizontal="true"
+	        android:gravity="left"
+	        android:singleLine="true"
+	        android:textColor="@color/white"
+	        android:textSize="@dimen/txt_22_6"
+	        android:layout_marginStart="@dimen/dip_13"
+	        android:layout_marginEnd="@dimen/dip_15"
+	        android:layout_marginTop="@dimen/dip_8_6" />
+	</RelativeLayout>
+	
+	<!-- <RelativeLayout
+	    android:id="@+id/time_h_cell_space"
+	    android:layout_width="wrap_content"
+	    android:layout_height="22.6dip"
+	    android:layout_alignBottom="@+id/img_simple_h_cell_view"
+	    android:layout_alignStart="@+id/img_simple_h_cell_view"
+	    android:layout_alignEnd="@+id/img_simple_h_cell_view"
+	    android:layout_marginBottom="11.3dip"
+	    android:background="#cc000000"
+	    android:visibility="gone" >
+	</RelativeLayout> -->
+	<TextView
+        android:id="@+id/tv_h_cell_time_info"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dip_22_6"
+        android:textSize="@dimen/txt_16"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:layout_alignBottom="@+id/img_simple_h_cell_view"
+        android:layout_alignStart="@+id/img_simple_h_cell_view"
+        android:paddingStart="@dimen/dip_8"
+        android:paddingEnd="@dimen/dip_8"
+        android:background="@drawable/channel_lable02"
+        android:visibility="gone" />
+	<TextView
+        android:id="@+id/tv_h_cell_desc_info"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dip_22_6"
+        android:textSize="@dimen/txt_16"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:layout_alignBottom="@+id/img_simple_h_cell_view"
+        android:layout_alignEnd="@+id/img_simple_h_cell_view"
+        android:paddingStart="@dimen/dip_8"
+        android:paddingEnd="@dimen/dip_8"
+        android:background="@drawable/channel_lable01"
+        android:visibility="gone" />
+
+</RelativeLayout>

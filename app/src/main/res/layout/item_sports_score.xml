@@ -1,0 +1,109 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@color/black"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/team1_icon"
+        android:layout_width="@dimen/dip_95"
+        android:layout_height="@dimen/dip_95"
+        android:layout_marginTop="@dimen/dip_10"
+        android:scaleType="fitXY"
+        android:src="@drawable/index_default_postersbg" />
+
+    <TextView
+        android:id="@+id/name1_txt"
+        android:layout_width="@dimen/dip_280"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/team1_icon"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:paddingTop="@dimen/dip_10"
+        android:text="纽卡斯尔"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/txt_24"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/team2_icon"
+        android:layout_width="@dimen/dip_95"
+        android:layout_height="@dimen/dip_95"
+        android:layout_marginLeft="@dimen/dip_576"
+        android:layout_marginTop="@dimen/dip_10"
+        android:scaleType="fitXY"
+        android:src="@drawable/index_default_postersbg" />
+
+    <TextView
+        android:id="@+id/name2_txt"
+        android:layout_width="@dimen/dip_280"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/team2_icon"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:paddingTop="@dimen/dip_10"
+        android:text="纽卡斯尔"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/txt_24"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/note_txt"
+        android:layout_width="@dimen/dip_193"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dip_307"
+        android:layout_marginTop="@dimen/dip_5"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:textColor="#80ffffff"
+        android:textSize="@dimen/txt_23" />
+
+    <TextView
+        android:id="@+id/time_txt"
+        android:layout_width="@dimen/dip_173"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dip_317"
+        android:layout_marginTop="@dimen/dip_35"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/white"
+        android:textSize="@dimen/txt_23" />
+
+    <TextView
+        android:id="@+id/status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dip_372"
+        android:layout_marginTop="@dimen/dip_70"
+        android:background="@drawable/rect_bg"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/txt_19" />
+
+    <TextView
+        android:id="@+id/score1_txt"
+        android:layout_width="@dimen/dip_200"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dip_117"
+        android:layout_marginTop="@dimen/dip_12"
+        android:gravity="left"
+        android:textColor="@color/white"
+        android:textSize="@dimen/txt_94"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/score2_txt"
+        android:layout_width="@dimen/dip_200"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dip_693"
+        android:gravity="center_vertical"
+        android:textColor="@color/white"
+        android:textSize="@dimen/txt_94"
+        android:textStyle="bold" />
+</RelativeLayout>

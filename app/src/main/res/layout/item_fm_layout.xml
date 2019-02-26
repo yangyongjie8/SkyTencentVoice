@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/listview_item_height"
+    android:minHeight="@dimen/listview_item_height"
+    android:orientation="horizontal">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/item_img_icon"
+        android:layout_width="@dimen/dip_44"
+        android:layout_height="@dimen/dip_44"
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/dip_20"
+        android:layout_marginRight="@dimen/dip_10"
+        fresco:actualImageScaleType="fitXY"
+        fresco:fadeDuration="100"
+        fresco:failureImage="@drawable/index_default_postersbg"
+        fresco:failureImageScaleType="fitXY"
+        fresco:placeholderImage="@drawable/index_default_postersbg"
+        fresco:placeholderImageScaleType="fitXY"
+        fresco:roundAsCircle="false"
+        fresco:roundBottomLeft="false"
+        fresco:roundBottomRight="false"
+        fresco:roundedCornerRadius="0dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/item_tv_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/dip_10"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
+            android:text="title"
+            android:textColor="@color/white"
+            android:textSize="@dimen/txt_23" />
+    </LinearLayout>
+
+</LinearLayout>
