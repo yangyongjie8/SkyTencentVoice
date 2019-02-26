@@ -182,4 +182,28 @@
     <string name="str_volume_unmute">unmute</string>
     <string name="str_volume_mute">mute</string>
     <string name="str_volume_max">str_volume_max</string>
+
+    <!-- 天脉演示应答 -->
+    <string name="str_tianmai_start_play">爷爷您该起床了</string>
+    <string name="str_tianmai_schedule_6">播放今日的天气预报</string>
+    <string name="str_tianmai_tip_wakeup">请您先坐在床头一分钟，喝一杯温开水，然后吃降压药，之后做十指梳头，揉双耳轮廓和嚼牙若干次后再起床。洗漱时请您用热毛巾捂眼一分钟。</string>
+    <string name="str_tianmai_schedule_6_half">请您进行晨练一小时。</string>
+    <string name="str_tianmai_schedule_8">请您在八点钟之前吃早饭。</string>
+    <string name="str_tianmai_schedule_8_half">请你送孙子上学。</string>
+    <string name="str_tianmai_schedule_9">请您进行健康检测。</string>
+    <string name="str_tianmai_schedule_9_half">请您买菜。</string>
+    <string name="str_tianmai_schedule_10">请您开始准备并用午饭。</string>
+    <string name="str_tianmai_schedule_12">请您进行散步二十分钟。</string>
+    <string name="str_tianmai_schedule_12_half">请您进行午休。</string>
+    <string name="str_tianmai_schedule_13">请您起床，注意醒来卧床一分钟，坐在床边一分钟，之后再喝一杯热水。</string>
+    <string name="str_tianmai_schedule_13_half">请您收看健康教育专题。</string>
+    <string name="str_tianmai_schedule_14">请您进行身体锻炼，并进行(xing2)会客访友。</string>
+    <string name="str_tianmai_schedule_16">请您准备晚餐</string>
+    <string name="str_tianmai_schedule_16_half">请您接孙子回家</string>
+    <string name="str_tianmai_schedule_17_half">您该吃晚餐了</string>
+    <string name="str_tianmai_schedule_18">请您吃药</string>
+    <string name="str_tianmai_schedule_19">请您收看新闻联播</string>
+    <string name="str_tianmai_schedule_20_half">请您在睡前洗个澡或者泡个澡</string>
+    <string name="str_tianmai_schedule_21">您该上床睡觉了。</string>
+    <string name="str_tianmai_sleep_notice">请您在睡前，拍打左肘弯100下，以防止血管堵塞。有节奏的用双手梳头，嚼牙，捋双耳廓若干次，或进行100次踮脚并拍打涌泉穴。之后请您喝半杯温开水后准备入睡。深夜上厕所的时候，请您不要着急起来，先在床上躺一分钟，然后在床上坐一分钟，最后再起夜。别忘了回床的时候再喝一口温开水。</string>
 </resources>

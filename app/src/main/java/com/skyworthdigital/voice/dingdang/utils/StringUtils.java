@@ -1,17 +1,25 @@
 package com.skyworthdigital.voice.dingdang.utils;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.skyworthdigital.voice.dingdang.R;
+import com.skyworthdigital.voice.dingdang.VoiceApp;
 import com.skyworthdigital.voice.dingdang.control.tts.MyTTS;
+import com.skyworthdigital.voice.dingdang.domains.tianmai.TianmaiIntent;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -573,5 +581,234 @@ public class StringUtils {
         SimpleDateFormat formatter = new SimpleDateFormat("MM月dd日 E", Locale.CHINA);
         Date curDate = new Date(System.currentTimeMillis());//获取当前时间
         return formatter.format(curDate);
+    }
+
+    /**
+     * 演示用，是否开启2分钟弹节目单提示
+     * @param speech
+     * @return
+     */
+    public static boolean doTwoMinSwitch(String speech){
+        if(TextUtils.isEmpty(speech))return false;
+        if(speech.matches("^1234567$")){//启用2分钟周期演示
+            SPUtil.putBoolean(SPUtil.KEY_SP_DEMO_SWITCH_ON, true);
+            MyTTS.getInstance(null).speakAndShow("已启用");
+            return true;
+        }else if (speech.matches("^7654321$")){//关闭
+            SPUtil.putBoolean(SPUtil.KEY_SP_DEMO_SWITCH_ON, false);
+            MyTTS.getInstance(null).speakAndShow("已关闭");
+            return true;
+        }
+        return false;
+    }
+    private static String buildTianmaiTimeScheduleRegex(String time){
+        // .{0,2}表示可以中间有任意两个以内的字符，但半小时的应当放在整点的前面，以让半小时的优先匹配，否则会被整点的匹配掉。晚上的也是一样道理，原则是：更长的模板放在更前面。
+        String regex = time+".{0,4}行程|"+time+".{0,4}形成|"+time+".{0,4}星辰|"+time+"要((干|做)(什么|啥))|"+time+"有(什么|啥)要(干|做)";
+        return regex;
+    }
+    /**
+     * 是否天脉演示场景指令
+     * @param speech
+     * @return
+     */
+    public static TianmaiIntent isTianMaiDemoSpeech(String speech){
+        MLog.i("StringUtils", "speech:"+speech);
+        List<TianmaiIntent> intentList = Arrays.asList(new TianmaiIntent("开始演示", "开始.{0,3}(演示|掩饰|也是)"),
+                new TianmaiIntent("十三点半行程", buildTianmaiTimeScheduleRegex("十三点半")+"|"+ buildTianmaiTimeScheduleRegex("下午一点半")+"|"+ buildTianmaiTimeScheduleRegex("下午1:30")),
+                new TianmaiIntent("十三点行程", buildTianmaiTimeScheduleRegex("十三点")+"|"+ buildTianmaiTimeScheduleRegex("下午一点")+"|"+ buildTianmaiTimeScheduleRegex("13:00")),
+                new TianmaiIntent("十四点半行程", false, buildTianmaiTimeScheduleRegex("十四点半")+"|"+ buildTianmaiTimeScheduleRegex("下午两点半")+"|"+ buildTianmaiTimeScheduleRegex("下午2:30")),
+                new TianmaiIntent("十四点行程", buildTianmaiTimeScheduleRegex("十四点")+"|"+ buildTianmaiTimeScheduleRegex("下午两点")+"|"+ buildTianmaiTimeScheduleRegex("下午2:00")),
+                new TianmaiIntent("十五点半行程", false, buildTianmaiTimeScheduleRegex("十五点半")+"|"+ buildTianmaiTimeScheduleRegex("下午三点半")+"|"+ buildTianmaiTimeScheduleRegex("下午3:30")),
+                new TianmaiIntent("十五点行程", false, buildTianmaiTimeScheduleRegex("十五点")+"|"+ buildTianmaiTimeScheduleRegex("下午三点")+"|"+ buildTianmaiTimeScheduleRegex("下午3:00")),
+                new TianmaiIntent("十六点半行程", buildTianmaiTimeScheduleRegex("十六点半")+"|"+ buildTianmaiTimeScheduleRegex("下午四点半")+"|"+ buildTianmaiTimeScheduleRegex("下午4:30")),
+                new TianmaiIntent("十六点行程", buildTianmaiTimeScheduleRegex("十六点")+"|"+ buildTianmaiTimeScheduleRegex("下午四点")+"|"+ buildTianmaiTimeScheduleRegex("下午4:00")),
+                new TianmaiIntent("十七点半行程", buildTianmaiTimeScheduleRegex("十七点半")+"|"+ buildTianmaiTimeScheduleRegex("下午五点半")+"|"+ buildTianmaiTimeScheduleRegex("下午5:30")),
+                new TianmaiIntent("十七点行程", false, buildTianmaiTimeScheduleRegex("十七点")+"|"+ buildTianmaiTimeScheduleRegex("下午五点")+"|"+ buildTianmaiTimeScheduleRegex("下午5:00")),
+                new TianmaiIntent("十八点半行程", false, buildTianmaiTimeScheduleRegex("十八点半")+"|"+ buildTianmaiTimeScheduleRegex("晚上六点半")+"|"+ buildTianmaiTimeScheduleRegex("今晚六点半")+"|"+ buildTianmaiTimeScheduleRegex("下午6:30")+"|"+ buildTianmaiTimeScheduleRegex("晚上6:30")),
+                new TianmaiIntent("十八点行程", buildTianmaiTimeScheduleRegex("十八点")+"|"+ buildTianmaiTimeScheduleRegex("下午六点")+"|"+ buildTianmaiTimeScheduleRegex("晚上六点")+"|"+ buildTianmaiTimeScheduleRegex("今晚六点")+"|"+ buildTianmaiTimeScheduleRegex("晚上6:00")+"|"+ buildTianmaiTimeScheduleRegex("下午6:00")),
+                new TianmaiIntent("十九点半行程", false, buildTianmaiTimeScheduleRegex("十九点半")+"|"+ buildTianmaiTimeScheduleRegex("晚上七点半")+"|"+ buildTianmaiTimeScheduleRegex("今晚七点半")+"|"+ buildTianmaiTimeScheduleRegex("晚上7:30")),
+                new TianmaiIntent("十九点行程", buildTianmaiTimeScheduleRegex("十九点")+"|"+ buildTianmaiTimeScheduleRegex("晚上七点")+"|"+ buildTianmaiTimeScheduleRegex("今晚七点")+"|"+ buildTianmaiTimeScheduleRegex("晚上7:00")),
+                new TianmaiIntent("二十点半行程", buildTianmaiTimeScheduleRegex("二十点半")+"|"+ buildTianmaiTimeScheduleRegex("晚上八点半")+"|"+ buildTianmaiTimeScheduleRegex("今晚八点半")+"|"+ buildTianmaiTimeScheduleRegex("晚上8:30")),
+                new TianmaiIntent("二十点行程", false, buildTianmaiTimeScheduleRegex("二十点")+"|"+ buildTianmaiTimeScheduleRegex("晚上八点")+"|"+ buildTianmaiTimeScheduleRegex("今晚八点")+"|"+ buildTianmaiTimeScheduleRegex("晚上8:00")),
+                new TianmaiIntent("二十一点半行程", false, buildTianmaiTimeScheduleRegex("二十一点半")+"|"+ buildTianmaiTimeScheduleRegex("晚上九点半")+"|"+ buildTianmaiTimeScheduleRegex("今晚九点半")+"|"+ buildTianmaiTimeScheduleRegex("晚上9:30")),
+                new TianmaiIntent("二十一点行程", buildTianmaiTimeScheduleRegex("21点")+"|"+ buildTianmaiTimeScheduleRegex("二十一点")+"|"+ buildTianmaiTimeScheduleRegex("晚上九点")+"|"+ buildTianmaiTimeScheduleRegex("今晚九点")+"|"+ buildTianmaiTimeScheduleRegex("晚上9:00")),
+                new TianmaiIntent("二十二点半行程", false, buildTianmaiTimeScheduleRegex("22点半")+"|"+ buildTianmaiTimeScheduleRegex("二十二点半")+"|"+ buildTianmaiTimeScheduleRegex("晚上十点半")+"|"+ buildTianmaiTimeScheduleRegex("今晚十点半")+"|"+ buildTianmaiTimeScheduleRegex("晚上10:30")),
+                new TianmaiIntent("二十二点行程", false, buildTianmaiTimeScheduleRegex("22点")+"|"+ buildTianmaiTimeScheduleRegex("二十二点")+"|"+ buildTianmaiTimeScheduleRegex("晚上十点")+"|"+ buildTianmaiTimeScheduleRegex("晚上时点")+"|"+ buildTianmaiTimeScheduleRegex("今晚十点")+"|"+ buildTianmaiTimeScheduleRegex("今晚时点")+"|"+ buildTianmaiTimeScheduleRegex("晚上10:00")),
+                new TianmaiIntent("二十三点半行程", false, buildTianmaiTimeScheduleRegex("23点半")+"|"+ buildTianmaiTimeScheduleRegex("二十三点半")+"|"+ buildTianmaiTimeScheduleRegex("晚上十一点半")+"|"+ buildTianmaiTimeScheduleRegex("今晚十一点半")+"|"+ buildTianmaiTimeScheduleRegex("晚上11:30")),
+                new TianmaiIntent("二十三点行程", false, buildTianmaiTimeScheduleRegex("23点")+"|"+ buildTianmaiTimeScheduleRegex("二十三点")+"|"+ buildTianmaiTimeScheduleRegex("晚上十一点")+"|"+ buildTianmaiTimeScheduleRegex("晚上时一点")+"|"+ buildTianmaiTimeScheduleRegex("今晚十一点")+"|"+ buildTianmaiTimeScheduleRegex("今晚时一点")+"|"+ buildTianmaiTimeScheduleRegex("晚上11:00")),
+                new TianmaiIntent("六点半行程", buildTianmaiTimeScheduleRegex("六点半")+"|"+ buildTianmaiTimeScheduleRegex("6:30")),
+                new TianmaiIntent("六点行程", buildTianmaiTimeScheduleRegex("六点")+"|"+ buildTianmaiTimeScheduleRegex("6:00")+"|我起床了|我起床啦"),
+                new TianmaiIntent("起床提醒", "起床.{0,4}提醒"),
+                new TianmaiIntent("七点半行程", false, buildTianmaiTimeScheduleRegex("七点半")+"|"+ buildTianmaiTimeScheduleRegex("7:30")),
+                new TianmaiIntent("七点行程", false, buildTianmaiTimeScheduleRegex("七点")+"|"+ buildTianmaiTimeScheduleRegex("7:00")),
+                new TianmaiIntent("八点半行程", buildTianmaiTimeScheduleRegex("八点半")+"|"+ buildTianmaiTimeScheduleRegex("8:30")),
+                new TianmaiIntent("八点行程", buildTianmaiTimeScheduleRegex("八点")+"|"+ buildTianmaiTimeScheduleRegex("8:00")),
+                new TianmaiIntent("九点半行程", buildTianmaiTimeScheduleRegex("九点半")+"|"+ buildTianmaiTimeScheduleRegex("9:30")),
+                new TianmaiIntent("九点行程", buildTianmaiTimeScheduleRegex("九点")+"|"+ buildTianmaiTimeScheduleRegex("9:00")),
+                new TianmaiIntent("十点半行程", false, buildTianmaiTimeScheduleRegex("十点半")+"|"+ buildTianmaiTimeScheduleRegex("时点半")+"|"+ buildTianmaiTimeScheduleRegex("10:30")),
+                new TianmaiIntent("十点行程", buildTianmaiTimeScheduleRegex("十点")+"|"+ buildTianmaiTimeScheduleRegex("时点")+"|"+ buildTianmaiTimeScheduleRegex("10:00")),//十点的，时点的，十点钟的...
+                new TianmaiIntent("十一点半行程", false, buildTianmaiTimeScheduleRegex("十一点半")+"|"+ buildTianmaiTimeScheduleRegex("11:30")),
+                new TianmaiIntent("十一点行程", false, buildTianmaiTimeScheduleRegex("十一点")+"|"+ buildTianmaiTimeScheduleRegex("11:00")),
+                new TianmaiIntent("十二点半行程", buildTianmaiTimeScheduleRegex("十二点半")+"|"+ buildTianmaiTimeScheduleRegex("12:30")),
+                new TianmaiIntent("十二点行程", buildTianmaiTimeScheduleRegex("十二点")+"|"+ buildTianmaiTimeScheduleRegex("12:00")),
+                new TianmaiIntent("睡眠注意事项", "^(睡觉|睡眠).{0,4}注意.{0,4}事项$"));
+
+        // 能正则匹配到的指令，则添加响应
+        for (TianmaiIntent intent : intentList) {
+            if(Pattern.compile(intent.getMatchRegex()).matcher(speech).find()) {
+                intent.setVoiceContent(getTianmaiActionContent(intent));
+                MLog.i("StringUtils", "found match time");
+                return intent;
+            }
+        }
+
+        sortToNormalTime(intentList);
+
+        if(isAskforTianmaiNextSchedule(speech)){
+            String nextScheduleKey = getNextScheduleName();
+            MLog.i("StringUtils", "nextScheduleKey:"+nextScheduleKey);
+            // 直接返回最近对应的有效的行程
+            boolean hasFoundTime = false;
+            for (TianmaiIntent intent : intentList) {
+                if(hasFoundTime){
+                    // 过滤出有效匹配的下一个行程
+                    if(intent.isTurnOn() && !"六点行程".equals(intent.getName())) {
+                        intent.setVoiceContent(intent.getName().replace("行程","，") + getTianmaiActionContent(intent));
+                        return intent;
+                    }else {
+                        continue;
+                    }
+                }
+                if(intent.getName().equalsIgnoreCase(nextScheduleKey)) {
+                    hasFoundTime = true;
+                    MLog.i("StringUtils", "found latest time");
+                    if(intent.isTurnOn()) {//当前intent有效
+                        intent.setVoiceContent(intent.getName().replace("行程","，") + getTianmaiActionContent(intent));
+                        return intent;
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
+    // 将意图列表按正常的时间顺序排列，以便查找最近的行程
+    private static void sortToNormalTime(List<TianmaiIntent> intentList) {
+        final List<String> sortIndexTemplete = Arrays.asList("六点行程","六点半行程","七点行程","七点半行程","八点行程","八点半行程","九点行程","九点半行程","十点行程","十点半行程",
+                "十一点行程","十一点半行程","十二点行程","十二点半行程","十三点行程","十三点半行程","十四点行程","十四点半行程","十五点行程","十五点半行程","十六点行程",
+                "十六点半行程","十七点行程","十七点半行程","十八点行程","十八点半行程","十九点行程","十九点半行程","二十点行程","二十点半行程","二十一点行程","二十一点半行程",
+                "二十二点行程","二十二点半行程","二十三点行程","二十三点半行程","开始演示","起床提醒","睡眠注意事项");
+        // 先按时间顺序排齐
+        Collections.sort(intentList, new Comparator<TianmaiIntent>() {
+            @Override
+            public int compare(TianmaiIntent o1, TianmaiIntent o2) {
+                return sortIndexTemplete.indexOf(o1.getName()) - sortIndexTemplete.indexOf(o2.getName());
+            }
+        });
+//        for (TianmaiIntent ti : intentList) {
+//            LogUtil.log("name:" + ti.getName());
+//            LogUtil.log("voice content:" + ti.getVoiceContent());
+//        }
+    }
+
+    // 是否询问接下来的行程（天脉演示）
+    private static boolean isAskforTianmaiNextSchedule(String speech){
+        return Pattern.compile("(最近|接下来|今天|等一下|等下|现在|等一会|等一等|稍后|下一个)(有什么|的|还有什么)(行程|形成)").matcher(speech).find();
+    }
+    // 返回最近一个整半点的行程名称
+    private static String getNextScheduleName(){
+        Calendar c = Calendar.getInstance();
+        int hour,minute;
+        if(c.get(Calendar.MINUTE)>=30){// 超过半小时，取最近一个整点
+            hour = c.get(Calendar.HOUR_OF_DAY)+1;
+            minute = 0;
+        }else {// 未超过半小时，将时间设为30分
+            hour = c.get(Calendar.HOUR_OF_DAY);
+            minute = 30;
+        }
+        String[] hourList = new String[]{"零","一","二","三","四","五","六","七","八","九","十","十一","十二","十三","十四","十五","十六","十七","十八","十九","二十",
+                "二十一","二十二","二十三","二十四"};
+        String name = hourList[hour]+"点"+(minute==0?"行程":"半行程");
+        return name;
+    }
+    // 设置天脉演示播放的内容
+    private static String getTianmaiActionContent(TianmaiIntent intent){
+        if(!intent.isTurnOn()){
+            return intent.getName().replace("行程", "没有行程");
+        }
+        switch (intent.getName()) {
+            case "开始演示":
+                return VoiceApp.getInstance().getString(R.string.str_tianmai_start_play);
+            case "六点行程":
+                // 六点行程的天气播放放在外部设置，因为最好使用异步线程取值
+                // 这里将只设置全部逐条播放的内容
+                return getTianmaiScheduleAllContent();
+            case "起床提醒":
+                return VoiceApp.getInstance().getString(R.string.str_tianmai_tip_wakeup);
+            case "六点半行程":
+                return VoiceApp.getInstance().getString(R.string.str_tianmai_schedule_6_half);
+            case "八点行程":
+                return VoiceApp.getInstance().getString(R.string.str_tianmai_schedule_8);
+            case "八点半行程":
+                return VoiceApp.getInstance().getString(R.string.str_tianmai_schedule_8_half);
+            case "九点行程":
+                return VoiceApp.getInstance().getString(R.string.str_tianmai_schedule_9);
+            case "九点半行程":
+                return VoiceApp.getInstance().getString(R.string.str_tianmai_schedule_9_half);
+            case "十点行程":
+                return VoiceApp.getInstance().getString(R.string.str_tianmai_schedule_10);
+            case "十二点行程":
+                return VoiceApp.getInstance().getString(R.string.str_tianmai_schedule_12);
+            case "十二点半行程":
+                return VoiceApp.getInstance().getString(R.string.str_tianmai_schedule_12_half);
+            case "十三点行程":
+                return VoiceApp.getInstance().getString(R.string.str_tianmai_schedule_13);
+            case "十三点半行程":
+                return VoiceApp.getInstance().getString(R.string.str_tianmai_schedule_13_half);
+            case "十四点行程":
+                return VoiceApp.getInstance().getString(R.string.str_tianmai_schedule_14);
+            case "十六点行程":
+                return VoiceApp.getInstance().getString(R.string.str_tianmai_schedule_16);
+            case "十六点半行程":
+                return VoiceApp.getInstance().getString(R.string.str_tianmai_schedule_16_half);
+            case "十七点半行程":
+                return VoiceApp.getInstance().getString(R.string.str_tianmai_schedule_17_half);
+            case "十八点行程":
+                return VoiceApp.getInstance().getString(R.string.str_tianmai_schedule_18);
+            case "十九点行程":
+                return VoiceApp.getInstance().getString(R.string.str_tianmai_schedule_19);
+            case "二十点半行程":
+                return VoiceApp.getInstance().getString(R.string.str_tianmai_schedule_20_half);
+            case "二十一点行程":
+                return VoiceApp.getInstance().getString(R.string.str_tianmai_schedule_21);
+            case "睡眠注意事项":
+                return VoiceApp.getInstance().getString(R.string.str_tianmai_sleep_notice);
+            default:MLog.i("StringUtils", "有漏掉的意图，请检查并补充");
+        }
+        return null;
+    }
+    // 起床时需要播放今日行程的所有组合。
+    private static String getTianmaiScheduleAllContent(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("六点半行程，").append(getTianmaiActionContent(new TianmaiIntent("六点半行程",null))).append("#");
+        sb.append("八点行程，").append(getTianmaiActionContent(new TianmaiIntent("八点行程",null))).append("#");
+        sb.append("八点半行程，").append(getTianmaiActionContent(new TianmaiIntent("八点半行程",null))).append("#");
+        sb.append("九点行程，").append(getTianmaiActionContent(new TianmaiIntent("九点行程",null))).append("#");
+        sb.append("九点半行程，").append(getTianmaiActionContent(new TianmaiIntent("九点半行程",null))).append("#");
+        sb.append("十点行程，").append(getTianmaiActionContent(new TianmaiIntent("十点行程",null))).append("#");
+        sb.append("十二点行程，").append(getTianmaiActionContent(new TianmaiIntent("十二点行程",null))).append("#");
+        sb.append("十二点半行程，").append(getTianmaiActionContent(new TianmaiIntent("十二点半行程",null))).append("#");
+        sb.append("十三点行程，").append(getTianmaiActionContent(new TianmaiIntent("十三点行程",null))).append("#");
+        sb.append("十三点半行程，").append(getTianmaiActionContent(new TianmaiIntent("十三点半行程",null))).append("#");
+        sb.append("十四点行程，").append(getTianmaiActionContent(new TianmaiIntent("十四点行程",null))).append("#");
+        sb.append("十六点行程，").append(getTianmaiActionContent(new TianmaiIntent("十六点行程",null))).append("#");
+        sb.append("十六点半行程，").append(getTianmaiActionContent(new TianmaiIntent("十六点半行程",null))).append("#");
+        sb.append("十七点半行程，").append(getTianmaiActionContent(new TianmaiIntent("十七点半行程",null))).append("#");
+        sb.append("十八点行程，").append(getTianmaiActionContent(new TianmaiIntent("十八点行程",null))).append("#");
+        sb.append("十九点行程，").append(getTianmaiActionContent(new TianmaiIntent("十九点行程",null))).append("#");
+        sb.append("二十点半行程，").append(getTianmaiActionContent(new TianmaiIntent("二十点半行程",null))).append("#");
+        sb.append("二十一点行程，").append(getTianmaiActionContent(new TianmaiIntent("二十一点行程",null))).append("#");
+        return sb.toString();
     }
 }

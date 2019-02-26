@@ -60,6 +60,12 @@ public class GuideTip {
         }
     }
 
+    public void setViewText(String text){
+        if(mSkyAsrDialogControl!=null){
+            mSkyAsrDialogControl.setSpeechTextView(text);
+        }
+    }
+
     public void setmCurrentCompenent(String clsname) {
         if (!TextUtils.equals(clsname, "com.skyworthdigital.voice.dingdang.SkyAsrDialog")
                 && !TextUtils.equals(clsname, "android.support.v4.widget.DrawerLayout")

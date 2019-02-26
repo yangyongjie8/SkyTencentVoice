@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.skyworthdigital.voice.dingdang.VoiceApp;
 import com.skyworthdigital.voice.dingdang.control.model.AsrResult;
+import com.skyworthdigital.voice.dingdang.utils.GuideTip;
 import com.tencent.ai.sdk.tts.ITtsInitListener;
 import com.tencent.ai.sdk.tts.ITtsListener;
 import com.tencent.ai.sdk.tts.TtsSession;
@@ -156,6 +157,7 @@ public class MyTTS {
                         myTTSListener.onChange(STATUS_TALKING);
                         mTTSSession.startSpeak(text, mTTSListener);
                         myTTSListener.onOutputChange(text, 0);
+                        GuideTip.getInstance().setViewText(text);
                     }
                 }
             }

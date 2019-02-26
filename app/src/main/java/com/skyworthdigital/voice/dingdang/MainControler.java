@@ -425,7 +425,7 @@ public class MainControler implements MyTTS.MyTTSListener {
 
         @Override
         public void onAsrPartialResult(String results) {
-            //MLog.d(TAG, "Partial:" + results);
+            MLog.d(TAG, "Partial:" + results);
             mAsrDialogControler.dialogDismiss(DEFAULT_DISMISS_TIME);
             mRecoResult = null;
             IStatus.mRecognizeStatus = IStatus.STATUS_RECOGNITION;
@@ -452,7 +452,7 @@ public class MainControler implements MyTTS.MyTTSListener {
 
         @Override
         public void onAsrNluFinish(String recogResult) {
-            //MLog.d(TAG, "onAsrNluFinish:" + recogResult);
+            MLog.d(TAG, "onAsrNluFinish:" + recogResult);
             IStatus.mRecognizeStatus = IStatus.STATUS_FINISHED;
             if (mAsrDialogControler != null && mAsrDialogControler.mAsrDialog != null) {
                 skySceneProcess(mContext, recogResult);
@@ -673,7 +673,7 @@ public class MainControler implements MyTTS.MyTTSListener {
                     ctx.startService(intent);
                     return;
                 }
-                if (!TextUtils.isEmpty(bean.mQuery)) {
+                if (!ActionUtils.specialCmdProcess(ctx, bean.mQuery) && !TextUtils.isEmpty(bean.mQuery)) {
                     //if (!specialCmdProcess(ctx, originSpeech)) {
                     intent = new Intent(SkySceneService.INTENT_TOPACTIVITY_CALL);
                     String strPackage = GlobalVariable.VOICE_PACKAGE_NAME;

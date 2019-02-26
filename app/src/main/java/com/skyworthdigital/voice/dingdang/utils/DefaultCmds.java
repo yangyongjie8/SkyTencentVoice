@@ -4,16 +4,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 
-
 import com.skyworthdigital.voice.dingdang.R;
+import com.skyworthdigital.voice.dingdang.control.model.AsrResult;
 import com.skyworthdigital.voice.dingdang.control.model.Semantic;
 import com.skyworthdigital.voice.dingdang.control.recognization.IStatus;
 import com.skyworthdigital.voice.dingdang.control.tts.MyTTS;
+import com.skyworthdigital.voice.dingdang.domains.tianmai.TianmaiIntent;
+import com.skyworthdigital.voice.dingdang.domains.tianmai.WeatherBee;
 import com.skyworthdigital.voice.dingdang.domains.videosearch.BeeSearchUtils;
 import com.skyworthdigital.voice.dingdang.domains.videosearch.model.BeeSearchParams;
-import com.skyworthdigital.voice.dingdang.control.model.AsrResult;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static com.skyworthdigital.voice.dingdang.scene.SkySceneService.INTENT_TOPACTIVITY_CALL;
 
@@ -340,5 +343,42 @@ public class DefaultCmds {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public static void startTianmaiPlay(final Context ctx, final TianmaiIntent intent){
+        if("六点行程".equals(intent.getName())){
+            // 起床提醒
+            // 天气
+            // 逐条播放今日行程
+            MyTTS.getInstance(null).speak(ctx.getString(R.string.str_tianmai_tip_wakeup));
+            WeatherUtil.getWeatherToday("南京", new WeatherUtil.CallbackWeather() {
+                @Override
+                public void callback(WeatherBee todayWeather) {
+                    if(todayWeather==null){
+                        MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_error_network));
+                        return;
+                    }
+                    final StringBuilder sb = new StringBuilder();
+                    sb.append("今天最高温度").append(todayWeather.getHigh_t()).append("摄氏度")
+                            .append("，最低温度").append(todayWeather.getLow_t()).append("摄氏度")
+                            .append("，相对湿度").append(todayWeather.getShidu());
+                    if(todayWeather.getZhishu()!=null&&todayWeather.getZhishu().size()>0) {
+                        sb.append(todayWeather.getZhishu().get(0));
+                    }
+                    MyTTS.getInstance(null).speak(sb.toString());
+
+//                    List<String> allSchedules = splitContent(intent.getVoiceContent());
+//                    for (String schedule : allSchedules) {
+//                        Robot.getInstance().talkSerial(schedule);
+//                    }
+                }
+            });
+        }else {
+            MyTTS.getInstance(null).speakAndShow(intent.getVoiceContent());
+        }
+    }
+    private static List<String> splitContent(String content){
+        if(content==null)return new ArrayList<>();
+        return Arrays.asList(content.split("#"));
     }
 }
