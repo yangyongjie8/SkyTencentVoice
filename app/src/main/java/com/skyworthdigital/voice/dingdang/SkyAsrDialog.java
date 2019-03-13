@@ -366,7 +366,7 @@ public class SkyAsrDialog extends Dialog {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MSG_REFRESH_UI:
-//                    setSpeechTextView((String) msg.obj, 4);
+                    setSpeechTextView((String) msg.obj, IStatus.SCENE_SHOULD_STOP);
                     break;
                 case MSG_REFRESH_RESULT:
                     setNluResult((AsrResult) msg.obj);
