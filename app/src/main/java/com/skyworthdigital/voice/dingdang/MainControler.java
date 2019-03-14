@@ -9,6 +9,7 @@ import android.content.ServiceConnection;
 import android.os.Handler;
 import android.os.IBinder;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 
 import com.skyworthdigital.voice.dingdang.control.ActionUtils;
@@ -111,14 +112,18 @@ public class MainControler implements MyTTS.MyTTSListener {
                 try {
                     if (mAsrDialogControler != null &&
                             mAsrDialogControler.mAsrDialog != null && mAsrDialogControler.mAsrDialog.isGuideDialogShow()) {
+                        Log.d(TAG, "dialog showing");
                         mAsrDialogControler.mAsrDialog.closeGuideDialog();
                         return true;
                     } else if (!mTvdialog && mAsrDialogControler != null &&
                             mAsrDialogControler.mAsrDialog != null && !mAsrDialogControler.mAsrDialog.isGuideDialogShow()) {
+                        Log.d(TAG, "not tv schedule & not dialog showing");
                         myTTS.stopSpeak();
                         IStatus.mSmallDialogDimissTime = System.currentTimeMillis() - 1;
                         mAsrDialogControler.dialogDismiss(0);
+                        return true;
                     }
+                    Log.d(TAG, "press back");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -146,7 +151,7 @@ public class MainControler implements MyTTS.MyTTSListener {
                 if (mTvdialog) {
                     ActionUtils.hideTrailer(mAsrDialogControler);
                 }
-                if (TextUtils.equals(bean.mDomain, "trailer")) {
+                if (TextUtils.equals(bean.mDomain, "trailer")) {//节目单
                     mAsrDialogControler.showHeadLoading();
                     mTvdialog = ActionUtils.jumpToTrailer(ctx, mAsrDialogControler, bean);
                     return;
