@@ -32,6 +32,7 @@ public class RecognizeService extends AccessibilityService {
         Log.i(TAG, "keyCode:" + code + "  action:" + action);
         switch (code) {
             case KeyEvent.KEYCODE_BACK:
+            case 111:
                 if (action == KeyEvent.ACTION_DOWN) {
                     return MainControler.getInstance().onKeyEvent(code);
                 }
