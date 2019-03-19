@@ -9,6 +9,7 @@ import android.view.accessibility.AccessibilityEvent;
 
 import com.skyworthdigital.voice.dingdang.MainControler;
 import com.skyworthdigital.voice.dingdang.utils.GuideTip;
+import com.skyworthdigital.voice.dingdang.utils.MLog;
 
 
 /**
@@ -36,6 +37,7 @@ public class RecognizeService extends AccessibilityService {
                 }
                 break;
             case VOICE_KEYCODE:
+            case 2054://TA412修改的语音键值
                 if (action == KeyEvent.ACTION_DOWN) {
                     //mRecordStart = System.currentTimeMillis();
                     //if (MainControler.getInstance().isStartValid()) {
@@ -77,6 +79,7 @@ public class RecognizeService extends AccessibilityService {
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
         if (event.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
+            MLog.i(TAG, "onAccessibilityEvent event:"+event.toString());
             if (!TextUtils.isEmpty(event.getPackageName())) {
                 //String curPackage = event.getPackageName().toString();
                 String curClass = event.getClassName().toString();
