@@ -1,17 +1,23 @@
 package com.skyworthdigital.voice.dingdang.utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 
+import com.google.gson.Gson;
+import com.skyworthdigital.voice.dingdang.IoT.IoTService;
 import com.skyworthdigital.voice.dingdang.R;
 import com.skyworthdigital.voice.dingdang.VoiceApp;
 import com.skyworthdigital.voice.dingdang.control.tts.MyTTS;
+import com.skyworthdigital.voice.dingdang.domains.iot.IoTParserResult;
 import com.skyworthdigital.voice.dingdang.domains.tianmai.TianmaiIntent;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -25,6 +31,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import okhttp3.Call;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class StringUtils {
 
@@ -811,4 +821,73 @@ public class StringUtils {
         sb.append("二十一点行程，").append(getTianmaiActionContent(new TianmaiIntent("二十一点行程",null))).append("#");
         return sb.toString();
     }
+
+    public static boolean isIoTCmdFromSpeech(String speech) {
+        try {
+            if(speech.equals("重新入网"))
+            {
+                Intent intent_IoT = new Intent(IoTService.MSG_IOT_RESET);
+                VoiceApp.getInstance().sendBroadcast(intent_IoT);
+                MyTTS.getInstance(null).speakAndShow("正在清除网关数据,请重启设备并重新组网");
+                return true;
+            }
+            MLog.i("StringUtils", "check IoT Cmd" + speech);
+
+            // 关闭前退出所有应用
+            if(Pattern.compile("关.?电视").matcher(speech).find() && !GuideTip.getInstance().isMusicPlay()){
+                MLog.i("StringUtils", "发送home键，关闭电视");
+                Utils.simulateKeystroke(KeyEvent.KEYCODE_HOME);
+            }
+
+            Gson gson = new Gson();
+            // String url = "http://119.23.12.86/SmartJX/api/parse?words=";
+            String url = "http://smartmovie.skyworthbox.com/SmartTianmai/api/isiot?txt=";
+            //translate some word from Hanzi to decimal
+            //speech= Util.transferNumber(speech);
+            //speech=speech.replace("鱼缸","浴缸");
+            //speech=speech.replace("玉刚","浴缸");
+            //speech=speech.replace("与缸","浴缸");
+            url = url + URLEncoder.encode(speech, "utf-8");
+            MLog.i("StringUtils", "" + url);
+//            String response = "";
+//            String response_jni = SSRService.httpGet(url, response);
+            Call call = VoiceApp.getInstance().getOkHttpClient().newCall(new Request.Builder().url(url).build());
+            Response response = call.execute();
+            if(response==null || !response.isSuccessful() || response.body()==null)return false;
+            String resText = response.body().string();
+            MLog.i("StringUtils", "response_jni:"+resText);
+            // SSRJXGDResultBean ssrjxgdResultBean = gson.fromJson(response_jni,SSRJXGDResultBean.class);
+            //
+            // LogUtil.log(ssrjxgdResultBean.getDomainName() + ssrjxgdResultBean.getPayLoad() +
+            // ssrjxgdResultBean.getTts() + ssrjxgdResultBean.getCode());
+            //NluResult nluResult=gson.fromJson(response_jni,NluResult.class);
+            //if(nluResult.getOperationCode().equals(DomainOpCode.IOT.getOperationCodeStr()))
+            //{
+            //todo:IOT things here
+            //  IoTParserResult rslt=IoTParser.parser(nluResult);
+            //LogUtil.log(rslt.iotCommand.toJsonStr());
+
+            //todo:call iot command here
+            IoTParserResult rslt=gson.fromJson(resText,IoTParserResult.class);
+            if(rslt!=null&&rslt.iotCommand!=null) {
+                if(rslt.iotCommand.isValid()) {
+                    MLog.i("StringUtils", "2send broadcast:" + IoTService.MSG_IOT_CMD);
+                    Intent intent_IoT = new Intent("action.IoT_CMD");
+                    intent_IoT.putExtra("nlu_data", rslt.iotCommand);
+                    VoiceApp.getInstance().sendBroadcast(intent_IoT);
+                }
+                MyTTS.getInstance(null).speakAndShow(rslt.replyWord);
+                return true;
+            }
+
+            //}
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        return false;
+    }
+
 }

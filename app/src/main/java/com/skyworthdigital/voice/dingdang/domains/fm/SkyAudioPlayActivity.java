@@ -15,10 +15,11 @@ import android.widget.TextView;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.core.ImagePipeline;
 import com.skyworthdigital.voice.dingdang.R;
-import com.skyworthdigital.voice.dingdang.control.recognization.IStatus;
-import com.skyworthdigital.voice.dingdang.domains.videosearch.generalview.SkyLoadingView;
 import com.skyworthdigital.voice.dingdang.control.model.TemplateItem;
+import com.skyworthdigital.voice.dingdang.control.recognization.IStatus;
 import com.skyworthdigital.voice.dingdang.control.tts.MyTTS;
+import com.skyworthdigital.voice.dingdang.domains.videosearch.generalview.SkyLoadingView;
+import com.skyworthdigital.voice.dingdang.scene.SceneJsonUtil;
 import com.skyworthdigital.voice.dingdang.utils.DefaultCmds;
 import com.skyworthdigital.voice.dingdang.utils.GlobalVariable;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
@@ -26,17 +27,13 @@ import com.skyworthdigital.voice.dingdang.utils.StringUtils;
 import com.skyworthdigital.voice.dingdang.view.SkyHorizontalMarqueeText;
 import com.skyworthdigital.voice.dingdang.view.Spectrogram;
 import com.skyworthdigital.voiceassistant.scene.ISkySceneListener;
-import com.skyworthdigital.voice.dingdang.scene.SceneJsonUtil;
 import com.skyworthdigital.voiceassistant.scene.SkyScene;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class SkyAudioPlayActivity extends Activity implements ISkySceneListener, AdapterView.OnItemClickListener {
     private static final String TAG = "SkyAudioPlay";

@@ -2,11 +2,18 @@ package com.skyworthdigital.voice.dingdang;
 
 import android.app.Application;
 import android.content.ComponentName;
+import android.content.Intent;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.forest.bigdatasdk.ForestDataReport;
+import com.forest.bigdatasdk.hosttest.IErrorListener;
+import com.forest.bigdatasdk.model.ForestInitParam;
+import com.forest.bigdatasdk.util.BaseParamUtils;
+import com.forest.bigdatasdk.util.SystemUtil;
+import com.skyworthdigital.voice.dingdang.IoT.IoTService;
 import com.skyworthdigital.voice.dingdang.control.record.PcmRecorder;
 import com.skyworthdigital.voice.dingdang.control.record.SkyVoiceProcessor;
 import com.skyworthdigital.voice.dingdang.utils.GlobalVariable;
@@ -18,12 +25,6 @@ import com.tencent.androidvprocessor.VoiceProcessor;
 import org.json.JSONObject;
 
 import okhttp3.OkHttpClient;
-
-import com.forest.bigdatasdk.ForestDataReport;
-import com.forest.bigdatasdk.hosttest.IErrorListener;
-import com.forest.bigdatasdk.model.ForestInitParam;
-import com.forest.bigdatasdk.util.BaseParamUtils;
-import com.forest.bigdatasdk.util.SystemUtil;
 
 import static com.forest.bigdatasdk.app.ForestAdvertCrossAppDataReport.HTTP_PREFIX;
 
@@ -81,6 +82,8 @@ public class VoiceApp extends Application {
         mControler = MainControler.getInstance();
         Fresco.initialize(this);
         initBigDataReport();
+
+        startService(new Intent(this, IoTService.class));
     }
 
     private String getAppInfo() {

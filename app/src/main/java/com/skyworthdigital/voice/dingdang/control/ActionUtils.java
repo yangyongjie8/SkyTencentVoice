@@ -5,28 +5,28 @@ import android.content.Intent;
 import android.text.TextUtils;
 
 import com.skyworthdigital.voice.dingdang.R;
+import com.skyworthdigital.voice.dingdang.SkyAsrDialogControl;
 import com.skyworthdigital.voice.dingdang.VoiceApp;
 import com.skyworthdigital.voice.dingdang.control.model.AIDataType;
+import com.skyworthdigital.voice.dingdang.control.model.AsrResult;
+import com.skyworthdigital.voice.dingdang.control.model.BaikeVideoItem;
 import com.skyworthdigital.voice.dingdang.control.model.MusicSlots;
 import com.skyworthdigital.voice.dingdang.control.model.Semantic;
 import com.skyworthdigital.voice.dingdang.control.model.TemplateItem;
+import com.skyworthdigital.voice.dingdang.control.recognization.IStatus;
+import com.skyworthdigital.voice.dingdang.control.tts.MyTTS;
 import com.skyworthdigital.voice.dingdang.domains.alarm.Alarm;
 import com.skyworthdigital.voice.dingdang.domains.alarm.AlarmHelper;
 import com.skyworthdigital.voice.dingdang.domains.alarm.database.AlarmDbOperator;
-import com.skyworthdigital.voice.dingdang.domains.tianmai.TianmaiIntent;
-import com.skyworthdigital.voice.dingdang.domains.videosearch.BeeSearchUtils;
-import com.skyworthdigital.voice.dingdang.domains.videosearch.model.BeeSearchParams;
 import com.skyworthdigital.voice.dingdang.domains.music.MusicControl;
 import com.skyworthdigital.voice.dingdang.domains.poem.SkyPoemActivity;
+import com.skyworthdigital.voice.dingdang.domains.tianmai.TianmaiIntent;
 import com.skyworthdigital.voice.dingdang.domains.tv.TvControl;
-import com.skyworthdigital.voice.dingdang.control.model.AsrResult;
-import com.skyworthdigital.voice.dingdang.control.model.BaikeVideoItem;
-import com.skyworthdigital.voice.dingdang.control.recognization.IStatus;
-import com.skyworthdigital.voice.dingdang.control.tts.MyTTS;
+import com.skyworthdigital.voice.dingdang.domains.videosearch.BeeSearchUtils;
+import com.skyworthdigital.voice.dingdang.domains.videosearch.model.BeeSearchParams;
 import com.skyworthdigital.voice.dingdang.globalcmd.GlobalUtil;
 import com.skyworthdigital.voice.dingdang.utils.DefaultCmds;
 import com.skyworthdigital.voice.dingdang.utils.DialogCellType;
-import com.skyworthdigital.voice.dingdang.SkyAsrDialogControl;
 import com.skyworthdigital.voice.dingdang.utils.GlobalVariable;
 import com.skyworthdigital.voice.dingdang.utils.GuideTip;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
@@ -649,6 +649,12 @@ public class ActionUtils {
             MLog.i(TAG,"special tianmai action");
             return true;
         }
+
+        if(StringUtils.isIoTCmdFromSpeech(speech)){
+            MLog.i(TAG, "special IoT cmd");
+            return true;
+        }
+
         return false;
     }
 }

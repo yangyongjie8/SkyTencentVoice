@@ -229,6 +229,20 @@
                 <action android:name="com.skyworthdigital.voice.CANCEL"/>
             </intent-filter>
         </receiver>
+
+        <service android:name=".IoT.IoTService" android:exported="false">
+            <intent-filter android:priority="1000">
+                <action android:name="com.sdt.assistant.action.VOICE"/>
+            </intent-filter>
+        </service>
+        <receiver
+            android:name=".IoT.SSRReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="action.IoT_CMD"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
