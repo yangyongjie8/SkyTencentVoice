@@ -1,3 +1,5 @@
+import java.text.SimpleDateFormat
+
 apply plugin: 'com.android.application'
 android {
     signingConfigs {
@@ -29,6 +31,7 @@ android {
             signingConfig signingConfigs.privately
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             minifyEnabled false
+            defaultConfig.versionName defaultConfig.versionName + currentTimeTail()
         }
 
         release_origin {
@@ -49,6 +52,12 @@ android {
             assets.srcDirs = ['src/main/assets', 'src/main/assets/']
         }
     }
+}
+
+def static currentTimeTail() {
+    SimpleDateFormat sdf = new SimpleDateFormat(".MMdd_HHmm")
+    sdf.setTimeZone(TimeZone.getTimeZone("GMT+8"))
+    return sdf.format(new Date())
 }
 
 repositories {
