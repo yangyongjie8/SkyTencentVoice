@@ -19,6 +19,7 @@ import com.skyworthdigital.voice.dingdang.utils.MLog;
 public class RecognizeService extends AccessibilityService {
     private static final String TAG = "RecognizeService";
     private static final int VOICE_KEYCODE = 135;
+    public static final int KEYCODE_TA412_BACK = 111;
     private static long mRecordStart, getmRecordEnd;
 
     @Override
@@ -32,7 +33,7 @@ public class RecognizeService extends AccessibilityService {
         Log.i(TAG, "keyCode:" + code + "  action:" + action);
         switch (code) {
             case KeyEvent.KEYCODE_BACK:
-            case 111:
+            case KEYCODE_TA412_BACK:
                 if (action == KeyEvent.ACTION_DOWN) {
                     return MainControler.getInstance().onKeyEvent(code);
                 }

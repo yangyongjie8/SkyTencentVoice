@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.skyworthdigital.voice.dingdang.R;
 import com.skyworthdigital.voice.dingdang.control.model.DataItem;
 import com.skyworthdigital.voice.dingdang.control.tts.MyTTS;
+import com.skyworthdigital.voice.dingdang.service.RecognizeService;
 import com.skyworthdigital.voice.dingdang.utils.StringUtils;
 import com.skyworthdigital.voiceassistant.scene.ISkySceneListener;
 import com.skyworthdigital.voice.dingdang.scene.SceneJsonUtil;
@@ -305,6 +306,7 @@ public class SkyPoemActivity extends Activity implements ISkySceneListener, Adap
                     }
                     break;
                 case KeyEvent.KEYCODE_BACK:
+                case RecognizeService.KEYCODE_TA412_BACK:
                     if (mPoemList.size() > 1) {
                         if (mLvLayout.getVisibility() != View.VISIBLE) {
                             mTextTitle.setVisibility(View.GONE);

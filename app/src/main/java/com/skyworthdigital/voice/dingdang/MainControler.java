@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -27,6 +28,7 @@ import com.skyworthdigital.voice.dingdang.domains.videosearch.model.BeeSearchPar
 import com.skyworthdigital.voice.dingdang.globalcmd.GlobalUtil;
 import com.skyworthdigital.voice.dingdang.scene.ISceneCallback;
 import com.skyworthdigital.voice.dingdang.scene.SkySceneService;
+import com.skyworthdigital.voice.dingdang.service.RecognizeService;
 import com.skyworthdigital.voice.dingdang.utils.DefaultCmds;
 import com.skyworthdigital.voice.dingdang.utils.GlobalVariable;
 import com.skyworthdigital.voice.dingdang.utils.GsonUtils;
@@ -41,6 +43,7 @@ import com.tencent.ai.sdk.utils.ISSErrors;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 public class MainControler implements MyTTS.MyTTSListener {
     private static final String TAG = "MainControler";
@@ -109,6 +112,7 @@ public class MainControler implements MyTTS.MyTTSListener {
     public boolean onKeyEvent(int code) {
         switch (code) {
             case KeyEvent.KEYCODE_BACK:
+            case RecognizeService.KEYCODE_TA412_BACK:
                 try {
                     if (mAsrDialogControler != null &&
                             mAsrDialogControler.mAsrDialog != null && mAsrDialogControler.mAsrDialog.isGuideDialogShow()) {
@@ -134,7 +138,7 @@ public class MainControler implements MyTTS.MyTTSListener {
         return false;
     }
 
-    private void main(AsrResult bean) {
+    private void main(final AsrResult bean) {
         Context ctx = VoiceApp.getInstance();
         try {
             mAsrDialogControler.dialogDismiss(3000);
