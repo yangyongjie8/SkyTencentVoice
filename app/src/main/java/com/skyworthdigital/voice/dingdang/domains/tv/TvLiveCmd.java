@@ -6,6 +6,7 @@ import android.view.KeyEvent;
 import com.skyworthdigital.voice.dingdang.R;
 import com.skyworthdigital.voice.dingdang.VoiceApp;
 import com.skyworthdigital.voice.dingdang.scene.SceneJsonUtil;
+import com.skyworthdigital.voice.dingdang.utils.AppUtil;
 import com.skyworthdigital.voice.dingdang.utils.DefaultCmds;
 import com.skyworthdigital.voice.dingdang.utils.Utils;
 import com.skyworthdigital.voiceassistant.scene.ISkySceneListener;
@@ -49,7 +50,7 @@ public class TvLiveCmd implements ISkySceneListener {
                 case "prev":
                     break;
                 case "exit":
-                    Utils.simulateKeystroke(KeyEvent.KEYCODE_HOME);
+                    AppUtil.killTopApp();
                     break;
                 default:
                     break;

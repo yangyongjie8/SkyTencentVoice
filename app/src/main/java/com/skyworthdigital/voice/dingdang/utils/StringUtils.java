@@ -836,7 +836,7 @@ public class StringUtils {
             // 关闭前退出所有应用
             if(Pattern.compile("关.?电视").matcher(speech).find() && !GuideTip.getInstance().isMusicPlay()){
                 MLog.i("StringUtils", "发送home键，关闭电视");
-                Utils.simulateKeystroke(KeyEvent.KEYCODE_HOME);
+                AppUtil.killTopApp();
             }
 
             Gson gson = new Gson();

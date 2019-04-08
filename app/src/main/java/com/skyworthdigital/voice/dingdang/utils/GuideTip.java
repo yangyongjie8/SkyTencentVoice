@@ -74,6 +74,7 @@ public class GuideTip {
                 && !clsname.contains("android.widget")
                 && !clsname.contains("tv.TvlistDialog")
                 && !clsname.contains("com.skyworthdigital.voice.dingdang.GuideDialog")
+                && !clsname.contains("com.skyworthdigital.sky2dlauncherv4")
                 && !TextUtils.equals(clsname, "com.skyworthdigital.skyvolumecontroll.dialog.VolumeDialog")
                 && !TextUtils.equals(clsname, "com.skyworthdigital.skymediacenter.skywidget.LocalDeviceDialog")) {
             mClassname = clsname;
@@ -132,19 +133,7 @@ public class GuideTip {
 
     public void pauseQQMusic() {
         if (mIsQQmusic) {
-            //mMusicCmd.executeCmd(1);
-            new Thread(new Runnable() {
-                public void run() {
-                    // TODO Auto-generated method stub
-                    try {
-                        Instrumentation inst = new Instrumentation();
-                        inst.sendKeyDownUpSync(KeyEvent.KEYCODE_HOME);
-                    } catch (Exception e) {
-                        // TODO: handle exception
-                        e.printStackTrace();
-                    }
-                }
-            }).start();
+            mMusicCmd.executeCmd(1);
         }
     }
 

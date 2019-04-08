@@ -7,7 +7,9 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.accessibility.AccessibilityEvent;
 
+import com.skyworthdigital.voice.dingdang.BuildConfig;
 import com.skyworthdigital.voice.dingdang.MainControler;
+import com.skyworthdigital.voice.dingdang.utils.AppUtil;
 import com.skyworthdigital.voice.dingdang.utils.GuideTip;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
 
@@ -82,6 +84,9 @@ public class RecognizeService extends AccessibilityService {
     public void onAccessibilityEvent(AccessibilityEvent event) {
         if (event.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
             MLog.i(TAG, "onAccessibilityEvent event:"+event.toString());
+            if(!BuildConfig.APPLICATION_ID.equals(event.getPackageName().toString())) {
+                AppUtil.topPackageName = (String) event.getPackageName();
+            }
             if (!TextUtils.isEmpty(event.getPackageName())) {
                 //String curPackage = event.getPackageName().toString();
                 String curClass = event.getClassName().toString();

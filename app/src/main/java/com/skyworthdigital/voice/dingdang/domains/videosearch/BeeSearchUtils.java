@@ -26,6 +26,7 @@ import com.skyworthdigital.voice.dingdang.domains.videosearch.model.BeeSearchBea
 import com.skyworthdigital.voice.dingdang.domains.videosearch.model.BeeSearchParams;
 import com.skyworthdigital.voice.dingdang.domains.videosearch.model.BeeSearchVideoResult;
 import com.skyworthdigital.voice.dingdang.domains.videosearch.model.SpeakSameInfo;
+import com.skyworthdigital.voice.dingdang.utils.AppUtil;
 import com.skyworthdigital.voice.dingdang.utils.DefaultCmds;
 import com.skyworthdigital.voice.dingdang.utils.GlobalVariable;
 import com.skyworthdigital.voice.dingdang.utils.GsonUtils;
@@ -492,7 +493,7 @@ public class BeeSearchUtils {
                 return true;
             case BeeCommand.OPT_CODE_QUIT:
                 MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_exit));
-                Utils.simulateKeystroke(KeyEvent.KEYCODE_HOME);
+                AppUtil.killTopApp();
                 return true;
             case BeeCommand.OPT_CODE_RETURN:
                 TvControl.back(ctx);

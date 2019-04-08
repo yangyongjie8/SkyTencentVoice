@@ -41,6 +41,7 @@
     <!-- END:Add permission for get YiPhone account info -->
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.FORCE_STOP_PACKAGES"/>
     <!-- ************************  Baidu Wallet End ************************ -->
 
 

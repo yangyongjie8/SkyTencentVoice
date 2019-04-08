@@ -15,6 +15,7 @@ import com.skyworthdigital.voice.dingdang.domains.music.musictype.TypeCell;
 import com.skyworthdigital.voice.dingdang.control.model.MusicSlots;
 import com.skyworthdigital.voice.dingdang.control.recognization.IStatus;
 import com.skyworthdigital.voice.dingdang.control.tts.MyTTS;
+import com.skyworthdigital.voice.dingdang.utils.AppUtil;
 import com.skyworthdigital.voice.dingdang.utils.GuideTip;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
 import com.skyworthdigital.voice.dingdang.utils.StringUtils;
@@ -64,6 +65,7 @@ public class QQMusicUtils {
      * 搜索关键字并选择是否进入播放界面播放
      */
     public static void musicSearchAction(Context ctx, String search_key) {
+        MLog.i("QQMusicUtils", "play music:"+search_key);
         try {
             Intent intent = new Intent();
             String uri = "musictv://?action=8&pull_from=12121&mb=true ";
@@ -75,7 +77,7 @@ public class QQMusicUtils {
                 e.printStackTrace();
             }
             intent.setData(Uri.parse(uri));
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             ctx.startActivity(intent);
             getMusicState(ctx);
         } catch (Exception e) {
@@ -145,7 +147,7 @@ public class QQMusicUtils {
     public static boolean acitonExecute(Context ctx, MusicSlots info, String speech) {
         if (StringUtils.isExitMusicCmdFromSpeech(speech)) {
             if (GuideTip.getInstance().mIsQQmusic) {
-                Utils.simulateKeystroke(KeyEvent.KEYCODE_HOME);
+                AppUtil.killTopApp();
                 MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_ok));
             } else {
                 StringUtils.showUnknownNote(ctx, speech);

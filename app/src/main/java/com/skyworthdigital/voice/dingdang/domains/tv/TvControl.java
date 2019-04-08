@@ -11,6 +11,7 @@ import com.skyworthdigital.voice.dingdang.domains.tvlive.TvLiveControl;
 import com.skyworthdigital.voice.dingdang.control.model.AsrResult;
 import com.skyworthdigital.voice.dingdang.control.tts.MyTTS;
 import com.skyworthdigital.voice.dingdang.SkyAsrDialogControl;
+import com.skyworthdigital.voice.dingdang.utils.AppUtil;
 import com.skyworthdigital.voice.dingdang.utils.GlobalVariable;
 import com.skyworthdigital.voice.dingdang.utils.GuideTip;
 import com.skyworthdigital.voice.dingdang.utils.IntentUtils;
@@ -109,11 +110,12 @@ public class TvControl {
                     break;
                 case "stop":
                 case "exit":
-                    Utils.simulateKeystroke(KeyEvent.KEYCODE_HOME);
+                    AppUtil.killTopApp();
                     MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_exit));
                     break;
                 case "back_tvhomepage":
                 case "home_on":
+                    AppUtil.killTopApp();
                     Utils.simulateKeystroke(KeyEvent.KEYCODE_HOME);
                     MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_backhome));
                     break;
