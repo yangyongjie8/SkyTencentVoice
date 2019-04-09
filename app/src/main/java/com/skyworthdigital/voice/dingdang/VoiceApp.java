@@ -16,7 +16,9 @@ import com.forest.bigdatasdk.util.SystemUtil;
 import com.skyworthdigital.voice.dingdang.IoT.IoTService;
 import com.skyworthdigital.voice.dingdang.control.record.PcmRecorder;
 import com.skyworthdigital.voice.dingdang.control.record.SkyVoiceProcessor;
+import com.skyworthdigital.voice.dingdang.service.RecognizeService;
 import com.skyworthdigital.voice.dingdang.utils.GlobalVariable;
+import com.skyworthdigital.voice.dingdang.utils.MLog;
 import com.skyworthdigital.voice.dingdang.utils.Utils;
 import com.tencent.ai.sdk.control.SpeechManager;
 import com.tencent.ai.sdk.utils.ISSErrors;
@@ -29,6 +31,7 @@ import okhttp3.OkHttpClient;
 import static com.forest.bigdatasdk.app.ForestAdvertCrossAppDataReport.HTTP_PREFIX;
 
 public class VoiceApp extends Application {
+    private static final String TAG = VoiceApp.class.getSimpleName();
     private static VoiceApp sInstance;
     private OkHttpClient mOkHttpClient;
     public MainControler mControler;
@@ -39,7 +42,7 @@ public class VoiceApp extends Application {
     private static final String SDK_KEY = "d5d2f64047526f4064845a3e964afbf9";
 
     static {
-        if (TextUtils.equals(getModel(), "Q3031")) {
+        if (Utils.isQ3031Recoder()) {
             System.loadLibrary("voiceprocessor");
         }
     }
@@ -75,7 +78,7 @@ public class VoiceApp extends Application {
         SpeechManager.getInstance().setAiDeviceInfo(sn, "497a7402-7660-4eb6-844f-543b2c2f6777:111d7f7d4dc6460fafce8875efbe0474", null, null, null);
         mOkHttpClient = new OkHttpClient();
         //CrashHandler.getInstance().init(this);
-        if (TextUtils.equals(getModel(), "Q3031")) {
+        if (Utils.isQ3031Recoder()) {
             PcmRecorder.copyWcompTable(this);
         }
         Log.d("wyf", "guid = " + SpeechManager.getInstance().getGuidStr());
@@ -118,28 +121,30 @@ public class VoiceApp extends Application {
     }
 
     private void setAccessibilityEnable() {
+//        需要权限android.permission.WRITE_SECURE_SETTINGS（貌似不需要也可以）
         //变量enabled_accessibility_services可通过查看/data/system/users/0/settings_secure.xml文件
-        Log.i("MyApplication", "setAccessibilityEnable");
+        MLog.d(TAG, "setAccessibilityEnable");
         String enabledServicesSetting = Settings.Secure.getString(
                 getContentResolver(), Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
-        final String VOICE_SERVICE_CLASS = "com.skyworthdigital.voice.dingdang.service.RecognizeService";
         ComponentName selfComponentName = new ComponentName(getPackageName(),
-                VOICE_SERVICE_CLASS);
+                RecognizeService.class.getName());
         String flattenToString = ":" + selfComponentName.flattenToString();
-        if (enabledServicesSetting == null ||
-                enabledServicesSetting.equalsIgnoreCase("")) {
+        MLog.d(TAG, "originString:"+enabledServicesSetting);
+        MLog.d(TAG, "flattenString:"+flattenToString);
+        if (TextUtils.isEmpty(enabledServicesSetting)) {
             enabledServicesSetting = selfComponentName.flattenToString();
         }
 
         if (enabledServicesSetting.startsWith(selfComponentName.flattenToString())) {
-            Log.i("MyApplication", "recognizeService already on");
+            MLog.d(TAG, "recognizeService already on");
         } else if (!enabledServicesSetting.contains(flattenToString)) {
             enabledServicesSetting += flattenToString;
         }
+        MLog.d(TAG, "finalString:"+enabledServicesSetting);
         boolean ret = Settings.Secure.putString(getContentResolver(),
                 Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES,
                 enabledServicesSetting);
-        Log.i("MyApplication", "set result:" + ret);
+        MLog.d(TAG, "set result:" + ret);
         Settings.Secure.putInt(getContentResolver(),
                 Settings.Secure.ACCESSIBILITY_ENABLED, 1);
     }
@@ -153,7 +158,7 @@ public class VoiceApp extends Application {
     }
 
     public static VoiceProcessor getVoiceProcessor() {
-        if (TextUtils.equals(getModel(), "Q3031")) {
+        if (Utils.isQ3031Recoder()) {
             mVoiceProcessor = SkyVoiceProcessor.getVoiceProcessor();
         }
         return mVoiceProcessor;
