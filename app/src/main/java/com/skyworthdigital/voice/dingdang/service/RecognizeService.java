@@ -60,6 +60,14 @@ public class RecognizeService extends AccessibilityService {
 //                } else if(action == KeyEvent.ACTION_UP){
 //                    MainControler.getInstance().testYuyiParse("我要看刘德华的电影");
 //                }
+
+            case KeyEvent.KEYCODE_DPAD_LEFT:
+            case KeyEvent.KEYCODE_DPAD_RIGHT:
+            case KeyEvent.KEYCODE_DPAD_UP:
+            case KeyEvent.KEYCODE_DPAD_DOWN:
+            case KeyEvent.KEYCODE_DPAD_CENTER:
+                return MainControler.getInstance().isAsrDialogShowing();
+
             default:
                 break;
         }
