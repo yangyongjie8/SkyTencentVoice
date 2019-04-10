@@ -67,6 +67,7 @@ public class MyTTS {
             mIsSpeak = false;
             Log.d(TAG, "stop tts");
             mTTSSession.stopSpeak();
+            myTTSListener.onChange(STATUS_TALKOVER);
         }
     }
 
