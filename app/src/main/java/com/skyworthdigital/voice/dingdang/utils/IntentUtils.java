@@ -230,7 +230,7 @@ public class IntentUtils {
                 //KalaokUtils.kalaokOpen();
                 break;
             case GET_VERSION:
-                MyTTS.getInstance(null).speak(Utils.getVersion(), Utils.getVersion());
+                MyTTS.getInstance(null).speakAndShow(Utils.getVersion());
                 break;
             case MUSIC_CHINA:
                 QQMusicUtils.openRankAction(VoiceApp.getInstance(), 5);
