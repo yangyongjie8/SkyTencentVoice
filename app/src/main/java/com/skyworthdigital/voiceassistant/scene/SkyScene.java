@@ -28,7 +28,7 @@ public class SkyScene {
     private static final String INTENT_COMMIT = "com.skyworthdigital.voiceassistant.topActivity.COMMIT";
     private static final String SCENE = "_scene";
     private static final String OBJ_HASH = "_objhash";
-    private static final String PACKAGE = "_package";
+    private static final String SCENE_NAME = "_sceneName";
     private static final String DUER_VOICE_PACKAGE_NAME = "com.skyworthdigital.voiceassistant";
     private static final String DINGDANG_VOICE_PACKAGE_NAME = "com.skyworthdigital.voice.dingdang";
     private String mVoicePackage = DUER_VOICE_PACKAGE_NAME;
@@ -61,7 +61,7 @@ public class SkyScene {
     public void release() {
         Intent paramIntent = new Intent(INTENT_RELEASE_SCENE);
         paramIntent.putExtra(SCENE, mISceneListenner.onCmdRegister());
-        paramIntent.putExtra(PACKAGE, SkyScene.this.mContext.getPackageName());
+        paramIntent.putExtra(SCENE_NAME, mISceneListenner.getSceneName());
         paramIntent.putExtra(OBJ_HASH, SkyScene.this.token);
         paramIntent.setPackage(mVoicePackage);
         mContext.startService(paramIntent);
@@ -104,7 +104,7 @@ public class SkyScene {
 
                 paramIntent.setAction(INTENT_COMMIT);
                 paramIntent.putExtra(SCENE, mISceneListenner.onCmdRegister());
-                paramIntent.putExtra(PACKAGE, SkyScene.this.mContext.getPackageName());
+                paramIntent.putExtra(SCENE_NAME, mISceneListenner.getSceneName());
                 paramIntent.putExtra(OBJ_HASH, SkyScene.this.token);
 
                 try {

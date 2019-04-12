@@ -66,6 +66,11 @@ public class MusicCmd implements ISkySceneListener {
         return "";
     }
 
+    @Override
+    public String getSceneName() {
+        return "MusicScene";
+    }
+
     /*
         功能名称	m0值
         播放	    0

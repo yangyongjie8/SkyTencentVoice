@@ -26,8 +26,8 @@ import static com.skyworthdigital.voice.dingdang.scene.SkySceneService.INTENT_TO
  */
 
 public class DefaultCmds {
-    public static final String PLAY_CMD = "$PLAY";
-    public static final String MUSIC_CMD = "$MUSICPLAY";
+    public static final String PLAY_CMD = "#PLAY";
+    public static final String MUSIC_CMD = "#MUSICPLAY";
     public static final String COMMAND_VOL_UP = "volume.up";
     public static final String COMMAND_VOL_DOWN = "volume.down";
     public static final String COMMAND_VOL_SET = "volume.set";
@@ -69,6 +69,7 @@ public class DefaultCmds {
     public static final String INTENT = "_intent";
     public static final String SEQUERY = "_sequery";
     public static final String COMMAND = "_command";
+    public static final String CATEGORY_SERV = "_category_serv";// server识别的类别，比如#PLAY
     public static final String PREDEFINE = "predefine";
     public static final String FUZZYMATCH = "$fuzzy";
     private static final String TAG = "DefaultCmds";
@@ -123,6 +124,8 @@ public class DefaultCmds {
             intent = new Intent(INTENT_TOPACTIVITY_CALL);
             intent.setPackage(strPackage);
             intent.putExtra(PREDEFINE, PLAY_CMD);
+            intent.putExtra(SEQUERY, bean.mQuery);
+            intent.putExtra(CATEGORY_SERV, PLAY_CMD);//增加服务器识别类别匹配
 
             switch (mIntent) {
                 case "change"://换一个频道
@@ -261,7 +264,6 @@ public class DefaultCmds {
                     return null;
             }
 
-            intent.putExtra(SEQUERY, PLAY_CMD);
             MLog.d(TAG, "idx:" + num);
             if (num != Semantic.INVALID_DIGIT) {
                 intent.putExtra(VALUE, num);
@@ -284,7 +286,8 @@ public class DefaultCmds {
             Intent intent = new Intent(INTENT_TOPACTIVITY_CALL);
             intent.setPackage(strPackage);
             intent.putExtra(PREDEFINE, PLAY_CMD);
-            intent.putExtra(SEQUERY, PLAY_CMD);
+            intent.putExtra(CATEGORY_SERV, PLAY_CMD);
+            intent.putExtra(SEQUERY, speech);
             if (GuideTip.getInstance().isVideoPlay()
                     || GuideTip.getInstance().isAudioPlay()
                     || GuideTip.getInstance().isMediaDetail()) {

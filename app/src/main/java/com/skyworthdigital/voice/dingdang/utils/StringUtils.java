@@ -3,7 +3,6 @@ package com.skyworthdigital.voice.dingdang.utils;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 
 import com.google.gson.Gson;
 import com.skyworthdigital.voice.dingdang.IoT.IoTService;
@@ -37,6 +36,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class StringUtils {
+    private static final String TAG = "StringUtils";
 
     //public static final String RAW_TYPE = "raw";
 
@@ -890,4 +890,11 @@ public class StringUtils {
         return false;
     }
 
+    public static boolean isMatches(String text, String regex){
+        return Pattern.compile(regex).matcher(text).find();
+    }
+    public static boolean equals(String text, String text2){
+        if(text==null)return text2==null;
+        return text.equals(text2);
+    }
 }

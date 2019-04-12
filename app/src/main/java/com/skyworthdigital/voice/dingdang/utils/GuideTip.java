@@ -1,21 +1,15 @@
 package com.skyworthdigital.voice.dingdang.utils;
 
-import android.app.Instrumentation;
-import android.graphics.Color;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.style.ForegroundColorSpan;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.widget.TextView;
 
-import com.skyworthdigital.voice.dingdang.domains.videosearch.model.BeeSearchParams;
-import com.skyworthdigital.voice.dingdang.control.model.SkyGuaidItem;
-import com.skyworthdigital.voice.dingdang.domains.tvlive.TvLiveControl;
+import com.skyworthdigital.voice.dingdang.SkyAsrDialogControl;
 import com.skyworthdigital.voice.dingdang.control.model.UserGuideStrings;
 import com.skyworthdigital.voice.dingdang.domains.music.utils.MusicCmd;
-import com.skyworthdigital.voice.dingdang.SkyAsrDialogControl;
+import com.skyworthdigital.voice.dingdang.domains.tvlive.TvLiveControl;
+import com.skyworthdigital.voice.dingdang.domains.videosearch.model.BeeSearchParams;
+import com.skyworthdigital.voice.dingdang.scene.SceneManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,8 +74,10 @@ public class GuideTip {
             mClassname = clsname;
             Log.i(TAG, " cls:" + clsname);
             //karaokeSpecialProcess();
-            bindQQMusic();
-            TvLiveControl.getInstance().setTvLive(clsname);
+            if(!bindQQMusic()) {
+                SceneManager.getInstance().checkInBeeVideoScene();
+                TvLiveControl.getInstance().setTvLive(clsname);
+            }
         }
     }
 
@@ -95,6 +91,10 @@ public class GuideTip {
 
     public boolean isMediaDetail() {
         return (mClassname != null && mClassname.contains("details.SkyMediaDetailActivity"));
+    }
+
+    public String getClassName(){
+        return mClassname;
     }
 
     public boolean isTvlive() {

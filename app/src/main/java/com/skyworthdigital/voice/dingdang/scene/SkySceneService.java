@@ -30,8 +30,8 @@ public class SkySceneService extends Service {
     private static final String SCENE = "_scene";
     private static final String OBJ_HASH = "_objhash";
     private static final int INVALID_VALUE = -255;
-    private static final String PACKAGE = "_package";
-    private List<String> mPackage = new ArrayList<>();
+    private static final String SCENE_NAME = "_sceneName";
+    private static final List<String> mSceneNameList = new ArrayList<>();
     private List<String> mSceneJson = new ArrayList<>();
     private List<Integer> mToken = new ArrayList<>();
     private IBinder mBinder = new LocalBinder();
@@ -64,13 +64,13 @@ public class SkySceneService extends Service {
         } else if (INTENT_TOPACTIVITY_COMMIT.equals(intent.getAction())) {
 
             if (intent.hasExtra(SCENE)) {
-                String pkg = intent.getStringExtra(PACKAGE);
+                String pkg = intent.getStringExtra(SCENE_NAME);
                 String scene = intent.getStringExtra(SCENE);
                 int token = intent.getIntExtra(OBJ_HASH, -1);
                 if(!TextUtils.isEmpty(scene)) {
                     if (!mSceneJson.contains(scene)) {
                         MLog.d(TAG, "regist add:" + scene);
-                        mPackage.add(pkg);
+                        mSceneNameList.add(pkg);
                         mSceneJson.add(scene);
                         mToken.add(token);
                     } else {
@@ -78,7 +78,7 @@ public class SkySceneService extends Service {
                             if (TextUtils.equals(scene, mSceneJson.get(i))) {
                                 MLog.d(TAG, "regist replace ");
                                 mToken.set(i, token);
-                                mPackage.set(i, pkg);
+                                mSceneNameList.set(i, pkg);
                             }
                         }
                     }
@@ -93,17 +93,18 @@ public class SkySceneService extends Service {
                 }
             }
         } else if (INTENT_TOPACTIVITY_CALL.equals(intent.getAction())) {
-            MLog.d(TAG, "SkySceneService intent: " + intent.getStringExtra(DefaultCmds.SEQUERY));
+            MLog.d(TAG, "SkySceneService intent se_query: " + intent.getStringExtra(DefaultCmds.SEQUERY)+" category_serv:"+intent.getStringExtra(DefaultCmds.CATEGORY_SERV));
             String cmd = intent.getStringExtra(DefaultCmds.SEQUERY);
+            String categoryServ = intent.getStringExtra(DefaultCmds.CATEGORY_SERV);
             if (BeeSearchUtils.mSpeakSameInfo != null) {
                 MLog.d(TAG, "纠错");
             } else {
                 for (int i = (mToken.size() - 1); i >= 0; i--) {
                     MLog.d(TAG, "intent: " + mToken.get(i) + " size:" + mToken.size());
-                    String key = SceneJsonUtil.isVoiceCmdRegisted(cmd, mSceneJson.get(i));
+                    String key = SceneJsonUtil.isVoiceCmdRegisted(cmd, categoryServ, mSceneJson.get(i));
                     if (key == null) {
                         if (intent.hasExtra(DefaultCmds.PREDEFINE)) {
-                            key = SceneJsonUtil.isVoiceCmdRegisted(intent.getStringExtra(DefaultCmds.PREDEFINE), mSceneJson.get(i));
+                            key = SceneJsonUtil.isVoiceCmdRegisted(intent.getStringExtra(DefaultCmds.PREDEFINE), categoryServ, mSceneJson.get(i));
                         }
                     }
                     int index = SceneJsonUtil.isFuzzyMatched(cmd, mSceneJson.get(i));
@@ -113,6 +114,10 @@ public class SkySceneService extends Service {
 
                         if (key != null) {
                             executeintent.putExtra(DefaultCmds.COMMAND, key);
+                        }
+                        executeintent.putExtra(DefaultCmds.SEQUERY, cmd);// 原文。至此，发这些就够了，下面的参数应该由scene处理，不应该由前面预先处理
+                        if (intent.hasExtra(DefaultCmds.CATEGORY_SERV)) {// server解析的指令集，这里只根据server有没解析这类别，json里不一定已使用该类别
+                            executeintent.putExtra(DefaultCmds.CATEGORY_SERV, categoryServ);
                         }
                         if (index >= 0) {
                             executeintent.putExtra(DefaultCmds.FUZZYMATCH, index);
@@ -143,7 +148,7 @@ public class SkySceneService extends Service {
                         for (int i = size - 1; i >= 0; i--) {
                             if (TextUtils.equals(scene, mSceneJson.get(i))) {
                                 MLog.d(TAG, "release scene");
-                                mPackage.remove(i);
+                                mSceneNameList.remove(i);
                                 mSceneJson.remove(i);
                                 mToken.remove(i);
                             }
@@ -183,5 +188,14 @@ public class SkySceneService extends Service {
             MLog.d(TAG, "=====");
         }
         return false;
+    }
+
+    /**
+     * 判断场景是否在生效中
+     * @param sceneName 场景名称，对应json里的scene值
+     * @return
+     */
+    public static boolean containScene(String sceneName){
+        return mSceneNameList.contains(sceneName);
     }
 }

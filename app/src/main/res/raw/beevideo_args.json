@@ -1,0 +1,24 @@
+{
+  "read_summary": "{\"cmdid\":0,\"action\":\"summary\",\"args\":{\"value\":1}}",//确定要参数？
+  "seek_forward_to": "{\"cmdid\":1,\"action\":\"seek\",\"args\":{\"status\":\"forward\",\"position\":%s}}",//这个确定是string？
+  "seek_reverse_to": "{\"cmdid\":2,\"action\":\"seek\",\"args\":{\"status\":\"reverse\",\"position\":%s}}",
+  "seek_forward": "{\"cmdid\":3,\"action\":\"seek\",\"args\":{\"status\":\"forward\",\"duration\":%s}}",
+  "seek_reverse": "{\"cmdid\":4,\"action\":\"seek\",\"args\":{\"status\":\"reverse\",\"duration\":%s}}",
+  "volume_min": "{\"cmdid\":5,\"action\":\"volume\",\"args\":{\"value\":%d}}",
+  "volume_add": "{\"cmdid\":6,\"action\":\"volume\",\"args\":{\"status\":\"add\",\"percent\":%d}}",
+  "volume_reduce": "{\"cmdid\":7,\"action\":\"volume\",\"args\":{\"status\":\"lower\",\"percent\":%d}}",
+  "volume_adjust": "{\"cmdid\":8,\"action\":\"volume\",\"args\":{\"value\":%d}}",
+  "volume_max": "{\"cmdid\":9,\"action\":\"volume\",\"args\":{\"value\":%d}}",
+  "pause": "{\"cmdid\":13,\"action\":\"pause\"}",
+  "history": "{\"cmdid\":15,\"action\":\"history\"}",
+  "unsave": "{\"cmdid\":37,\"action\":\"addfavourite\",\"args\":{\"status\":\"remove\"}}",
+  "save": "{\"cmdid\":36,\"action\":\"addfavourite\",\"args\":{\"status\":\"add\"}}",
+  "fullscreen": "{\"cmdid\":16,\"action\":\"fullscreen\"}",
+  "login": "{\"cmdid\":38,\"action\":\"login\"}",
+  "openvip": "{\"cmdid\":33,\"action\":\"openvip\"}",
+  "openpayment": "{\"cmdid\":45,\"action\":\"payment\"}",
+  "episode": "{\"cmdid\":12,\"action\":\"episode\",\"args\":{\"value\":1}}",
+  "play_position": "{\"cmdid\":10,\"action\":\"play\",\"args\":{\"value\":%d}}",
+  "play": "{\"cmdid\":11,\"action\":\"continue\"}",
+  "return": "{\"cmdid\":18,\"action\":\"return\"}"
+}

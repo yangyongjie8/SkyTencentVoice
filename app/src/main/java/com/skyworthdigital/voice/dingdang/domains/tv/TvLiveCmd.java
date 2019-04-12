@@ -41,6 +41,11 @@ public class TvLiveCmd implements ISkySceneListener {
     }
 
     @Override
+    public String getSceneName() {
+        return "com.linkin.tv.IndexActivity";
+    }
+
+    @Override
     public void onCmdExecute(Intent intent) {
         if (intent.hasExtra(DefaultCmds.COMMAND)) {
             String command = intent.getStringExtra(DefaultCmds.COMMAND);

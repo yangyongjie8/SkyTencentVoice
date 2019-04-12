@@ -287,6 +287,11 @@ public class TvLiveControl implements ISkySceneListener {
     }
 
     @Override
+    public String getSceneName() {
+        return "com.linkin.tv.IndexActivity";
+    }
+
+    @Override
     public void onCmdExecute(Intent intent) {
         //LogUtil.log("voiceCallback intent : " + intent.getExtras().toString());
         if (intent.hasExtra(DefaultCmds.COMMAND)) {

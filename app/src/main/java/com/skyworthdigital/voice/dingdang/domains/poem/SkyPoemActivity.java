@@ -336,6 +336,11 @@ public class SkyPoemActivity extends Activity implements ISkySceneListener, Adap
     }
 
     @Override
+    public String getSceneName() {
+        return "SkyPoemScene";
+    }
+
+    @Override
     public void onCmdExecute(Intent intent) {
         String action = "";
         int value = 0;

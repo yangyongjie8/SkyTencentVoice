@@ -3,6 +3,9 @@ package com.skyworthdigital.voice.dingdang.domains.videoplay;
 import android.content.Context;
 import android.content.Intent;
 
+import com.skyworthdigital.voice.dingdang.R;
+import com.skyworthdigital.voice.dingdang.control.tts.MyTTS;
+
 /**
  * User: yangyongjie
  * Date: 2019-01-03
@@ -26,10 +29,10 @@ public class BeeVideoPlayUtils {
         } else if (SOURCE_BESTTV_ID.equals(sourceId)) {
             intent.setAction("com.mipt.videohj.intent.action.VOD_DETAIL_BESTV_ACTION");
         }
-        intent.putExtra("extra_video_id", videoId);
-        intent.putExtra("extra_drama_index", "0");
+        intent.putExtra("videoId", videoId);
         intent.putExtra("invokeFrom", "VOICE_ASSISTANT");
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
+        MyTTS.getInstance(null).speakAndShow(context.getString(R.string.str_ok));
     }
 }

@@ -265,6 +265,11 @@ public class SkyAudioPlayActivity extends Activity implements ISkySceneListener,
     }
 
     @Override
+    public String getSceneName() {
+        return "SkyAudioPlayer";
+    }
+
+    @Override
     public void onCmdExecute(Intent intent) {
         String action = "";
         int value = 0;

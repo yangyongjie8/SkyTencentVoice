@@ -1,11 +1,13 @@
 package com.skyworthdigital.voice.dingdang.scene;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.skyworthdigital.voice.dingdang.control.recognization.IStatus;
 import com.skyworthdigital.voice.dingdang.utils.DefaultCmds;
+import com.skyworthdigital.voice.dingdang.utils.MLog;
 import com.skyworthdigital.voice.dingdang.utils.StringUtils;
 import com.skyworthdigital.voice.dingdang.utils.Utils;
 
@@ -20,6 +22,7 @@ import java.util.Iterator;
 
 
 public class SceneJsonUtil {
+    private static final String TAG = "SceneJsonUtil";
     private static final String COMMANDS = "_commands";
 
     /**
@@ -85,26 +88,36 @@ public class SceneJsonUtil {
     /**
      * 功能：判断当前语音输入voice是否是scene中注册的命令
      * 参数：voice:语音原始输入的内容，如：快进五分钟
+     * 参数：categoryServ:由server识别出的指令集类别，如：#Play
      * scene:格式是json字符串，通过onCmdRegister注册的命令，举例如下：res/raw/searchcmd
      */
-    static String isVoiceCmdRegisted(String voice, String scene) {
+    static String isVoiceCmdRegisted(String voice, @Nullable String categoryServ, String scene) {
         if (voice == null || scene == null) {
             return null;
         }
         try {
             JSONObject jsonObject = new JSONObject(scene);
             JSONObject jsonCmd = jsonObject.getJSONObject(COMMANDS);
+            //JSONObject jsonActivity = jsonObject.getJSONObject("_scene");
+            MLog.i(TAG, "cmds: " + jsonCmd.toString());
 
             if (jsonCmd.length() > 0) {
                 Iterator keys = jsonCmd.keys();
+                String valueTemp = null;
                 while (keys.hasNext()) {
                     String key = keys.next().toString();
                     String value = jsonCmd.optString(key);
-                    //LogUtil.log("key: " + key + " value:" + value);
+//                    LogUtil.log("key: " + key + " value:" + value);
                     JSONArray jsonArray = new JSONArray(value);
                     for (int i = 0; i < jsonArray.length(); i++) {
-                        if (voice.equalsIgnoreCase(jsonArray.optString(i))) {
-                            //LogUtil.log("matched ");
+                        valueTemp = jsonArray.optString(i);
+                        if(StringUtils.isMatches(voice, valueTemp)){
+//                        if (voice.equalsIgnoreCase(jsonArray.optString(i))) {
+                            MLog.i(TAG, "matched "+voice);
+                            return key;
+                        }
+                        if(StringUtils.equals(categoryServ, valueTemp)){
+                            MLog.i(TAG, "matched "+categoryServ);
                             return key;
                         }
                     }

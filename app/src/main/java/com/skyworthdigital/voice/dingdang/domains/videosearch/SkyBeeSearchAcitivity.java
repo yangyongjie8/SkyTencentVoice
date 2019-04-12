@@ -435,6 +435,11 @@ public class SkyBeeSearchAcitivity extends BaseActivity implements MetroRecycler
         return "";
     }
 
+    @Override
+    public String getSceneName() {
+        return "SkyVoiceSearch";
+    }
+
     private void jumpToPage(boolean isVoice, int page) {
         if (page <= mTotalPage && page >= 1) {
             if (isVoice) {
