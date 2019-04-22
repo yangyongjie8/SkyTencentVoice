@@ -9,9 +9,11 @@ import android.view.accessibility.AccessibilityEvent;
 
 import com.skyworthdigital.voice.dingdang.BuildConfig;
 import com.skyworthdigital.voice.dingdang.MainControler;
+import com.skyworthdigital.voice.dingdang.VoiceApp;
 import com.skyworthdigital.voice.dingdang.utils.AppUtil;
 import com.skyworthdigital.voice.dingdang.utils.GuideTip;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
+import com.skyworthdigital.voice.dingdang.utils.VolumeUtils;
 
 
 /**
@@ -45,6 +47,7 @@ public class RecognizeService extends AccessibilityService {
                 if (action == KeyEvent.ACTION_DOWN) {
                     //mRecordStart = System.currentTimeMillis();
                     //if (MainControler.getInstance().isStartValid()) {
+                    MainControler.getInstance().isControllerVoice = true;
                     MainControler.getInstance().manualRecognizeStart();
                 } else if (action == KeyEvent.ACTION_UP) {
                     //if (System.currentTimeMillis() - mRecordStart > 1000) {
@@ -60,6 +63,27 @@ public class RecognizeService extends AccessibilityService {
 //                } else if(action == KeyEvent.ACTION_UP){
 //                    MainControler.getInstance().testYuyiParse("我要看刘德华的电影");
 //                }
+
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+                if (action == KeyEvent.ACTION_DOWN) {
+                    if (MainControler.getInstance().isAsrDialogShowing() && !VolumeUtils.getInstance(VoiceApp.getInstance()).isM2001()) {
+                        VolumeUtils.getInstance(VoiceApp.getInstance()).setVoiceVolumeMinus(1);
+                        return true;
+                    }
+                    VolumeUtils.getInstance(VoiceApp.getInstance()).setVolumeMinus(1);
+                    return true;
+                }
+                break;
+            case KeyEvent.KEYCODE_VOLUME_UP:
+                if (action == KeyEvent.ACTION_DOWN) {
+                    if (MainControler.getInstance().isAsrDialogShowing() && !VolumeUtils.getInstance(VoiceApp.getInstance()).isM2001()) {
+                        VolumeUtils.getInstance(VoiceApp.getInstance()).setVoiceVolumePlus(1);
+                        return true;
+                    }
+                    VolumeUtils.getInstance(VoiceApp.getInstance()).setVolumePlus(1);
+                    return true;
+                }
+                break;
 
             case KeyEvent.KEYCODE_DPAD_LEFT:
             case KeyEvent.KEYCODE_DPAD_RIGHT:
@@ -79,7 +103,6 @@ public class RecognizeService extends AccessibilityService {
         super.onCreate();
         Log.i(TAG, "onCreate");
         //mControler = new MainControler();
-
     }
 
     @Override

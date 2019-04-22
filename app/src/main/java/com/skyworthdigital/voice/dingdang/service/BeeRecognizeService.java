@@ -28,6 +28,7 @@ public class BeeRecognizeService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         String action = intent.getAction();
         if (ACTION_VOICE_ACTIVATE.equals(action)) {
+            MainControler.getInstance().isControllerVoice = false;
             MainControler.getInstance().manualRecognizeStart();
         } else if (ACTION_VOICE_RECOGNIZE.equals(action)) {
             String txt = intent.getStringExtra(KEY_ORIGINAL_TXT);

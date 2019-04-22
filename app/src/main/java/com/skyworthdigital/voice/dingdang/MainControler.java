@@ -29,6 +29,7 @@ import com.skyworthdigital.voice.dingdang.globalcmd.GlobalUtil;
 import com.skyworthdigital.voice.dingdang.scene.ISceneCallback;
 import com.skyworthdigital.voice.dingdang.scene.SkySceneService;
 import com.skyworthdigital.voice.dingdang.service.RecognizeService;
+import com.skyworthdigital.voice.dingdang.utils.AppUtil;
 import com.skyworthdigital.voice.dingdang.utils.DefaultCmds;
 import com.skyworthdigital.voice.dingdang.utils.GlobalVariable;
 import com.skyworthdigital.voice.dingdang.utils.GsonUtils;
@@ -43,7 +44,6 @@ import com.tencent.ai.sdk.utils.ISSErrors;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
 
 public class MainControler implements MyTTS.MyTTSListener {
     private static final String TAG = "MainControler";
@@ -60,7 +60,7 @@ public class MainControler implements MyTTS.MyTTSListener {
     private String mRecoResult;
     private BoxReceiver mBoxReceiver;
     private boolean mTvdialog = false;
-    public static MainControler mManagerInstance = null;
+    private static MainControler mManagerInstance = null;
     private ExecutorService mExecutor = Executors.newSingleThreadExecutor();
     private static final String WAKEUP_OPEN_ACTION = "com.skyworthdigital.voice.action.WAKEUP_OPEN";
     private static final String WAKEUP_CLOSE_ACTION = "com.skyworthdigital.voice.action.WAKEUP_CLOSE";
@@ -68,6 +68,7 @@ public class MainControler implements MyTTS.MyTTSListener {
     private boolean isKeyUp = true;
     private long mKeyDownTime = 0;
     private long mKeyUpTime = 0;
+    public volatile boolean isControllerVoice = true;//是否遥控器语音，可能是远场语音
 
     public static MainControler getInstance() {
         if (mManagerInstance == null) {
@@ -79,7 +80,7 @@ public class MainControler implements MyTTS.MyTTSListener {
     private MainControler() {
         mContext = VoiceApp.getInstance();
         if (VoiceApp.getInstance().mAiType == GlobalVariable.AI_VOICE) {
-            if (TextUtils.equals(VoiceApp.getInstance().getModel(), "Q3031")) {
+            if (Utils.isQ3031Recoder()) {
                 SkyVoiceProcessor.init();
             }
             myWakeup = MyWakeup.getInstance(mWkresultlistener);
@@ -320,12 +321,16 @@ public class MainControler implements MyTTS.MyTTSListener {
         }
     }
 
+    public boolean isRecognizing(){
+        return myRecognizer.isRecogning();
+    }
+
     public void manualRecognizeStart() {
         MLog.i(TAG, "语音键按下");
         mKeyDownTime = System.currentTimeMillis();
-        if (isKeyUp) {
+//        if (isKeyUp) {
             myRecognizer.start();
-        }
+//        }
         myTTS.stopSpeak();
         //myRecognizer.stop();
         String sayhi = WakeUpWord.getWord();
@@ -338,14 +343,13 @@ public class MainControler implements MyTTS.MyTTSListener {
         mRecoResult = null;
         //SkyRing.getInstance().playDing();
         //myTTS.speak(sayhi);
-        if (!isKeyUp) {
-            myRecognizer.cancel();
-            isKeyUp = true;
-            mAsrDialogControler.dialogRefresh(mContext, null, VoiceApp.getInstance().getResources().getString(R.string.str_reco_busy), 0);
-            return;
-        } else {
-            isKeyUp = false;
-        }
+//        if (isKeyUp) {
+//            isKeyUp = false;
+//        } else {
+//            myRecognizer.cancel();
+//            isKeyUp = true;
+//            mAsrDialogControler.dialogRefresh(mContext, null, VoiceApp.getInstance().getResources().getString(R.string.str_reco_busy), 0);
+//        }
     }
 
     public void manualRecognizeStop() {
@@ -406,6 +410,10 @@ public class MainControler implements MyTTS.MyTTSListener {
         mAsrDialogControler.dialogDismiss(DEFAULT_DISMISS_TIME);
         //myTTS.speak(sayhi);
         myRecognizer.start();
+    }
+
+    public boolean isAsrDialogShowing(){
+        return mAsrDialogControler!=null && mAsrDialogControler.mAsrDialog!=null && mAsrDialogControler.mAsrDialog.isShowing();
     }
 
     private IWakeupResultListener mWkresultlistener = new IWakeupResultListener() {
@@ -649,7 +657,7 @@ public class MainControler implements MyTTS.MyTTSListener {
                     }
                 }
                 if (StringUtils.isHomeCmdFromSpeech(bean.mQuery)) {
-                    Utils.simulateKeystroke(KeyEvent.KEYCODE_HOME);
+                    AppUtil.killTopApp();
                     MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_exit));
                     return;
                 }
@@ -700,7 +708,7 @@ public class MainControler implements MyTTS.MyTTSListener {
         @Override
         public void onReceive(final Context context, Intent intent) {
             String action = intent.getAction();
-            MLog.d(TAG, "BoxReceiver:" + intent.getAction());
+            MLog.d(TAG, "BoxReceiver:" + action);
             switch (action) {
                 case IStatus.ACTION_RESTART_ASR:
                     restartRecognize();

@@ -247,6 +247,10 @@ public class Utils {
         return (TextUtils.equals(VoiceApp.getModel(), "Q3031"));
     }
 
+    public static boolean isP201IPtv() {
+        return (TextUtils.equals(VoiceApp.getModel(), "p201_iptv"));
+    }
+
     public static void setWakeupProperty(int on) {
         //0:closed 1:opened 2:opening 3:closing
         Log.i("wakeup", "setWakeupProperty:" + on);

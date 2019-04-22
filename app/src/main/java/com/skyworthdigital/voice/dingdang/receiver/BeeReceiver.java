@@ -3,9 +3,10 @@ package com.skyworthdigital.voice.dingdang.receiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.widget.Toast;
 
+import com.skyworthdigital.voice.dingdang.MainControler;
 import com.skyworthdigital.voice.dingdang.service.BeeRecognizeService;
+import com.skyworthdigital.voice.dingdang.utils.MLog;
 
 /**
  * User: yangyongjie
@@ -18,7 +19,12 @@ public class BeeReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Toast.makeText(context, "onReceive" + intent.getAction(), Toast.LENGTH_SHORT).show();
+        MLog.i("BeeReceiver", "onReceive" + intent.getAction());
+        if(MainControler.getInstance().isRecognizing()){
+            MLog.i("BeeReceiver", "recognizing with controller, ignore broadcast.");
+            return;
+        }
+
         String action = intent.getAction();
         String txt = intent.getStringExtra(KEY_ORIGINAL_TXT);
         Intent newIntent = new Intent(context, BeeRecognizeService.class);

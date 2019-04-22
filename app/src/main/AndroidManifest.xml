@@ -192,6 +192,7 @@
             android:name="com.skyworthdigital.voice.dingdang.service.RecognizeService"
             android:enabled="true"
             android:exported="true"
+            android:directBootAware="true"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService" />
@@ -220,7 +221,6 @@
             </intent-filter>
         </service>
         <service android:name=".service.BeeRecognizeService" />
-
 
         <receiver android:name=".domains.alarm.AlarmReceiver" />
         <receiver android:name=".receiver.BeeReceiver" >

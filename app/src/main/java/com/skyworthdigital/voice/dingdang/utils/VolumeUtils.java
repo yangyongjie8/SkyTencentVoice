@@ -2,6 +2,7 @@ package com.skyworthdigital.voice.dingdang.utils;
 
 import android.content.Context;
 import android.media.AudioManager;
+import android.os.Build;
 
 import com.skyworthdigital.voice.dingdang.R;
 import com.skyworthdigital.voice.dingdang.VoiceApp;
@@ -12,6 +13,7 @@ import com.skyworthdigital.voice.dingdang.control.tts.MyTTS;
  * 操作盒子声音工具类
  */
 public class VolumeUtils {
+    private static final String TAG = VolumeUtils.class.getSimpleName();
 
     private static VolumeUtils mVolumeInstance = null;
     private AudioManager mAudioManager;
@@ -79,15 +81,18 @@ public class VolumeUtils {
      * <p>
      * param volume
      */
-    void setVolumePlus(double volume) {
-        mAudioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
+    public void setVolumePlus(double volume) {
+        if(Build.VERSION.SDK_INT<Build.VERSION_CODES.M) {
+            mAudioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
+        }else {
+            mAudioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_UNMUTE, AudioManager.FLAG_SHOW_UI);
+        }
         int val = (int) volume;
         if (val == 1) {
             val = 2;
         }
         int scaledVolume = scaleVolume(val);
         mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, scaledVolume, AudioManager.FLAG_SHOW_UI);
-        MyTTS.getInstance(null).speakAndShow(VoiceApp.getInstance().getString(R.string.str_volume_plus) + scaledVolume);
     }
 
     /**
@@ -97,7 +102,11 @@ public class VolumeUtils {
      */
     public void setVolumeMinus(int volume) {
         int scaledVolume;
-        mAudioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
+        if(Build.VERSION.SDK_INT<Build.VERSION_CODES.M) {
+            mAudioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
+        }else {
+            mAudioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_UNMUTE, AudioManager.FLAG_SHOW_UI);
+        }
         int current_vol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
         int addVol = (int) volume;
         if (addVol == 1) {
@@ -107,7 +116,6 @@ public class VolumeUtils {
         if (scaledVolume < 0) {
             scaledVolume = 0;
         }
-        MyTTS.getInstance(null).speakAndShow(VoiceApp.getInstance().getString(R.string.str_volume_minus) + scaledVolume);
         mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, scaledVolume, AudioManager.FLAG_SHOW_UI);
     }
 
@@ -141,11 +149,14 @@ public class VolumeUtils {
     }
 
     public void setMuteWithNoUi(boolean mute) {
-        //LogUtil.log("setMuteWithNoUi:" + mute);
-        if (mModel.equals("M2001")) {
-            return;
+        MLog.i(TAG, "setMuteWithNoUi:" + mute);
+        boolean cur = false;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            cur = mAudioManager.isStreamMute(AudioManager.STREAM_MUSIC);
+        }else {
+            cur = mAudioManager.getRingerMode() == AudioManager.RINGER_MODE_SILENT;
         }
-        boolean cur = mAudioManager.isStreamMute(AudioManager.STREAM_MUSIC);
+        MLog.i(TAG, "setMuteWithNoUi stream mute:"+cur);
 
         if (mute) {
             if (cur && !mTempMute) {
@@ -155,16 +166,32 @@ public class VolumeUtils {
             } else {
                 MLog.d("wyf", "set mute");
                 mTempMute = true;
-                mAudioManager.setStreamMute(AudioManager.STREAM_MUSIC, true);
+                if(Build.VERSION.SDK_INT<Build.VERSION_CODES.M) {
+                    mAudioManager.setStreamMute(AudioManager.STREAM_MUSIC, true);
+                }else {
+                    mAudioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_MUTE, AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
+                }
             }
         } else if (mTempMute) {
             MLog.d("wyf", "cancel mute");
-            mAudioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
+//            mTempMute = false;
+            if(Build.VERSION.SDK_INT<Build.VERSION_CODES.M) {
+                mAudioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
+            }else {
+                mAudioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_UNMUTE, AudioManager.FLAG_REMOVE_SOUND_AND_VIBRATE);
+            }
         }
+        boolean printMute = false;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            printMute = mAudioManager.isStreamMute(AudioManager.STREAM_MUSIC);
+        }else {
+            printMute = mAudioManager.getRingerMode() == AudioManager.RINGER_MODE_SILENT;
+        }
+        MLog.i(TAG, "setMuteWithNoUi stream mute final:"+printMute);
     }
 
     private int getRobotVolume() {
-        int current_vol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        int current_vol = mAudioManager.getStreamVolume(AudioManager.STREAM_ALARM);
         if (current_vol > 14) {
             current_vol = 7;
         } else if (current_vol >= 2) {
@@ -176,21 +203,25 @@ public class VolumeUtils {
 
     public int setRobotVolume() {
         int current_vol = getRobotVolume();
-        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, current_vol, 0);
+        mAudioManager.setStreamVolume(AudioManager.STREAM_ALARM, current_vol, 0);
         //LogUtil.log("setRobotVolume:" + current_vol);
         return current_vol;
     }
 
     public void setVoiceVolumePlus(int volume) {
-        mAudioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
+        if(Build.VERSION.SDK_INT<Build.VERSION_CODES.M) {
+            mAudioManager.setStreamMute(AudioManager.STREAM_ALARM, false);
+        }else {
+            mAudioManager.adjustStreamVolume(AudioManager.STREAM_ALARM, AudioManager.ADJUST_UNMUTE, AudioManager.FLAG_SHOW_UI);
+        }
 
-        int max_vol = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-        int current_vol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        int max_vol = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_ALARM);
+        int current_vol = mAudioManager.getStreamVolume(AudioManager.STREAM_ALARM);
         int scaledVolume = volume + current_vol;
         if (scaledVolume > max_vol) {
             scaledVolume = max_vol;
         }
-        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, scaledVolume, AudioManager.FLAG_SHOW_UI);
+        mAudioManager.setStreamVolume(AudioManager.STREAM_ALARM, scaledVolume, AudioManager.FLAG_SHOW_UI);
         MyTTS.getInstance(null).speakAndShow(VoiceApp.getInstance().getString(R.string.str_volume_plus) + scaledVolume);
     }
 
@@ -199,13 +230,17 @@ public class VolumeUtils {
      * param volume
      */
     public void setVoiceVolumeMinus(int volume) {
-        mAudioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
-        int current_vol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        if(Build.VERSION.SDK_INT<Build.VERSION_CODES.M) {
+            mAudioManager.setStreamMute(AudioManager.STREAM_ALARM, false);
+        }else {
+            mAudioManager.adjustStreamVolume(AudioManager.STREAM_ALARM, AudioManager.ADJUST_UNMUTE, AudioManager.FLAG_SHOW_UI);
+        }
+        int current_vol = mAudioManager.getStreamVolume(AudioManager.STREAM_ALARM);
         int scaledVolume = current_vol - volume;
         if (scaledVolume < 0) {
             scaledVolume = 0;
         }
-        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, scaledVolume, AudioManager.FLAG_SHOW_UI);
+        mAudioManager.setStreamVolume(AudioManager.STREAM_ALARM, scaledVolume, AudioManager.FLAG_SHOW_UI);
     }
 
     public boolean isM2001() {
