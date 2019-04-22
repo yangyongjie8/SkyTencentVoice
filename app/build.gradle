@@ -3,6 +3,12 @@ import java.text.SimpleDateFormat
 apply plugin: 'com.android.application'
 android {
     signingConfigs {
+        ta412 {
+            keyAlias 'mykey'
+            keyPassword 'android'
+            storeFile file('ta412.keystore')
+            storePassword '888888'
+        }
         privately {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
@@ -41,6 +47,7 @@ android {
         }
 
         release_privately {
+            debuggable true
             signingConfig signingConfigs.privately
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
