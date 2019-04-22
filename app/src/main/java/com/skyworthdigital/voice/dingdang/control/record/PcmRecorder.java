@@ -9,6 +9,7 @@ import android.util.Log;
 import com.skyworthdigital.voice.dingdang.VoiceApp;
 import com.skyworthdigital.voice.dingdang.control.recognization.IStatus;
 import com.skyworthdigital.voice.dingdang.utils.FileUtil;
+import com.skyworthdigital.voice.dingdang.utils.MLog;
 import com.skyworthdigital.voice.dingdang.utils.Utils;
 import com.skyworthdigital.voice.dingdang.utils.WavHeadHelper;
 import com.tencent.androidvprocessor.VoiceProcessor;
@@ -179,6 +180,7 @@ public class PcmRecorder extends Thread {
 
 
     private void originRecoderRun() {
+        MLog.i(TAG, "originRecoderRun record start");
         lock.lock();
         FileOutputStream doswav = null;
         int totalRecordSize = 0;
@@ -189,12 +191,15 @@ public class PcmRecorder extends Thread {
 
             //Log.d(TAG, "buffersize=" + String.valueOf(buffersize));
             if (buffersize < 0) {
+                MLog.i(TAG, "originRecoderRun record return < 0");
                 return;
             } else if (mRecorder == null) {
+                MLog.i(TAG, "originRecoderRun record == null "+buffersize);
                 if (buffersize < 4096) {
                     buffersize = 4096;
                 }
                 if (mSaveWavFile) {
+                    MLog.i(TAG, "originRecoderRun saveFile");
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");// HH:mm:ss
                     Date date = new Date(System.currentTimeMillis());
                     String rectime = simpleDateFormat.format(date);
@@ -204,6 +209,7 @@ public class PcmRecorder extends Thread {
                     if (!file.exists()) {
                         file.mkdirs();//如果文件夹不存在，则递归
                     }
+                    MLog.i(TAG, "originRecoderRun saveFile ...");
                     if (mSaveWavFile) {
                         File filewav = new File(pathwav);
                         if (filewav.exists()) {
@@ -220,32 +226,42 @@ public class PcmRecorder extends Thread {
                 mRecorder = new AudioRecord(MediaRecorder.AudioSource.MIC,
                         DEFAULT_SAMPLE_RATE, AudioFormat.CHANNEL_IN_MONO, DEFAULT_AUDIO_FORMAT,
                         buffersize);
+                MLog.i(TAG, "originRecoderRun saveFileEnd");
             }
             if (mRecorder.getState() == AudioRecord.STATE_UNINITIALIZED) {
+                MLog.i(TAG, "originRecoderRun record uninitialized");
                 Log.e(TAG, "Error: AudioRecord state == STATE_UNINITIALIZED");
                 mRecordListener.onError(MIC_NOT_READY_ERR, "mic uninitialized");
                 return;
             }
+            MLog.i(TAG, "originRecoderRun invoke start record");
             mRecorder.startRecording();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+            MLog.i(TAG, "originRecoderRun record unlock");
             lock.unlock();
         }
 
         while (isRunning) {
             try {
+                MLog.i(TAG, "originRecoderRun running");
                 int count = mRecorder.read(buffer, 0, buffersize);
                 if (count > 0 && null != mRecordListener) {
+                    MLog.i(TAG, "originRecoderRun onRecord");
                     mRecordListener.onRecord(buffer, count);
                 }
+                MLog.i(TAG, "originRecoderRun onRecord end");
                 if (mSaveWavFile) {
+                    MLog.i(TAG, "originRecoderRun mSaveWavFile");
                     if (doswav != null) {
+                        MLog.i(TAG, "originRecoderRun doswav not null");
                         doswav.write(buffer, 0, count);
                         totalRecordSize += buffersize;
                     }
                 }
             } catch (Exception e) {
+                MLog.i(TAG, "originRecoderRun onError");
                 mRecordListener.onError(RECORDING_ERR, e.getMessage());
                 e.printStackTrace();
             }
@@ -258,6 +274,7 @@ public class PcmRecorder extends Thread {
             }
         }
         if (mRecorder != null) {
+            MLog.i(TAG, "originRecoderRun stop");
             mRecorder.stop();
             mRecorder.release();
             mRecorder = null;

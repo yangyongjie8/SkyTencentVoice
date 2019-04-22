@@ -4,10 +4,12 @@ import android.speech.SpeechRecognizer;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.skyworthdigital.voice.dingdang.MainControler;
 import com.skyworthdigital.voice.dingdang.VoiceApp;
 import com.skyworthdigital.voice.dingdang.control.record.MyRecorder;
 import com.skyworthdigital.voice.dingdang.utils.GlobalVariable;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
+import com.skyworthdigital.voice.dingdang.utils.Utils;
 import com.tencent.ai.sdk.control.SpeechManager;
 import com.tencent.ai.sdk.tr.ITrListener;
 import com.tencent.ai.sdk.tr.TrSession;
@@ -165,24 +167,36 @@ public class MyRecognizer implements IAsrDataListener {
             MLog.e(TAG, "\n停止");
             mTrSession.stop();
         }
-        //mMyRecoder.stopRecord();
+        mMyRecoder.stopRecord();
     }
 
     public boolean isRecogning() {
         return mRecognizing;
     }
 
+    private void tempFit412RepeatRun(){
+        if(mMyRecoder!=null) {
+            mMyRecoder.startRecord();
+        }
+    }
+
     /**
      * 开启语音识别
      */
     private void startRecognize() {
+        if(Utils.isP201IPtv()) {
+            tempFit412RepeatRun();
+        }
         // 停止上次录音
+        if(mMyRecoder!=null) {
+            mMyRecoder.stopRecord();
+        }
         if (mTrSession == null) {
             register();
             //MLog.e(TAG, "\n停止");
-            //mTrSession.stop();
+        }else {
+            mTrSession.stop();
         }
-        mMyRecoder.stopRecord();
 
         String message = null;
         int id = mTrSession.start(TrSession.ISS_TR_MODE_CLOUD_REC, false);
@@ -192,10 +206,11 @@ public class MyRecognizer implements IAsrDataListener {
             if (mRecogListener != null) {
                 mRecogListener.onAsrError(SpeechRecognizer.ERROR_CLIENT, message, message);
             }
-            //printLog(message);
         } else {
             mRecognizing = true;
-            mMyRecoder.startRecord();
+            if(MainControler.getInstance().isControllerVoice) {
+                mMyRecoder.startRecord();
+            }
             // 开始录音
             // mPcmRecorder = new PcmRecorder(this);
             //mPcmRecorder.start();
@@ -209,7 +224,7 @@ public class MyRecognizer implements IAsrDataListener {
         if (null != mTrSession) {
             mTrSession.endAudioData();
         }
-        //mMyRecoder.stopRecord();
+        mMyRecoder.stopRecord();
     }
 
     public void yuyiParse(String str) {
@@ -332,7 +347,7 @@ public class MyRecognizer implements IAsrDataListener {
         @Override
         public void onTrVoiceMsgProc(long uMsg, long wParam, String lParam, Object extraData) {
             //String msg = null;
-            //Log.i(TAG, "onTrVoiceMsgProc - uMsg : " + uMsg + ", wParam : " + wParam + ", lParam : " + lParam);
+            Log.i(TAG, "onTrVoiceMsgProc - uMsg : " + uMsg + ", wParam : " + wParam + ", lParam : " + lParam);
             if (uMsg == TrSession.ISS_TR_MSG_SpeechStart) {
                 //msg = "检测到说话开始";
                 mAsrParticalLast = "";
@@ -358,8 +373,8 @@ public class MyRecognizer implements IAsrDataListener {
 
         @Override
         public void onTrSemanticMsgProc(long uMsg, long wParam, int cmd, String lParam, Object extraMsg) {
-            //Log.i(TAG, "onTrSemanticMsgProc - uMsg : " + uMsg + ", wParam : " + wParam + ", lParam : " + lParam + ", extraMsg : " + extraMsg);
-            //Log.i(TAG, "语音 -> 语义 结束，结果为 ：");
+            Log.i(TAG, "onTrSemanticMsgProc - uMsg : " + uMsg + ", wParam : " + wParam + ", lParam : " + lParam + ", extraMsg : " + extraMsg);
+            Log.i(TAG, "语音 -> 语义 结束，结果为 ：");
             //Log.i(TAG, lParam);
 
             mMyRecoder.stopRecord();
@@ -398,6 +413,7 @@ public class MyRecognizer implements IAsrDataListener {
     @Override
     public void onASrAudiobyte(byte[] buffer, int bufferSize) {
         if (null != mTrSession) {
+            MLog.d(TAG, "onASrAudiobyte:"+ new String(buffer));
             mTrSession.appendAudioData(buffer, bufferSize);
         }
     }
@@ -405,6 +421,6 @@ public class MyRecognizer implements IAsrDataListener {
     @Override
     public void onASrError(int code, String desc) {
         mRecognizing = false;
-        MLog.i(TAG, "my recognizer onerror:" + code + " :" + desc);
+        MLog.e(TAG, "my recognizer onerror:" + code + " :" + desc);
     }
 }
