@@ -37,6 +37,7 @@ public class MyTTS {
     private ReentrantLock lock = new ReentrantLock(true);
     private Handler mHandler;
     private static final int SPEECH_MAX_LENGTH = 512;//一次合成所允许的最长字符数
+    private Content lastText;//最近一次播放的内容。用于叮当主动中断后仍然会调用onComplete导致的与百度版的不一致现象，从而引起的onComplete中getFirst()时已是空报出异常。
 
     public static MyTTS getInstance(MyTTSListener listener) {
         if (mInstance == null) {
@@ -173,6 +174,7 @@ public class MyTTS {
         lock.lock();
         mIsSpeak = false;
         mTTSSession.stopSpeak();
+        lastText = mContentList.peekFirst();
         clearList();
         lock.unlock();
     }
@@ -222,7 +224,7 @@ public class MyTTS {
         mHandler.sendMessage(mHandler.obtainMessage(MSG_TALK_NOW, new MyTTS.Content(tts, output, null)));
     }
 
-    public void talk(String text) {//talk(tts,output)
+    public void talk(String text) {//同 talk(tts,output)
         mHandler.sendMessage(mHandler.obtainMessage(MSG_TALK_NOW, new MyTTS.Content(text, text, null)));
     }
 
@@ -279,10 +281,13 @@ public class MyTTS {
             mIsSpeak = false;
             Log.i(TAG, msg);
 
+            Content content;
             lock.lock();
-            Content content = mContentList.removeFirst();
+            if(mContentList.peek()!=null) {
+                content = mContentList.removeFirst();
+            }
             lock.unlock();
-//            checkSendThirthAppListener(content, VoiceService.STATUS_CHANGED_VALUE_FINISH);
+//            checkSendThirthAppListener(content==null?lastText:content, VoiceService.STATUS_CHANGED_VALUE_FINISH);
 
             if(mContentList.isEmpty() || !mContentList.getFirst().needDisplay){
 //                VoiceManager.getInstance().postEvent(new EventMsg(EventMsg.MSG_ROBOT_SPEECH_OVER));
@@ -313,11 +318,14 @@ public class MyTTS {
             String msg = "播报出现错误：onError code=" + errorCode + " errorMsg=" + errorMsg;
             Log.i(TAG, msg);
 
+            Content content = null;
             lock.lock();
-            Content content = mContentList.removeFirst();
+            if(mContentList.peek()!=null) {
+                content = mContentList.removeFirst();
+            }
             clearList();
             lock.unlock();
-//            checkSendThirthAppListener(content, VoiceService.STATUS_CHANGED_VALUE_OVER);
+//            checkSendThirthAppListener(content==null?lastText:content, VoiceService.STATUS_CHANGED_VALUE_OVER);
         }
 
         @Override

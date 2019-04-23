@@ -64,7 +64,7 @@ public class MainControler implements MyTTS.MyTTSListener {
     private static final String WAKEUP_OPEN_ACTION = "com.skyworthdigital.voice.action.WAKEUP_OPEN";
     private static final String WAKEUP_CLOSE_ACTION = "com.skyworthdigital.voice.action.WAKEUP_CLOSE";
     private Handler mHandler = new Handler();
-    private boolean isKeyUp = true;
+    private boolean isKeyDown = false;//是否语音遥控器按下
     private long mKeyDownTime = 0;
     private long mKeyUpTime = 0;
     public volatile boolean isControllerVoice = true;//是否遥控器语音，可能是远场语音
@@ -327,7 +327,7 @@ public class MainControler implements MyTTS.MyTTSListener {
     public void manualRecognizeStart() {
         MLog.i(TAG, "语音键按下");
         mKeyDownTime = System.currentTimeMillis();
-//        if (isKeyUp) {
+//        if (isKeyDown) {
             myRecognizer.start();
 //        }
         myTTS.stopSpeak();
@@ -342,11 +342,11 @@ public class MainControler implements MyTTS.MyTTSListener {
         mRecoResult = null;
         //SkyRing.getInstance().playDing();
         //myTTS.talkWithoutDisplay(sayhi);
-//        if (isKeyUp) {
-//            isKeyUp = false;
+//        if (isKeyDown) {
+//            isKeyDown = false;
 //        } else {
 //            myRecognizer.cancel();
-//            isKeyUp = true;
+//            isKeyDown = true;
 //            mAsrDialogControler.dialogRefresh(mContext, null, VoiceApp.getInstance().getResources().getString(R.string.str_reco_busy), 0);
 //        }
     }
@@ -355,7 +355,7 @@ public class MainControler implements MyTTS.MyTTSListener {
         MLog.i(TAG, "语音键弹起");
         mKeyUpTime = System.currentTimeMillis();
         if (Math.abs(mKeyUpTime - mKeyDownTime) < 1000) {
-            isKeyUp = true;
+            isKeyDown = true;
             myRecognizer.cancel();
             VolumeUtils.getInstance(mContext).setMuteWithNoUi(false);
             mAsrDialogControler.animStop();
@@ -366,7 +366,7 @@ public class MainControler implements MyTTS.MyTTSListener {
             @Override
             public void run() {
                 myRecognizer.endRecognize();
-                isKeyUp = true;
+                isKeyDown = true;
                 VolumeUtils.getInstance(mContext).setMuteWithNoUi(false);
                 mAsrDialogControler.animStop();
             }
