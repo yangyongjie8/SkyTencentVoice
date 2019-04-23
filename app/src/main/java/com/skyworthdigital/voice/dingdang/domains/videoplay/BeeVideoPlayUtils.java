@@ -33,6 +33,6 @@ public class BeeVideoPlayUtils {
         intent.putExtra("invokeFrom", "VOICE_ASSISTANT");
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
-        MyTTS.getInstance(null).speakAndShow(context.getString(R.string.str_ok));
+        MyTTS.getInstance(null).talk(context.getString(R.string.str_ok));
     }
 }

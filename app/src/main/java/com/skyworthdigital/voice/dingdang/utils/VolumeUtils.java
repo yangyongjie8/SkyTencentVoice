@@ -63,10 +63,10 @@ public class VolumeUtils {
         }
         if (volume >= 0 && volume <= max_vol) {
             scaledVolume = (int) volume;
-            MyTTS.getInstance(null).speakAndShow(VoiceApp.getInstance().getString(R.string.str_volume_set) + scaledVolume);
+            MyTTS.getInstance(null).talk(VoiceApp.getInstance().getString(R.string.str_volume_set) + scaledVolume);
         } else if (volume > max_vol) {
             scaledVolume = max_vol;
-            MyTTS.getInstance(null).speakAndShow(VoiceApp.getInstance().getString(R.string.str_volume_max) + scaledVolume);
+            MyTTS.getInstance(null).talk(VoiceApp.getInstance().getString(R.string.str_volume_max) + scaledVolume);
         }
         mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, scaledVolume, AudioManager.FLAG_SHOW_UI);
     }
@@ -222,7 +222,7 @@ public class VolumeUtils {
             scaledVolume = max_vol;
         }
         mAudioManager.setStreamVolume(AudioManager.STREAM_ALARM, scaledVolume, AudioManager.FLAG_SHOW_UI);
-        MyTTS.getInstance(null).speakAndShow(VoiceApp.getInstance().getString(R.string.str_volume_plus) + scaledVolume);
+        MyTTS.getInstance(null).talk(VoiceApp.getInstance().getString(R.string.str_volume_plus) + scaledVolume);
     }
 
     /**

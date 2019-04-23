@@ -12,7 +12,6 @@ import com.skyworthdigital.voice.dingdang.control.tts.MyTTS;
 import com.skyworthdigital.voice.dingdang.utils.IntentUtils;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
 import com.skyworthdigital.voice.dingdang.utils.StringUtils;
-import com.skyworthdigital.voice.dingdang.utils.Utils;
 
 import java.io.InputStream;
 import java.util.List;
@@ -90,7 +89,7 @@ public class GlobalUtil {
                 }
             } else if ((!TextUtils.isEmpty(arg1) && isInList(cell.getCmds(), arg1)) || (!TextUtils.isEmpty(arg2) && isInList(cell.getCmds(), arg2))) {
                 match = true;
-                MyTTS.getInstance(null).speakAndShow(context.getString(R.string.str_ok));
+                MyTTS.getInstance(null).talk(context.getString(R.string.str_ok));
             }
 
             if (match) {
@@ -127,7 +126,7 @@ public class GlobalUtil {
 
                 if (label.equalsIgnoreCase(speech)) {
                     MLog.d("wyf", "appLaunchInstalledPkg:" + label);
-                    MyTTS.getInstance(null).speakAndShow(context.getString(R.string.str_ok));
+                    MyTTS.getInstance(null).talk(context.getString(R.string.str_ok));
                     IntentUtils.startPackageAction(context, packageName);
                     return true;
                 }

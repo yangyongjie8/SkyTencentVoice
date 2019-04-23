@@ -210,19 +210,19 @@ public class MyTTS {
     }
 
     // 播放不显示
-    public void speak(String text) {
+    public void talkWithoutDisplay(String text) {
         mHandler.sendMessage(mHandler.obtainMessage(MSG_TALK_NOW_WITHOUT_DISPLAY, new MyTTS.Content(text, null, null)));
     }
 
-    public void speak(String tts, String output) {
+    public void talk(String tts, String output) {
         mHandler.sendMessage(mHandler.obtainMessage(MSG_TALK_NOW, new MyTTS.Content(tts, output, null)));
     }
 
-    public void speakDelay(String tts, String output, int delay) {
+    public void talkDelay(String tts, String output, int delay) {//todo 原来的delay只在显示时延迟，播报不会同步
         mHandler.sendMessage(mHandler.obtainMessage(MSG_TALK_NOW, new MyTTS.Content(tts, output, null)));
     }
 
-    public void speakAndShow(String text) {//需求同speak(text,output)
+    public void talk(String text) {//talk(tts,output)
         mHandler.sendMessage(mHandler.obtainMessage(MSG_TALK_NOW, new MyTTS.Content(text, text, null)));
     }
 
@@ -265,7 +265,7 @@ public class MyTTS {
                 noScreenAnswer = bean.mTips;
             }
             if (!TextUtils.isEmpty(noScreenAnswer)) {
-                speak(noScreenAnswer);
+                talkWithoutDisplay(noScreenAnswer);
             }
         } catch (Exception e) {
             Log.e(TAG, "parseSemanticToTTS : " + e.getMessage());

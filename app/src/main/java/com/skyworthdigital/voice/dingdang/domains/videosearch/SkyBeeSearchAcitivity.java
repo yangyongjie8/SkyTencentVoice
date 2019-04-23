@@ -329,7 +329,7 @@ public class SkyBeeSearchAcitivity extends BaseActivity implements MetroRecycler
             mVideoResult = null;
             tipsView.setText(getString(R.string.no_content_tips));
             tipsView.setVisibility(View.VISIBLE);
-            //MyTTS.getInstance(null).speakAndShow(getString(R.string.no_content_tips));
+            //MyTTS.getInstance(null).talk(getString(R.string.no_content_tips));
             return;
         }
         mediaListGridView.setAdapter(mRecyclerViewAdapter);
@@ -395,7 +395,7 @@ public class SkyBeeSearchAcitivity extends BaseActivity implements MetroRecycler
 
     private void searchPlayByNum(int pos) {
         if (pos < 1 || pos > PERPAGE_NUM) {
-            MyTTS.getInstance(null).speakAndShow(getString(R.string.str_searchfilm_numerr));
+            MyTTS.getInstance(null).talk(getString(R.string.str_searchfilm_numerr));
             return;
         }
         try {
@@ -417,7 +417,7 @@ public class SkyBeeSearchAcitivity extends BaseActivity implements MetroRecycler
                 BeeVideoPlayUtils.startToVideoDetail(this, sourceId, videoId);
                 finish();
             } else {
-                MyTTS.getInstance(null).speakAndShow(getString(R.string.str_searchfilm_noexist));
+                MyTTS.getInstance(null).talk(getString(R.string.str_searchfilm_noexist));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -443,7 +443,7 @@ public class SkyBeeSearchAcitivity extends BaseActivity implements MetroRecycler
     private void jumpToPage(boolean isVoice, int page) {
         if (page <= mTotalPage && page >= 1) {
             if (isVoice) {
-                MyTTS.getInstance(null).speakAndShow(getString(R.string.str_ok));
+                MyTTS.getInstance(null).talk(getString(R.string.str_ok));
             }
             MLog.i(TAG, "jumpToPage:" + page + " abnf:" + mFilmSlots);
             mCurPage = page;
@@ -489,14 +489,14 @@ public class SkyBeeSearchAcitivity extends BaseActivity implements MetroRecycler
                     if (mCurPage < mTotalPage) {
                         jumpToPage(true, mCurPage + 1);
                     } else {
-                        MyTTS.getInstance(null).speakAndShow(getString(R.string.str_searchfilm_lastpage));
+                        MyTTS.getInstance(null).talk(getString(R.string.str_searchfilm_lastpage));
                     }
                     break;
                 case "previous":
                     if (mCurPage > 1) {
                         jumpToPage(true, mCurPage - 1);
                     } else {
-                        MyTTS.getInstance(null).speakAndShow(getString(R.string.str_searchfilm_firstpage));
+                        MyTTS.getInstance(null).talk(getString(R.string.str_searchfilm_firstpage));
                     }
                     break;
                 case "play":
@@ -523,7 +523,7 @@ public class SkyBeeSearchAcitivity extends BaseActivity implements MetroRecycler
                     } else if (DefaultCmds.CMD_OPEN_DETAILS.equals(action)) {
                         openDetailsByPos(value);
                     } else {
-                        MyTTS.getInstance(null).speak("", getString(R.string.str_try_again));
+                        MyTTS.getInstance(null).talk("", getString(R.string.str_try_again));
                     }
                     break;
                 case "jianjie":
@@ -544,7 +544,7 @@ public class SkyBeeSearchAcitivity extends BaseActivity implements MetroRecycler
         try {
             MLog.i(TAG, "size:" + mRecyclerViewAdapter.getAllVideo().size() + " " + pos);
             if (pos <= 0 || pos > 12 || pos > mRecyclerViewAdapter.getAllVideo().size()) {
-                MyTTS.getInstance(null).speakAndShow(getString(R.string.str_searchfilm_numerr));
+                MyTTS.getInstance(null).talk(getString(R.string.str_searchfilm_numerr));
             }
             SkyVideoInfo videoInfo = mRecyclerViewAdapter.getAllVideo().get(pos - 1);
             if (videoInfo.getSourceId() == GlobalVariable.TENCENT_SOURCE) {

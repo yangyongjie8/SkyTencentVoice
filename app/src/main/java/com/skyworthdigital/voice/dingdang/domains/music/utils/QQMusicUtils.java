@@ -7,7 +7,6 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 
 import com.skyworthdigital.voice.dingdang.R;
 import com.skyworthdigital.voice.dingdang.VoiceApp;
@@ -19,7 +18,6 @@ import com.skyworthdigital.voice.dingdang.utils.AppUtil;
 import com.skyworthdigital.voice.dingdang.utils.GuideTip;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
 import com.skyworthdigital.voice.dingdang.utils.StringUtils;
-import com.skyworthdigital.voice.dingdang.utils.Utils;
 
 
 import java.io.UnsupportedEncodingException;
@@ -36,7 +34,7 @@ public class QQMusicUtils {
     private static final String QQ_PACKAGENAME = "com.tencent.qqmusictv";
 
     private static void qqMusicInstallPage() {
-        MyTTS.getInstance(null).speakAndShow(VoiceApp.getInstance().getString(R.string.str_qqmusic_uninstall));
+        MyTTS.getInstance(null).talk(VoiceApp.getInstance().getString(R.string.str_qqmusic_uninstall));
         try {
             Intent intent = new Intent();
             intent.setPackage("com.mipt.store");
@@ -126,7 +124,7 @@ public class QQMusicUtils {
     public static void openRankAction(Context ctx, int rankid) {
         try {
             if (checkApkExist(ctx, QQ_PACKAGENAME)) {
-                MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_rank_search));
+                MyTTS.getInstance(null).talk(ctx.getString(R.string.str_rank_search));
                 Intent intent = new Intent();
                 StringBuilder uri = new StringBuilder();
                 uri.append("musictv://?action=19&pull_from=12121&m0=");
@@ -148,7 +146,7 @@ public class QQMusicUtils {
         if (StringUtils.isExitMusicCmdFromSpeech(speech)) {
             if (GuideTip.getInstance().mIsQQmusic) {
                 AppUtil.killTopApp();
-                MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_ok));
+                MyTTS.getInstance(null).talk(ctx.getString(R.string.str_ok));
             } else {
                 StringUtils.showUnknownNote(ctx, speech);
             }
@@ -187,7 +185,7 @@ public class QQMusicUtils {
                     searchword.append(album);
                 }
                 IStatus.resetDismissTime();
-                MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_ok));
+                MyTTS.getInstance(null).talk(ctx.getString(R.string.str_ok));
                 musicSearchAction(ctx, searchword.toString());
             } else if (type.size() > 0) {
                 for (String tmp : type) {
@@ -195,7 +193,7 @@ public class QQMusicUtils {
                     TypeCell typeCell = TypeUtil.getInstance(ctx).getInfo(tmp, speech);
                     if (typeCell != null) {
                         //MLog.d("wyf", "match type:" + typeCell.getId());
-                        MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_music_search) + typeCell.getCmds().get(0));
+                        MyTTS.getInstance(null).talk(ctx.getString(R.string.str_music_search) + typeCell.getCmds().get(0));
                         if (TextUtils.equals(typeCell.getType(), "radio")) {
                             openOneAadioStationAction(ctx, typeCell.getId());
                         } else {
@@ -206,7 +204,7 @@ public class QQMusicUtils {
                     }
                 }
                 if (IStatus.mSceneType != IStatus.SCENE_GIVEN) {
-                    MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_music_introduce));
+                    MyTTS.getInstance(null).talk(ctx.getString(R.string.str_music_introduce));
                     openOneAadioStationAction(ctx, 436);
                 }
             } else if (IStatus.mSceneType != IStatus.SCENE_GIVEN) {
@@ -214,7 +212,7 @@ public class QQMusicUtils {
                     TypeCell typeCell = TypeUtil.getInstance(ctx).getInfo(null, speech);
                     if (typeCell != null) {
                         MLog.d("wyf", "match type:" + typeCell.getId());
-                        MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_music_search) + typeCell.getCmds().get(0));
+                        MyTTS.getInstance(null).talk(ctx.getString(R.string.str_music_search) + typeCell.getCmds().get(0));
                         if (TextUtils.equals(typeCell.getType(), "radio")) {
                             openOneAadioStationAction(ctx, typeCell.getId());
                         } else {
@@ -222,7 +220,7 @@ public class QQMusicUtils {
                         }
                         return true;
                     }
-                    MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_music_introduce));
+                    MyTTS.getInstance(null).talk(ctx.getString(R.string.str_music_introduce));
                     openOneAadioStationAction(ctx, 436);
                 } else {
                     StringUtils.showUnknownNote(ctx, speech);

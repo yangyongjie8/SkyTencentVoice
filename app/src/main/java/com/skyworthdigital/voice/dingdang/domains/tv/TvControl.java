@@ -35,15 +35,15 @@ public class TvControl {
                     return TvLiveControl.getInstance().control(bean.mSemanticJson.mSemantic.getTvliveSlots(), bean.mQuery, dialogControl);
                 case "switch_off":
                     Utils.simulateKeystroke(KeyEvent.KEYCODE_POWER, 3000);
-                    MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_shutoff));
+                    MyTTS.getInstance(null).talk(ctx.getString(R.string.str_shutoff));
                     break;
                 case "switch_on":
                     Utils.simulateKeystroke(KeyEvent.KEYCODE_POWER);
-                    MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_shuton));
+                    MyTTS.getInstance(null).talk(ctx.getString(R.string.str_shuton));
                     break;
                 case "switch_restart":
                 case "device_restart":
-                    MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_resboot));
+                    MyTTS.getInstance(null).talk(ctx.getString(R.string.str_resboot));
                     new Thread(new Runnable() {
                         public void run() {
                             // TODO Auto-generated method stub
@@ -62,7 +62,7 @@ public class TvControl {
                     StringBuilder sb =new StringBuilder();
                     sb.append(ctx.getString(R.string.str_volume_now));
                     sb.append(cur);
-                    MyTTS.getInstance(null).speakAndShow(sb.toString());
+                    MyTTS.getInstance(null).talk(sb.toString());
                     break;
                 case "turn_up_max":
                     VolumeUtils.getInstance(ctx).setVolume(20);
@@ -95,29 +95,29 @@ public class TvControl {
                             VolumeUtils.getInstance(ctx).setVolume(bean.mSemanticJson.mSemantic.getIndex());
                         }
                     } catch (Exception e) {
-                        MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_volume_set_err));
+                        MyTTS.getInstance(null).talk(ctx.getString(R.string.str_volume_set_err));
                     }
                     break;
                 case "mute":
                 case "volumn_off":
                     VolumeUtils.getInstance(ctx).setMute();
-                    MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_volume_mute));
+                    MyTTS.getInstance(null).talk(ctx.getString(R.string.str_volume_mute));
                     break;
                 case "volumn_on":
                 case "unmute":
                     VolumeUtils.getInstance(ctx).cancelMute();
-                    MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_volume_unmute));
+                    MyTTS.getInstance(null).talk(ctx.getString(R.string.str_volume_unmute));
                     break;
                 case "stop":
                 case "exit":
                     AppUtil.killTopApp();
-                    MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_exit));
+                    MyTTS.getInstance(null).talk(ctx.getString(R.string.str_exit));
                     break;
                 case "back_tvhomepage":
                 case "home_on":
                     AppUtil.killTopApp();
                     Utils.simulateKeystroke(KeyEvent.KEYCODE_HOME);
-                    MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_backhome));
+                    MyTTS.getInstance(null).talk(ctx.getString(R.string.str_backhome));
                     break;
                 case "back":
                     back(ctx);
@@ -127,7 +127,7 @@ public class TvControl {
                     intent.setAction("com.skyworthdigital.settings.MainSettingsActivity");
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     ctx.startActivity(intent);
-                    MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_ok));
+                    MyTTS.getInstance(null).talk(ctx.getString(R.string.str_ok));
                     break;
                 case "set_voice"://声音设置
                     intent = new Intent();
@@ -135,7 +135,7 @@ public class TvControl {
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.putExtra("levelOneTitle", "图像声音");
                     ctx.startActivity(intent);
-                    MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_ok));
+                    MyTTS.getInstance(null).talk(ctx.getString(R.string.str_ok));
                     break;
                 case "set_systeminfo"://系统信息
                     intent = new Intent();
@@ -143,7 +143,7 @@ public class TvControl {
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.putExtra("levelOneTitle", "关于本机");
                     ctx.startActivity(intent);
-                    MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_ok));
+                    MyTTS.getInstance(null).talk(ctx.getString(R.string.str_ok));
                     break;
                 case "set_systemupdate"://系统更新
                     /*intent = new Intent();
@@ -155,7 +155,7 @@ public class TvControl {
                     //LogUtil.log("intent =" + intent.toString());
                     ctx.startActivity(intent);*/
                     IntentUtils.startPackageAction(ctx, "com.skyworthdigital.updateview");
-                    MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_ok));
+                    MyTTS.getInstance(null).talk(ctx.getString(R.string.str_ok));
                     break;
                 case "speed_play":
                 case "episode_select":
@@ -184,14 +184,14 @@ public class TvControl {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_system_set_err));
+            MyTTS.getInstance(null).talk(ctx.getString(R.string.str_system_set_err));
             return false;
         }
         return true;
     }
 
     public static void back(Context ctx) {
-        MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_back));
+        MyTTS.getInstance(null).talk(ctx.getString(R.string.str_back));
         new Thread(new Runnable() {
             public void run() {
                 // TODO Auto-generated method stub

@@ -132,7 +132,7 @@ public class IntentUtils {
                 }*/
                 if (/*(name != null && label.equalsIgnoreCase(name)) || */label.equalsIgnoreCase(speech)) {
                     //LogUtil.log("appLaunchInstalledPkg:" + label);
-                    MyTTS.getInstance(null).speakAndShow(context.getString(R.string.str_ok));//R.string.str_opensomthing) + label);
+                    MyTTS.getInstance(null).talk(context.getString(R.string.str_ok));//R.string.str_opensomthing) + label);
                     IntentUtils.startPackageAction(context, packageName);
                     return true;
                 }
@@ -230,7 +230,7 @@ public class IntentUtils {
                 //KalaokUtils.kalaokOpen();
                 break;
             case GET_VERSION:
-                MyTTS.getInstance(null).speakAndShow(Utils.getVersion());
+                MyTTS.getInstance(null).talk(Utils.getVersion());
                 break;
             case MUSIC_CHINA:
                 QQMusicUtils.openRankAction(VoiceApp.getInstance(), 5);
@@ -267,7 +267,7 @@ public class IntentUtils {
                 break;
             case RESOLUTION_SET:
                 if (Utils.isQ3031Recoder()) {
-                    MyTTS.getInstance(null).speakAndShow(VoiceApp.getInstance().getString(R.string.str_resolution_error));
+                    MyTTS.getInstance(null).talk(VoiceApp.getInstance().getString(R.string.str_resolution_error));
                 } else {
                     Intent intent = new Intent();
                     intent.setAction("com.skyworthdigital.settings.DisplaySetting");

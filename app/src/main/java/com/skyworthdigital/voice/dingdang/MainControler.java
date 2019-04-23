@@ -8,7 +8,6 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Handler;
 import android.os.IBinder;
-import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -208,7 +207,7 @@ public class MainControler implements MyTTS.MyTTSListener {
                             if (bean.mData != null && !TextUtils.isEmpty(bean.mData.mJokeText)) {
                                 mAsrDialogControler.dialogRefresh(ctx, null, bean.mData.mJokeText, 0);
                                 //mAsrDialogControler.dialogRefreshDetail(mContext, bean.mData, DialogCellType.CELL_BAIKE_INFO);
-                                myTTS.speak(bean.mData.mJokeText);
+                                myTTS.talkWithoutDisplay(bean.mData.mJokeText);
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -263,10 +262,10 @@ public class MainControler implements MyTTS.MyTTSListener {
                         }
                         if (!TextUtils.isEmpty(bean.mTips)) {
                             mAsrDialogControler.dialogRefresh(ctx, null, bean.mTips, 0);
-                            MyTTS.getInstance(null).speak(bean.mTips);
+                            MyTTS.getInstance(null).talkWithoutDisplay(bean.mTips);
                         } else if (!TextUtils.isEmpty(bean.mAnswer)) {
                             mAsrDialogControler.dialogRefresh(ctx, null, bean.mAnswer, 0);
-                            MyTTS.getInstance(null).speak(bean.mAnswer);
+                            MyTTS.getInstance(null).talkWithoutDisplay(bean.mAnswer);
                         }
                         break;
                     case "reminder":
@@ -279,10 +278,10 @@ public class MainControler implements MyTTS.MyTTSListener {
                     case "htwhys":
                         if (!TextUtils.isEmpty(bean.mTips)) {
                             mAsrDialogControler.dialogRefresh(ctx, null, bean.mTips, 0);
-                            MyTTS.getInstance(null).speak(bean.mTips);
+                            MyTTS.getInstance(null).talkWithoutDisplay(bean.mTips);
                         } else if (!TextUtils.isEmpty(bean.mAnswer)) {
                             mAsrDialogControler.dialogRefresh(ctx, null, bean.mAnswer, 0);
-                            MyTTS.getInstance(null).speak(bean.mAnswer);
+                            MyTTS.getInstance(null).talkWithoutDisplay(bean.mAnswer);
                         }
                         break;
                     case "chengyu":
@@ -342,7 +341,7 @@ public class MainControler implements MyTTS.MyTTSListener {
         VolumeUtils.getInstance(mContext).setMuteWithNoUi(true);
         mRecoResult = null;
         //SkyRing.getInstance().playDing();
-        //myTTS.speak(sayhi);
+        //myTTS.talkWithoutDisplay(sayhi);
 //        if (isKeyUp) {
 //            isKeyUp = false;
 //        } else {
@@ -408,7 +407,7 @@ public class MainControler implements MyTTS.MyTTSListener {
         IStatus.mAsrErrorCnt = 0;
         mAsrDialogControler.dialogRefresh(mContext, null, sayhi, 0);
         mAsrDialogControler.dialogDismiss(DEFAULT_DISMISS_TIME);
-        //myTTS.speak(sayhi);
+        //myTTS.talkWithoutDisplay(sayhi);
         myRecognizer.start();
     }
 
@@ -643,7 +642,7 @@ public class MainControler implements MyTTS.MyTTSListener {
                         && bean.mSemanticJson.mSemantic.mIntent != null) ? (bean.mSemanticJson.mSemantic.mIntent) : "";
                 Boolean isEnd = bean.mSession;
                 if (bean.mServerRet < 0) {
-                    myTTS.speakAndShow(ctx.getString(R.string.server_busy) + bean.mServerRet);
+                    myTTS.talk(ctx.getString(R.string.server_busy) + bean.mServerRet);
                     return;
                 }
                 if (bean.mSemanticJson != null && bean.mSemanticJson.mSemantic != null) {
@@ -658,7 +657,7 @@ public class MainControler implements MyTTS.MyTTSListener {
                 }
                 if (StringUtils.isHomeCmdFromSpeech(bean.mQuery)) {
                     AppUtil.killTopApp();
-                    MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_exit));
+                    MyTTS.getInstance(null).talk(ctx.getString(R.string.str_exit));
                     return;
                 }
                 if (StringUtils.isHelpCmdFromSpeech(bean.mQuery)) {
@@ -719,12 +718,12 @@ public class MainControler implements MyTTS.MyTTSListener {
                     mAsrDialogControler.animStop();
                     //mAsrDialogControler.dialogDismiss(1500);
                     //IStatus.mRecognizeStatus = IStatus.STATUS_FINISHED;
-                    //myTTS.speak("先退下了，有事再叫我", "先退下了，有事再叫我");
+                    //myTTS.talkWithoutDisplay("先退下了，有事再叫我", "先退下了，有事再叫我");
                     break;
 
                 case IStatus.ACTION_TTS:
                     String tts = intent.getStringExtra("tts");
-                    myTTS.speakAndShow(tts);
+                    myTTS.talk(tts);
                     break;
 
                 case WAKEUP_CLOSE_ACTION:

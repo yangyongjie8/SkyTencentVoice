@@ -89,7 +89,7 @@ public class SkyVideoPlayUtils {
                     }
                 } else {
                     Log.e(TAG, "error! no video found");
-                    MyTTS.getInstance(null).speak("", VoiceApp.getInstance().getString(R.string.no_content_tips));
+                    MyTTS.getInstance(null).talk("", VoiceApp.getInstance().getString(R.string.no_content_tips));
                 }
             }
 
@@ -97,7 +97,7 @@ public class SkyVideoPlayUtils {
             public void onFail() {
                 //listener.getSearchVideoResult(null, "");
                 Log.e(TAG, "startGetSearchVideoList onFail");
-                MyTTS.getInstance(null).speak("", VoiceApp.getInstance().getString(R.string.searchfail_tips));
+                MyTTS.getInstance(null).talk("", VoiceApp.getInstance().getString(R.string.searchfail_tips));
             }
         }, url, builder.build(), SEARCH_CHANNEL_ID);
         return true;
@@ -126,7 +126,7 @@ public class SkyVideoPlayUtils {
                     }
                 } else {
                     Log.e(TAG, "error! no video found");
-                    MyTTS.getInstance(null).speak("", VoiceApp.getInstance().getString(R.string.no_content_tips));
+                    MyTTS.getInstance(null).talk("", VoiceApp.getInstance().getString(R.string.no_content_tips));
                 }
             }
 
@@ -134,7 +134,7 @@ public class SkyVideoPlayUtils {
             public void onFail() {
                 //listener.getSearchVideoResult(null, "");
                 Log.e(TAG, "startGetSearchVideoList onFail");
-                MyTTS.getInstance(null).speak("", VoiceApp.getInstance().getString(R.string.searchfail_tips));
+                MyTTS.getInstance(null).talk("", VoiceApp.getInstance().getString(R.string.searchfail_tips));
             }
         }, url, builder.build(), SEARCH_CHANNEL_ID);
         return true;
@@ -340,7 +340,7 @@ public class SkyVideoPlayUtils {
                             if (detailInfo.getChnId() == 1) {
                                 //wakeupmode.setRecognizeGoOn(true);
 
-                                //MyTTS.getInstance(null).speak("",ctx.getString(R.string.str_search_whepisode_choose));
+                                //MyTTS.getInstance(null).talkWithoutDisplay("",ctx.getString(R.string.str_search_whepisode_choose));
                             } else {
                                 //wakeupmode.setRecognizeGoOn(false);
                                 //Robot.getInstance().setWords(ctx.getString(R.string.str_ok));
@@ -410,7 +410,7 @@ public class SkyVideoPlayUtils {
             intent.setPackage("com.mipt.store");
             intent.setAction("com.mipt.store.intent.APPID");
             intent.setData(Uri.parse("skystore://?packageName=com.ktcp.video"));
-            MyTTS.getInstance(null).speakAndShow(context.getString(R.string.str_install_tencenttv));
+            MyTTS.getInstance(null).talk(context.getString(R.string.str_install_tencenttv));
         } else {
             intent = new Intent();
             intent.setData(Uri.parse("tenvideo2://?action=7&video_id=" + videoId));
@@ -431,7 +431,7 @@ public class SkyVideoPlayUtils {
             intent.setPackage("com.mipt.store");
             intent.setAction("com.mipt.store.intent.APPID");
             intent.setData(Uri.parse("skystore://?packageName=com.ktcp.video"));
-            MyTTS.getInstance(null).speakAndShow(context.getString(R.string.str_install_tencenttv));
+            MyTTS.getInstance(null).talk(context.getString(R.string.str_install_tencenttv));
         } else {
             intent = new Intent();
             intent.setData(Uri.parse(TX_VIDEO + otherId + "&stay_flag=0"));
@@ -462,7 +462,7 @@ public class SkyVideoPlayUtils {
             intent.setData(Uri.parse("skystore://?packageName=" + MGTV_PACKAGE));
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
-            MyTTS.getInstance(null).speakAndShow(context.getString(R.string.str_install_mgtv));
+            MyTTS.getInstance(null).talk(context.getString(R.string.str_install_mgtv));
         } else {
             Intent mgtvIntent = new Intent();
             mgtvIntent.setAction("com.hunantv.market.external");
@@ -516,7 +516,7 @@ public class SkyVideoPlayUtils {
             intent.setAction("com.mipt.store.intent.APPID");
             intent.setData(Uri.parse("skystore://?packageName=" + SOHU_PACKAGE));
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            MyTTS.getInstance(null).speakAndShow(context.getString(R.string.str_install_sohu));
+            MyTTS.getInstance(null).talk(context.getString(R.string.str_install_sohu));
             context.startActivity(intent);
         } else {
             try {
@@ -624,7 +624,7 @@ public class SkyVideoPlayUtils {
                 if (whepisode >= subInfo.size()) {
                     Log.e(TAG, "error! whepisode is bigger than total size:" + subInfo.size());
                     whepisode = 0;
-                    MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_search_nomatch_whepisode));
+                    MyTTS.getInstance(null).talk(ctx.getString(R.string.str_search_nomatch_whepisode));
                     //return;
                 }
                 switch (sourceid) {

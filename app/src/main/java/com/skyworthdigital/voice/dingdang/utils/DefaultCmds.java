@@ -333,7 +333,7 @@ public class DefaultCmds {
         MLog.d(TAG, "sysCmdPatchProcess");
         try {
             if (StringUtils.isUnmuteCmdFromSpeech(speech)) {
-                MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_volume_unmute));
+                MyTTS.getInstance(null).talk(ctx.getString(R.string.str_volume_unmute));
                 VolumeUtils.getInstance(ctx).cancelMute();
                 return true;
             } else if (StringUtils.isExitCmdFromSpeech(speech)) {
@@ -353,7 +353,7 @@ public class DefaultCmds {
             // 起床提醒
             // 天气
             // 逐条播放今日行程
-            MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_tianmai_tip_wakeup));
+            MyTTS.getInstance(null).talk(ctx.getString(R.string.str_tianmai_tip_wakeup));
             WeatherUtil.getWeatherToday("南京", new WeatherUtil.CallbackWeather() {
                 @Override
                 public void callback(WeatherBee todayWeather) {
@@ -377,7 +377,7 @@ public class DefaultCmds {
                 }
             });
         }else {
-            MyTTS.getInstance(null).speakAndShow(intent.getVoiceContent());
+            MyTTS.getInstance(null).talk(intent.getVoiceContent());
         }
     }
     private static List<String> splitContent(String content){

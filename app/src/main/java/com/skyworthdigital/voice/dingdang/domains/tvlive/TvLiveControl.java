@@ -70,7 +70,7 @@ public class TvLiveControl implements ISkySceneListener {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 Context ctx = VoiceApp.getInstance();
                 ctx.startActivity(intent);
-                MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_ok));
+                MyTTS.getInstance(null).talk(ctx.getString(R.string.str_ok));
                 IStatus.resetDismissTime();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -87,7 +87,7 @@ public class TvLiveControl implements ISkySceneListener {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 Context ctx = VoiceApp.getInstance();
                 ctx.startActivity(intent);
-                MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_ok));
+                MyTTS.getInstance(null).talk(ctx.getString(R.string.str_ok));
                 IStatus.resetDismissTime();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -114,7 +114,7 @@ public class TvLiveControl implements ISkySceneListener {
             Context ctx = VoiceApp.getInstance();
             ctx.startActivity(intent);
             MLog.d(TAG, "jump id:" + id);
-            MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_tvlive_jump));
+            MyTTS.getInstance(null).talk(ctx.getString(R.string.str_tvlive_jump));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -153,7 +153,7 @@ public class TvLiveControl implements ISkySceneListener {
     }
 
     private static void tvLiveInstallPage() {
-        MyTTS.getInstance(null).speakAndShow(VoiceApp.getInstance().getString(R.string.str_tvlive_uninstall));
+        MyTTS.getInstance(null).talk(VoiceApp.getInstance().getString(R.string.str_tvlive_uninstall));
         //TODO
     }
 
@@ -318,7 +318,7 @@ public class TvLiveControl implements ISkySceneListener {
                     break;
                 case "exit":
                     Utils.simulateKeystroke(KeyEvent.KEYCODE_HOME);
-                    MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_ok));
+                    MyTTS.getInstance(null).talk(ctx.getString(R.string.str_ok));
                     break;
                 default:
                     break;

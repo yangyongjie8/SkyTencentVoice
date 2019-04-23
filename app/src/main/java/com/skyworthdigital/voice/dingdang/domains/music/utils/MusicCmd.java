@@ -100,19 +100,19 @@ public class MusicCmd implements ISkySceneListener {
             switch (command) {
                 case "next":
                     executeCmd(3);
-                    MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_ok));
+                    MyTTS.getInstance(null).talk(ctx.getString(R.string.str_ok));
                     break;
                 case "pre":
                     executeCmd(2);
-                    MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_music_pre));
+                    MyTTS.getInstance(null).talk(ctx.getString(R.string.str_music_pre));
                     break;
                 case "stop":
                     executeCmd(1);
-                    MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_music_stop));
+                    MyTTS.getInstance(null).talk(ctx.getString(R.string.str_music_stop));
                     break;
                 case "play2":
                     executeCmd(0);
-                    MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_music_play));
+                    MyTTS.getInstance(null).talk(ctx.getString(R.string.str_music_play));
                     break;
                 case "play":
                     int value = 0;
@@ -122,48 +122,48 @@ public class MusicCmd implements ISkySceneListener {
                     if (DefaultCmds.PLAYER_CMD_PAUSE.equals(action)) {
                         if (0 == value) {
                             executeCmd(0);
-                            MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_music_play));
+                            MyTTS.getInstance(null).talk(ctx.getString(R.string.str_music_play));
                         } else {
                             executeCmd(1);
-                            MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_music_stop));
+                            MyTTS.getInstance(null).talk(ctx.getString(R.string.str_music_stop));
                         }
                     } else if (DefaultCmds.PLAYER_CMD_FASTFORWARD.equals(action)) {
                         executeCmd(7, value);
-                        MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_music_fastforward));
+                        MyTTS.getInstance(null).talk(ctx.getString(R.string.str_music_fastforward));
                     } else if (DefaultCmds.PLAYER_CMD_BACKFORWARD.equals(action)) {
                         executeCmd(8, value);
-                        MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_music_backforward));
+                        MyTTS.getInstance(null).talk(ctx.getString(R.string.str_music_backforward));
                     } else if (DefaultCmds.PLAYER_CMD_NEXT.equals(action)) {
                         executeCmd(3);
-                        MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_ok));
+                        MyTTS.getInstance(null).talk(ctx.getString(R.string.str_ok));
                     } else if (DefaultCmds.PLAYER_CMD_PREVIOUS.equals(action)) {
                         executeCmd(2);
-                        MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_music_pre));
+                        MyTTS.getInstance(null).talk(ctx.getString(R.string.str_music_pre));
                     }
                     break;
                 case "save":
                     executeCmd(5);
-                    MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_ok));
+                    MyTTS.getInstance(null).talk(ctx.getString(R.string.str_ok));
                     break;
                 case "unsave":
                     executeCmd(6);
-                    MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_music_unsave));
+                    MyTTS.getInstance(null).talk(ctx.getString(R.string.str_music_unsave));
                     break;
                 case "singleloop":
                     executeCmd(101);
-                    MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_music_single));
+                    MyTTS.getInstance(null).talk(ctx.getString(R.string.str_music_single));
                     break;
                 case "Sequence":
                     executeCmd(103);
-                    MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_music_sequence));
+                    MyTTS.getInstance(null).talk(ctx.getString(R.string.str_music_sequence));
                     break;
                 case "random":
                     executeCmd(105);
-                    MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_music_random));
+                    MyTTS.getInstance(null).talk(ctx.getString(R.string.str_music_random));
                     break;
                 case "exit":
                     Utils.simulateKeystroke(KeyEvent.KEYCODE_HOME);
-                    MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_ok));
+                    MyTTS.getInstance(null).talk(ctx.getString(R.string.str_ok));
                     break;
                 default:
                     break;

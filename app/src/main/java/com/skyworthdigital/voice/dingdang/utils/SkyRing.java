@@ -57,7 +57,7 @@ public class SkyRing {
                     mSkymediaPlayer.release();
                     mSkymediaPlayer = null;
                     if (!TextUtils.isEmpty(tts)) {
-                        MyTTS.getInstance(null).speak(tts);
+                        MyTTS.getInstance(null).talkWithoutDisplay(tts);
                     }
                 }
 

@@ -69,7 +69,7 @@ public class ActionUtils {
                 MusicControl.actionExecute(ctx, bean.mSemanticJson.mSemantic.getMusicSlots(), bean.mQuery);
             }
         } else {
-            MyTTS.getInstance(null).speak("", ctx.getResources().getString(R.string.music_try_note));
+            MyTTS.getInstance(null).talk("", ctx.getResources().getString(R.string.music_try_note));
         }
     }
 
@@ -254,7 +254,7 @@ public class ActionUtils {
         } else if (!TextUtils.isEmpty(bean.mAnswer)) {
             dialogControl.dialogRefresh(ctx, null, bean.mAnswer, 0);
         }
-        MyTTS.getInstance(null).speak(bean.mAnswer);
+        MyTTS.getInstance(null).talkWithoutDisplay(bean.mAnswer);
     }
 
     public static void hideTrailer(SkyAsrDialogControl dialogControl) {
@@ -282,10 +282,10 @@ public class ActionUtils {
         }
         if (!TextUtils.isEmpty(bean.mTips)) {
             dialogControl.dialogRefresh(ctx, null, bean.mTips, 0);
-            MyTTS.getInstance(null).speak(bean.mTips);
+            MyTTS.getInstance(null).talkWithoutDisplay(bean.mTips);
         } else if (!TextUtils.isEmpty(bean.mAnswer)) {
             dialogControl.dialogRefresh(ctx, null, bean.mAnswer, 0);
-            MyTTS.getInstance(null).speak(bean.mAnswer);
+            MyTTS.getInstance(null).talkWithoutDisplay(bean.mAnswer);
         }
         return false;
     }
@@ -315,10 +315,10 @@ public class ActionUtils {
         }
         if (!TextUtils.isEmpty(bean.mTips)) {
             dialogControl.dialogRefresh(ctx, null, bean.mTips, 0);
-            MyTTS.getInstance(null).speak(bean.mTips);
+            MyTTS.getInstance(null).talkWithoutDisplay(bean.mTips);
         } else if (!TextUtils.isEmpty(bean.mAnswer)) {
             dialogControl.dialogRefresh(ctx, null, bean.mAnswer, 0);
-            MyTTS.getInstance(null).speak(bean.mAnswer);
+            MyTTS.getInstance(null).talkWithoutDisplay(bean.mAnswer);
         }
     }
 
@@ -350,10 +350,10 @@ public class ActionUtils {
         }
         if (!TextUtils.isEmpty(bean.mTips)) {
             dialogControl.dialogRefresh(ctx, null, bean.mTips, 0);
-            MyTTS.getInstance(null).speak(bean.mTips);
+            MyTTS.getInstance(null).talkWithoutDisplay(bean.mTips);
         } else if (!TextUtils.isEmpty(bean.mAnswer)) {
             dialogControl.dialogRefresh(ctx, null, bean.mAnswer, 0);
-            MyTTS.getInstance(null).speak(bean.mAnswer);
+            MyTTS.getInstance(null).talkWithoutDisplay(bean.mAnswer);
         }
     }
 
@@ -370,7 +370,7 @@ public class ActionUtils {
                     } else {
                         tts = bean.mAnswer;
                     }
-                    MyTTS.getInstance(null).speakAndShow(tts);
+                    MyTTS.getInstance(null).talk(tts);
                     break;
                 case "set_ringing":
                     MusicSlots musicSlots = bean.mSemanticJson.mSemantic.getMusicSlots();
@@ -390,10 +390,10 @@ public class ActionUtils {
                     } else {
                         tts = ctx.getString(R.string.str_alarmring);
                     }
-                    MyTTS.getInstance(null).speakAndShow(tts);
+                    MyTTS.getInstance(null).talk(tts);
                     break;
                 case "modify":
-                    MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_alarm_modify));
+                    MyTTS.getInstance(null).talk(ctx.getString(R.string.str_alarm_modify));
                     break;
                 case "delete":
                     AlarmHelper helper = new AlarmHelper(VoiceApp.getInstance());
@@ -404,26 +404,26 @@ public class ActionUtils {
                             helper.deleteAlram(list.get(idx - 1));
                             String tip = ctx.getString(R.string.str_del_success);
                             tip = String.format(tip, "第" + idx + "个");
-                            MyTTS.getInstance(null).speakAndShow(tip);
+                            MyTTS.getInstance(null).talk(tip);
                         } else {
-                            MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_del_err));
+                            MyTTS.getInstance(null).talk(ctx.getString(R.string.str_del_err));
                         }
                     } else if (bean.mQuery.contains("全部") || bean.mQuery.contains("所有")) {
                         ArrayList<AlarmDbOperator.AlarmItem> list = helper.getAlarmlists();
                         for (int i = 0; i < list.size(); i++) {
                             helper.deleteAlram(list.get(i));
                         }
-                        MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_del_all));
+                        MyTTS.getInstance(null).talk(ctx.getString(R.string.str_del_all));
                     } else {
                         tts = helper.getAlarmlistsString();
                         if (TextUtils.isEmpty(tts)) {
                             tts = VoiceApp.getInstance().getString(R.string.str_alarm_empty);
-                            MyTTS.getInstance(null).speakAndShow(tts);
+                            MyTTS.getInstance(null).talk(tts);
                         } else {
                             dialogControl.dialogDismiss(40000);
                             tts = tts + "\n" + ctx.getString(R.string.str_alarm_delete);
                             dialogControl.dialogRefresh(ctx, null, tts, 0);
-                            MyTTS.getInstance(null).speak(ctx.getString(R.string.str_alarm_delete));
+                            MyTTS.getInstance(null).talkWithoutDisplay(ctx.getString(R.string.str_alarm_delete));
                         }
                     }
                     break;
@@ -432,15 +432,15 @@ public class ActionUtils {
                     tts = helper.getAlarmlistsString();
                     if (TextUtils.isEmpty(tts)) {
                         tts = VoiceApp.getInstance().getString(R.string.str_alarm_empty);
-                        MyTTS.getInstance(null).speakAndShow(tts);
+                        MyTTS.getInstance(null).talk(tts);
                     } else {
                         dialogControl.dialogDismiss(40000);
-                        MyTTS.getInstance(null).speakAndShow(tts);
+                        MyTTS.getInstance(null).talk(tts);
                     }
                     break;
                 default:
                     tts = bean.mAnswer;
-                    MyTTS.getInstance(null).speakAndShow(tts);
+                    MyTTS.getInstance(null).talk(tts);
                     break;
             }
         }
@@ -453,14 +453,14 @@ public class ActionUtils {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             ctx.startActivity(intent);
-            MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_news));
+            MyTTS.getInstance(null).talk(ctx.getString(R.string.str_news));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public static void jumpToRecipe(Context ctx, SkyAsrDialogControl dialogControl, AsrResult bean) {
-        //MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_recipe));
+        //MyTTS.getInstance(null).talk(ctx.getString(R.string.str_recipe));
 
         try {
             if (bean.mTemplates != null && bean.mTemplates.size() > 0) {
@@ -501,10 +501,10 @@ public class ActionUtils {
                             || GuideTip.getInstance().isPoem()) {
                         if (dialogControl != null && dialogControl.mAsrDialog != null) {
                             dialogControl.mAsrDialog.showGuideDialog(null);
-                            MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_cando_note));
+                            MyTTS.getInstance(null).talk(ctx.getString(R.string.str_cando_note));
                         }
                     } else {
-                        MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_cando));
+                        MyTTS.getInstance(null).talk(ctx.getString(R.string.str_cando));
                     }
                     break;
                 default:
@@ -535,7 +535,7 @@ public class ActionUtils {
                         }
                         if (!TextUtils.isEmpty(cell.mResult)) {
                             sb.append(cell.mResult);
-                            MyTTS.getInstance(null).speak(cell.mResult, sb.toString());
+                            MyTTS.getInstance(null).talk(cell.mResult, sb.toString());
                             return;
                         }
                     }
@@ -576,7 +576,7 @@ public class ActionUtils {
                 String url = bean.mTemplates.get(0).mDestURL;
                 if (!TextUtils.isEmpty(url)) {
                     //dialogControl.dialogDismiss(10000);
-                    MyTTS.getInstance(null).speak(ctx.getString(R.string.str_ok));
+                    MyTTS.getInstance(null).talkWithoutDisplay(ctx.getString(R.string.str_ok));
                     SkyRing.getInstance().play(url, "");
                     return;
                 }
@@ -586,10 +586,10 @@ public class ActionUtils {
         }
         if (!TextUtils.isEmpty(bean.mTips)) {
             dialogControl.dialogRefresh(ctx, null, bean.mTips, 0);
-            MyTTS.getInstance(null).speak(bean.mTips);
+            MyTTS.getInstance(null).talkWithoutDisplay(bean.mTips);
         } else if (!TextUtils.isEmpty(bean.mAnswer)) {
             dialogControl.dialogRefresh(ctx, null, bean.mAnswer, 0);
-            MyTTS.getInstance(null).speak(bean.mAnswer);
+            MyTTS.getInstance(null).talkWithoutDisplay(bean.mAnswer);
         }
     }
 
@@ -609,7 +609,7 @@ public class ActionUtils {
             }
             if (TextUtils.equals(bean.mDomain, "music") || TextUtils.equals(bean.mDomain, "fm") || TextUtils.equals(bean.mDomain, "news")) {
                 if (bean.mQuery.contains("听") || bean.mQuery.endsWith("的歌") || bean.mQuery.contains("歌曲") || bean.mQuery.contains("新闻") || bean.mQuery.contains("音乐") || bean.mQuery.contains("唱的") || bean.mQuery.contains("电台") || bean.mQuery.contains("广播") || bean.mQuery.contains("专辑")) {
-                    //myTTS.speak("", "试试这么说“我想听***”");
+                    //myTTS.talkWithoutDisplay("", "试试这么说“我想听***”");
                     return false;
                 }
                 BeeSearchUtils.doBeeSearch(ctx, bean.mQuery, bean.mDomain);

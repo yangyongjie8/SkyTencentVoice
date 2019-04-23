@@ -74,9 +74,9 @@ public class SkyAsrDialogControl {
             if (VoiceApp.getInstance().mAiType == GlobalVariable.AI_VOICE) {
                 if ((IStatus.mSceneType == IStatus.SCENE_GIVEN || IStatus.mSceneType == IStatus.SCENE_SEARCHPAGE) && System.currentTimeMillis() >= IStatus.mSmallDialogDimissTime) {
                     if (IStatus.mSceneType == IStatus.SCENE_SEARCHPAGE) {
-                        MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.exit_note));
+                        MyTTS.getInstance(null).talk(ctx.getString(R.string.exit_note));
                     } else {
-                        MyTTS.getInstance(null).speak(ctx.getString(R.string.exit_note), "");
+                        MyTTS.getInstance(null).talk(ctx.getString(R.string.exit_note), "");
                     }
                     IStatus.setSceneType(IStatus.SCENE_NONE);
                     //Intent intent = new Intent("com.skyworthdigital.action.FORCE_QUIT_ASR");

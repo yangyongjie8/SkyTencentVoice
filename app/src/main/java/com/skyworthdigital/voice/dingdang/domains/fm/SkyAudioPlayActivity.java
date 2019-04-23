@@ -281,7 +281,7 @@ public class SkyAudioPlayActivity extends Activity implements ISkySceneListener,
             int pos = intent.getIntExtra(DefaultCmds.FUZZYMATCH, -1);
             if (playByPos(pos)) {
                 mCurPlayPos = pos;
-                MyTTS.getInstance(null).speakAndShow(getString(R.string.str_videoplay) + mFmList.get(pos).title);
+                MyTTS.getInstance(null).talk(getString(R.string.str_videoplay) + mFmList.get(pos).title);
                 return;
             }
         }
@@ -300,49 +300,49 @@ public class SkyAudioPlayActivity extends Activity implements ISkySceneListener,
                         if (VALUE_PLAY == value) {
                             isPlay = true;
                             if (mAudioPlayer != null) {
-                                MyTTS.getInstance(null).speakAndShow(getString(R.string.str_ok));
+                                MyTTS.getInstance(null).talk(getString(R.string.str_ok));
                                 mAudioPlayer.play();
                             }
                         } else if (VALUE_PAUSE == value) {
                             isPlay = false;
                             if (mAudioPlayer != null) {
-                                MyTTS.getInstance(null).speakAndShow(getString(R.string.str_ok));
+                                MyTTS.getInstance(null).talk(getString(R.string.str_ok));
                                 mAudioPlayer.pause();
                             }
                         }
                     } else if (DefaultCmds.PLAYER_CMD_FASTFORWARD.equals(action)) {
                         if (mAudioPlayer != null) {
-                            MyTTS.getInstance(null).speakAndShow(getString(R.string.str_ok));
+                            MyTTS.getInstance(null).talk(getString(R.string.str_ok));
                             mAudioPlayer.seek(value * SECONDS);
                         }
                     } else if (DefaultCmds.PLAYER_CMD_BACKFORWARD.equals(action)) {
                         if (mAudioPlayer != null) {
-                            MyTTS.getInstance(null).speakAndShow(getString(R.string.str_ok));
+                            MyTTS.getInstance(null).talk(getString(R.string.str_ok));
                             mAudioPlayer.seek((-SECONDS) * value);
                         }
                     } else if (DefaultCmds.PLAYER_CMD_GOTO.equals(action)) {
                         if (mAudioPlayer != null) {
-                            MyTTS.getInstance(null).speakAndShow(getString(R.string.str_ok));
+                            MyTTS.getInstance(null).talk(getString(R.string.str_ok));
                             mAudioPlayer.seekTo(value * SECONDS);
                         }
                     } else if (DefaultCmds.PLAYER_CMD_NEXT.equals(action)) {
                         if (mAudioPlayer != null) {
-                            MyTTS.getInstance(null).speakAndShow(getString(R.string.str_ok));
+                            MyTTS.getInstance(null).talk(getString(R.string.str_ok));
                             playNext();
                         }
                     } else if (DefaultCmds.PLAYER_CMD_PREVIOUS.equals(action)) {
                         if (mAudioPlayer != null) {
-                            MyTTS.getInstance(null).speakAndShow(getString(R.string.str_ok));
+                            MyTTS.getInstance(null).talk(getString(R.string.str_ok));
                             playPrevious();
                         }
                     } else if (DefaultCmds.COMMAND_LOCATION.equals(action)) {
                         if (mAudioPlayer != null) {
-                            MyTTS.getInstance(null).speakAndShow(getString(R.string.str_ok));
+                            MyTTS.getInstance(null).talk(getString(R.string.str_ok));
                             playByPos(value - 1);
                         }
                     } else if (DefaultCmds.PLAYER_CMD_EPISODE.equals(action)) {
                         if (mAudioPlayer != null) {
-                            MyTTS.getInstance(null).speakAndShow(getString(R.string.str_ok));
+                            MyTTS.getInstance(null).talk(getString(R.string.str_ok));
                             for (int i = 0; i < mFmList.size(); i++) {
                                 if (!TextUtils.isEmpty(mFmList.get(i).title)) {
                                     String strValue = StringUtils.getNumbers(mFmList.get(i).title);
@@ -362,14 +362,14 @@ public class SkyAudioPlayActivity extends Activity implements ISkySceneListener,
                                     }
                                 }
                             }
-                            MyTTS.getInstance(null).speakAndShow(getString(R.string.try_play_note) + mFmList.get(0).title + "\"");
+                            MyTTS.getInstance(null).talk(getString(R.string.try_play_note) + mFmList.get(0).title + "\"");
                             //playByPos(value);
                         }
                     }
                     break;
                 case "stop":
                     IStatus.resetDismissTime();
-                    MyTTS.getInstance(null).speakAndShow(getString(R.string.str_ok));
+                    MyTTS.getInstance(null).talk(getString(R.string.str_ok));
                     playerStop();
                     break;
                 default:

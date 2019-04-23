@@ -64,9 +64,9 @@ public class AlarmReceiver extends BroadcastReceiver {
         dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
         dialog.show();
         if (intent.hasExtra("content")) {
-            MyTTS.getInstance(null).speak(context.getString(R.string.str_alarm_note) + intent.getStringExtra("content"));
+            MyTTS.getInstance(null).talkWithoutDisplay(context.getString(R.string.str_alarm_note) + intent.getStringExtra("content"));
         } else {
-            MyTTS.getInstance(null).speak(context.getString(R.string.str_alarm_note));
+            MyTTS.getInstance(null).talkWithoutDisplay(context.getString(R.string.str_alarm_note));
         }
         String key = PrefsUtils.getAlarmRing(VoiceApp.getInstance());
         if (!TextUtils.isEmpty(key)) {

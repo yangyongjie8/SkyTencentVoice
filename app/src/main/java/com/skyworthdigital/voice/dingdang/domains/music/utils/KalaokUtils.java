@@ -40,7 +40,7 @@ public class KalaokUtils {
     }
 
     private static void kalaokInstallPage() {
-        MyTTS.getInstance(null).speakAndShow(VoiceApp.getInstance().getString(R.string.str_kalaok_uninstall));
+        MyTTS.getInstance(null).talk(VoiceApp.getInstance().getString(R.string.str_kalaok_uninstall));
         try {
             Intent intent = new Intent();
             intent.setPackage("com.mipt.store");

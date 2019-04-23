@@ -11,7 +11,7 @@ import com.skyworthdigital.voice.dingdang.utils.MLog;
 /**
  * User: yangyongjie
  * Date: 2019-01-17
- * Description:
+ * Description: 远场唤醒广播
  */
 public class BeeReceiver extends BroadcastReceiver {
 

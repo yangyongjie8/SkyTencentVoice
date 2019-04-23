@@ -30,11 +30,11 @@ public class SSRReceiver extends BroadcastReceiver {
             if(!IoTService.d618_gw_connected) {
                 if(IoTService.isD618_gw_recognized()) {
                     context.startService(new Intent(context, IoTService.class));
-                    MyTTS.getInstance(null).speakAndShow("正在连接网关，请重试");
+                    MyTTS.getInstance(null).talk("正在连接网关，请重试");
                 }
                 else
                 {
-                    MyTTS.getInstance(null).speakAndShow("您还没有组网，请先组网");
+                    MyTTS.getInstance(null).talk("您还没有组网，请先组网");
                 }
             }else {
                 IoTCommand ioTCommand = (IoTCommand) intent.getSerializableExtra("nlu_data");

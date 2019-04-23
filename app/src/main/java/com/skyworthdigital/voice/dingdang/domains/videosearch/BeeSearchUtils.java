@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 
 import com.skyworthdigital.voice.dingdang.R;
 import com.skyworthdigital.voice.dingdang.VoiceApp;
@@ -146,7 +145,7 @@ public class BeeSearchUtils {
         sendNluRequest(originSpeech, new SkyCommonCallback("skynlucallback") {
             @Override
             public void onFail() {
-                MyTTS.getInstance(null).speak(ctx.getResources().getString(R.string.try_again), ctx.getResources().getString(R.string.requestfail_tips));
+                MyTTS.getInstance(null).talk(ctx.getResources().getString(R.string.try_again), ctx.getResources().getString(R.string.requestfail_tips));
             }
 
             @Override
@@ -183,7 +182,7 @@ public class BeeSearchUtils {
                 sendSearchRequest(skynlu.abnf, BeeSearchParams.getInstance().getLastReply(), new SkyCommonCallback("SkydoSearch") {
                     @Override
                     public void onFail() {
-                        MyTTS.getInstance(null).speak(ctx.getResources().getString(R.string.try_again), ctx.getResources().getString(R.string.requestfail_tips));
+                        MyTTS.getInstance(null).talk(ctx.getResources().getString(R.string.try_again), ctx.getResources().getString(R.string.requestfail_tips));
                     }
 
                     @Override
@@ -220,16 +219,16 @@ public class BeeSearchUtils {
                             }
                         }
                         if (contained) {
-                            MyTTS.getInstance(null).speak(skyItemObj.getTts(), skyItemObj.getOutput() + "\n" + skyItemObj.speaksameToString());
+                            MyTTS.getInstance(null).talk(skyItemObj.getTts(), skyItemObj.getOutput() + "\n" + skyItemObj.speaksameToString());
 
                             mSpeakSameInfo = new SpeakSameInfo(skyItemObj.getSpeaksame(), text, keyword);
 
                         } else {  // 没有说过这个词
-                            MyTTS.getInstance(null).speak("没有找到同音字", "您没有说过这个关键词哦");
+                            MyTTS.getInstance(null).talk("没有找到同音字", "您没有说过这个关键词哦");
                             mSpeakSameInfo = null;
                         }
                     } else {
-                        MyTTS.getInstance(null).speak(skyItemObj.getTts(), skyItemObj.getOutput());
+                        MyTTS.getInstance(null).talk(skyItemObj.getTts(), skyItemObj.getOutput());
                         //keyItemObject.replyInfo = null;
                     }
                 }
@@ -274,7 +273,7 @@ public class BeeSearchUtils {
                     }
 
                     if (!playByName(ctx, skyItemObj.getCmd())) {
-                        MyTTS.getInstance(null).speak("", ctx.getResources().getString(R.string.try_note));
+                        MyTTS.getInstance(null).talk("", ctx.getResources().getString(R.string.try_note));
                     }
                 }
             }
@@ -303,7 +302,7 @@ public class BeeSearchUtils {
                     }
                 }
                 MLog.d(TAG, "RESTART_ASR 444");
-                MyTTS.getInstance(null).speak("", ctx.getResources().getString(R.string.try_note));// "你试试说\"第*个\"或者\"退出\"");
+                MyTTS.getInstance(null).talk("", ctx.getResources().getString(R.string.try_note));// "你试试说\"第*个\"或者\"退出\"");
 
                 break;
 
@@ -314,7 +313,7 @@ public class BeeSearchUtils {
                 }
                 MLog.d(TAG, "mRecognizeStatus" + IStatus.mRecognizeStatus);
                 if (IStatus.mRecognizeStatus == IStatus.STATUS_FINISHED) {
-                    MyTTS.getInstance(null).speakDelay(""/*skyItemObj.getTts()*/, skyItemObj.getOutput(), 1000);
+                    MyTTS.getInstance(null).talkDelay(""/*skyItemObj.getTts()*/, skyItemObj.getOutput(), 1000);
                 }
                 if (VoiceApp.getInstance().mAiType == GlobalVariable.AI_VOICE && BeeSearchParams.getInstance().isInSearchPage()) {
                     IStatus.mAsrErrorCnt += 1;
@@ -331,7 +330,7 @@ public class BeeSearchUtils {
                 }
                 break;
             case BeeSearchParams.RESULT_PLAY_DIRECT:
-                MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.playing_note));
+                MyTTS.getInstance(null).talk(ctx.getString(R.string.playing_note));
 //                SkyVideoPlayUtils.startToPlayByID(skyItemObj.videoId, skyItemObj.infoindex);
                 BeeVideoPlayUtils.startToVideoDetail(ctx,BeeVideoPlayUtils.SOURCE_IQIYI_ID, String.valueOf(skyItemObj.videoId));
                 break;
@@ -339,7 +338,7 @@ public class BeeSearchUtils {
                 Log.i(TAG, "code:" + operationcode + " " + skyItemObj.getWord());
                 if (!BeeSearchParams.getInstance().isInSearchPage()) {
                     if (!playByName(ctx, skyItemObj.getCmd())) {
-                        MyTTS.getInstance(null).speak("", ctx.getResources().getString(R.string.try_note));
+                        MyTTS.getInstance(null).talk("", ctx.getResources().getString(R.string.try_note));
                     }
                 }
                 break;
@@ -351,7 +350,7 @@ public class BeeSearchUtils {
         BeeSearchParams.getInstance().setLastReply(ret);
         BeeSearchBean skydosearch = GsonUtils.parseResult(ret, BeeSearchBean.class);
         MLog.d(TAG, "===dosearch result" + ret);
-        MyTTS.getInstance(null).speak(skydosearch.getTts(), skydosearch.getOutput());
+        MyTTS.getInstance(null).talk(skydosearch.getTts(), skydosearch.getOutput());
         //MLog.d(TAG, skydosearch.getUserguaid().toString() + " size:" + skydosearch.getUserguaid().size());
 
         ArrayList<String> userGuide = new ArrayList<>();
@@ -406,10 +405,10 @@ public class BeeSearchUtils {
                 skyItemObj.cmd = null;
                 mSpeakSameInfo = null;
                 Log.i(TAG, "new:" + text);
-                MyTTS.getInstance(null).speak(null, text);
+                MyTTS.getInstance(null).talk(null, text);
                 doBeeSearch(ctx, text, "");
             } else {
-                MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_searchfilm_numerr));
+                MyTTS.getInstance(null).talk(ctx.getString(R.string.str_searchfilm_numerr));
             }
             return true;
         }
@@ -451,7 +450,7 @@ public class BeeSearchUtils {
                             }
                         }
                         if (maxComman >= 50) {
-                            MyTTS.getInstance(null).speakAndShow("播放" + videoresult.getVideolist().get(maxIndex).getName());
+                            MyTTS.getInstance(null).talk("播放" + videoresult.getVideolist().get(maxIndex).getName());
                             String strPackage = GlobalVariable.VOICE_PACKAGE_NAME;
                             Intent intent = new Intent(INTENT_TOPACTIVITY_CALL);
                             intent.setPackage(strPackage);
@@ -463,7 +462,7 @@ public class BeeSearchUtils {
                         }
                     }
 
-                    MyTTS.getInstance(null).speak("搜索影片", "这一批没有名字匹配的影片，重新搜索");
+                    MyTTS.getInstance(null).talk("搜索影片", "这一批没有名字匹配的影片，重新搜索");
                     doBeeSearch(ctx, cmd.args.name, "");
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -484,15 +483,15 @@ public class BeeSearchUtils {
                     Log.i(TAG, "value:" + cmd.getArgs().value);
                     intent.putExtra(DefaultCmds.VALUE, cmd.getArgs().value);
                     ctx.startService(intent);
-                    MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_open_introduce));
+                    MyTTS.getInstance(null).talk(ctx.getString(R.string.str_open_introduce));
                 }
                 return true;
             case BeeCommand.OPT_CODE_VOLUME_UNMUTE:
-                MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_volume_unmute));
+                MyTTS.getInstance(null).talk(ctx.getString(R.string.str_volume_unmute));
                 VolumeUtils.getInstance(ctx).cancelMute();
                 return true;
             case BeeCommand.OPT_CODE_QUIT:
-                MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_exit));
+                MyTTS.getInstance(null).talk(ctx.getString(R.string.str_exit));
                 AppUtil.killTopApp();
                 return true;
             case BeeCommand.OPT_CODE_RETURN:

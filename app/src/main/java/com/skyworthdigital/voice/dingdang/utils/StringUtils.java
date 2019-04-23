@@ -243,7 +243,7 @@ public class StringUtils {
     public static void showUnknownNote(Context ctx, String speech) {
         String tip = ctx.getString(R.string.unknow_tip);
         tip = String.format(tip, speech);
-        MyTTS.getInstance(null).speak("", tip);
+        MyTTS.getInstance(null).talk("", tip);
     }
 
     /**
@@ -602,11 +602,11 @@ public class StringUtils {
         if(TextUtils.isEmpty(speech))return false;
         if(speech.matches("^1234567$")){//启用2分钟周期演示
             SPUtil.putBoolean(SPUtil.KEY_SP_DEMO_SWITCH_ON, true);
-            MyTTS.getInstance(null).speakAndShow("已启用");
+            MyTTS.getInstance(null).talk("已启用");
             return true;
         }else if (speech.matches("^7654321$")){//关闭
             SPUtil.putBoolean(SPUtil.KEY_SP_DEMO_SWITCH_ON, false);
-            MyTTS.getInstance(null).speakAndShow("已关闭");
+            MyTTS.getInstance(null).talk("已关闭");
             return true;
         }
         return false;
@@ -828,7 +828,7 @@ public class StringUtils {
             {
                 Intent intent_IoT = new Intent(IoTService.MSG_IOT_RESET);
                 VoiceApp.getInstance().sendBroadcast(intent_IoT);
-                MyTTS.getInstance(null).speakAndShow("正在清除网关数据,请重启设备并重新组网");
+                MyTTS.getInstance(null).talk("正在清除网关数据,请重启设备并重新组网");
                 return true;
             }
             MLog.i("StringUtils", "check IoT Cmd" + speech);
@@ -876,7 +876,7 @@ public class StringUtils {
                     intent_IoT.putExtra("nlu_data", rslt.iotCommand);
                     VoiceApp.getInstance().sendBroadcast(intent_IoT);
                 }
-                MyTTS.getInstance(null).speakAndShow(rslt.replyWord);
+                MyTTS.getInstance(null).talk(rslt.replyWord);
                 return true;
             }
 

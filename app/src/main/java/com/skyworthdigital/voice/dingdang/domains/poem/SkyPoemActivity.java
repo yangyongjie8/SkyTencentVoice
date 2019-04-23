@@ -162,7 +162,7 @@ public class SkyPoemActivity extends Activity implements ISkySceneListener, Adap
             poemStringPrint(mTextContent, bean.mContent, bean.mAppreciation);
             mAudioPlayer.playUrl(mUrl);
         } else {
-            MyTTS.getInstance(null).speakAndShow(getString(R.string.str_not_exist));
+            MyTTS.getInstance(null).talk(getString(R.string.str_not_exist));
         }
     }
 
@@ -171,7 +171,7 @@ public class SkyPoemActivity extends Activity implements ISkySceneListener, Adap
         if (pos > 0) {
             pos -= 1;
         } else {
-            MyTTS.getInstance(null).speakAndShow(getString(R.string.str_already_first));
+            MyTTS.getInstance(null).talk(getString(R.string.str_already_first));
             return;
         }
         playByPos(pos);
@@ -182,7 +182,7 @@ public class SkyPoemActivity extends Activity implements ISkySceneListener, Adap
         if (pos < (mPoemAdapter.getCount() - 1)) {
             pos += 1;
         } else if (mPoemAdapter.getCount() > 1) {
-            MyTTS.getInstance(null).speakAndShow(getString(R.string.str_already_last));
+            MyTTS.getInstance(null).talk(getString(R.string.str_already_last));
             return;
         }
         playByPos(pos);
@@ -359,43 +359,43 @@ public class SkyPoemActivity extends Activity implements ISkySceneListener, Adap
                     if (DefaultCmds.PLAYER_CMD_PAUSE.equals(action)) {
                         if (VALUE_PLAY == value) {
                             if (mAudioPlayer != null) {
-                                MyTTS.getInstance(null).speakAndShow(getString(R.string.str_ok));
+                                MyTTS.getInstance(null).talk(getString(R.string.str_ok));
                                 mAudioPlayer.play();
                             }
                         } else if (VALUE_PAUSE == value) {
                             if (mAudioPlayer != null) {
-                                MyTTS.getInstance(null).speakAndShow(getString(R.string.str_ok));
+                                MyTTS.getInstance(null).talk(getString(R.string.str_ok));
                                 mAudioPlayer.pause();
                             }
                         }
                     } else if (DefaultCmds.PLAYER_CMD_FASTFORWARD.equals(action)) {
                         if (mAudioPlayer != null) {
-                            MyTTS.getInstance(null).speakAndShow(getString(R.string.str_ok));
+                            MyTTS.getInstance(null).talk(getString(R.string.str_ok));
                             mAudioPlayer.seek(value * SECONDS);
                         }
                     } else if (DefaultCmds.PLAYER_CMD_BACKFORWARD.equals(action)) {
                         if (mAudioPlayer != null) {
-                            MyTTS.getInstance(null).speakAndShow(getString(R.string.str_ok));
+                            MyTTS.getInstance(null).talk(getString(R.string.str_ok));
                             mAudioPlayer.seek((-SECONDS) * value);
                         }
                     } else if (DefaultCmds.PLAYER_CMD_GOTO.equals(action)) {
                         if (mAudioPlayer != null) {
-                            MyTTS.getInstance(null).speakAndShow(getString(R.string.str_ok));
+                            MyTTS.getInstance(null).talk(getString(R.string.str_ok));
                             mAudioPlayer.seekTo(value * SECONDS);
                         }
                     } else if (DefaultCmds.PLAYER_CMD_NEXT.equals(action)) {
-                        MyTTS.getInstance(null).speakAndShow(getString(R.string.str_ok));
+                        MyTTS.getInstance(null).talk(getString(R.string.str_ok));
                         playNext();
                     } else if (DefaultCmds.PLAYER_CMD_PREVIOUS.equals(action)) {
-                        MyTTS.getInstance(null).speakAndShow(getString(R.string.str_ok));
+                        MyTTS.getInstance(null).talk(getString(R.string.str_ok));
                         playPrevious();
                     } else if (DefaultCmds.COMMAND_LOCATION.equals(action)) {
-                        MyTTS.getInstance(null).speakAndShow(getString(R.string.str_ok));
+                        MyTTS.getInstance(null).talk(getString(R.string.str_ok));
                         playByPos(value - 1);
                     }
                     break;
                 case "stop":
-                    MyTTS.getInstance(null).speakAndShow(getString(R.string.str_ok));
+                    MyTTS.getInstance(null).talk(getString(R.string.str_ok));
                     playerStop();
                     break;
                 default:

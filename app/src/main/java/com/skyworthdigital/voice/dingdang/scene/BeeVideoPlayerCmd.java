@@ -131,7 +131,7 @@ public class BeeVideoPlayerCmd implements ISkySceneListener {
                 beeIntent.putExtra(KEY_INTENT_BROADCAST_BEEVIDEO_COMMAND, remoteArgs);
                 Log.i(TAG, "broadcast intent command:"+beeIntent.getStringExtra(KEY_INTENT_BROADCAST_BEEVIDEO_COMMAND));
                 VoiceApp.getInstance().sendBroadcast(beeIntent);
-                MyTTS.getInstance(null).speakAndShow(VoiceApp.getInstance().getString(R.string.str_ok));
+                MyTTS.getInstance(null).talk(VoiceApp.getInstance().getString(R.string.str_ok));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
