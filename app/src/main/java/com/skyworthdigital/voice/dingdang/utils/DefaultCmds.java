@@ -353,12 +353,12 @@ public class DefaultCmds {
             // 起床提醒
             // 天气
             // 逐条播放今日行程
-            MyTTS.getInstance(null).speak(ctx.getString(R.string.str_tianmai_tip_wakeup));
+            MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_tianmai_tip_wakeup));
             WeatherUtil.getWeatherToday("南京", new WeatherUtil.CallbackWeather() {
                 @Override
                 public void callback(WeatherBee todayWeather) {
                     if(todayWeather==null){
-                        MyTTS.getInstance(null).speakAndShow(ctx.getString(R.string.str_error_network));
+                        MyTTS.getInstance(null).talkSerial(ctx.getString(R.string.str_error_network));
                         return;
                     }
                     final StringBuilder sb = new StringBuilder();
@@ -368,12 +368,12 @@ public class DefaultCmds {
                     if(todayWeather.getZhishu()!=null&&todayWeather.getZhishu().size()>0) {
                         sb.append(todayWeather.getZhishu().get(0));
                     }
-                    MyTTS.getInstance(null).speak(sb.toString());
+                    MyTTS.getInstance(null).talkSerial(sb.toString());
 
-//                    List<String> allSchedules = splitContent(intent.getVoiceContent());
-//                    for (String schedule : allSchedules) {
-//                        Robot.getInstance().talkSerial(schedule);
-//                    }
+                    List<String> allSchedules = splitContent(intent.getVoiceContent());
+                    for (String schedule : allSchedules) {
+                        MyTTS.getInstance(null).talkSerial(schedule);
+                    }
                 }
             });
         }else {
