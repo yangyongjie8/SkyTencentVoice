@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 
+import com.skyworthdigital.voice.dingdang.BuildConfig;
 import com.skyworthdigital.voice.dingdang.VoiceApp;
 
 import java.lang.reflect.InvocationTargetException;
@@ -127,7 +128,10 @@ public class AppUtil {
             for (ActivityManager.RunningTaskInfo runningTask: rTasks) {
                 packageName = runningTask.topActivity.getPackageName();
                 MLog.d("AppUtil", "running Task:" + packageName);
-                if(!killPackage(VoiceApp.getInstance(), packageName)){
+                if(BuildConfig.APPLICATION_ID.equals(packageName)){//本语音app，则返回关掉对话。偶现。
+                    Utils.simulateKeystroke(KeyEvent.KEYCODE_BACK);
+                    break;
+                }else if(!killPackage(VoiceApp.getInstance(), packageName)){
                     // 没杀成功，模拟home键
                     MLog.d("AppUtil", "kill failure, simulate home key.");
                     break;
