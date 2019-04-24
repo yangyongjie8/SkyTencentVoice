@@ -138,6 +138,8 @@ public class SkySceneService extends Service {
                 mOnSceneListener.onSceneCheckedOver(true);
             } else if (mOnSceneListener != null) {
                 mOnSceneListener.onSceneCheckedOver(false);
+            } else {
+                MLog.e(TAG, "mOnSceneListener is null, check it please!");
             }
         } else if (INTENT_RELEASE_SCENE.equals(intent.getAction())) {
             try {

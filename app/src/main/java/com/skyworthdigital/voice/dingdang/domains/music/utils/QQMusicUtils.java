@@ -32,6 +32,7 @@ import java.util.List;
 
 public class QQMusicUtils {
     private static final String QQ_PACKAGENAME = "com.tencent.qqmusictv";
+    public static boolean isPauseInRemote;// 因远场唤醒而暂停
 
     private static void qqMusicInstallPage() {
         MyTTS.getInstance(null).talk(VoiceApp.getInstance().getString(R.string.str_qqmusic_uninstall));

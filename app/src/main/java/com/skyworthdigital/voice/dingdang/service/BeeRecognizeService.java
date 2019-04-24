@@ -6,6 +6,10 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.skyworthdigital.voice.dingdang.MainControler;
+import com.skyworthdigital.voice.dingdang.VoiceApp;
+import com.skyworthdigital.voice.dingdang.domains.music.utils.QQMusicUtils;
+import com.skyworthdigital.voice.dingdang.utils.GuideTip;
+import com.skyworthdigital.voice.dingdang.utils.VolumeUtils;
 
 /**
  * User: yangyongjie
@@ -28,17 +32,27 @@ public class BeeRecognizeService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         String action = intent.getAction();
         if (ACTION_VOICE_ACTIVATE.equals(action)) {
+            QQMusicUtils.isPauseInRemote = true;
+            GuideTip.getInstance().pauseQQMusic();
             MainControler.getInstance().isControllerVoice = false;
             MainControler.getInstance().manualRecognizeStart();
         } else if (ACTION_VOICE_RECOGNIZE.equals(action)) {
             String txt = intent.getStringExtra(KEY_ORIGINAL_TXT);
             Log.d(TAG, "RECOGNIZE:" + txt);
+            recoverySound();
             MainControler.getInstance().testYuyiParse(txt);
         } else if (ACTION_VOICE_CANCEL.equals(action)) {
             Log.d(TAG, "VOICE_CANCEL");
+            recoverySound();
             MainControler.getInstance().cancelYuyiParse();
-
         }
         return super.onStartCommand(intent, flags, startId);
+    }
+    private void recoverySound(){
+        VolumeUtils.getInstance(VoiceApp.getInstance()).setMuteWithNoUi(false);
+        if(GuideTip.getInstance().mIsQQmusic && QQMusicUtils.isPauseInRemote){
+            QQMusicUtils.isPauseInRemote = false;
+            GuideTip.getInstance().playQQMusic();
+        }
     }
 }

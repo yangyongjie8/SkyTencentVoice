@@ -20,7 +20,7 @@ public class BeeReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         MLog.i("BeeReceiver", "onReceive" + intent.getAction());
-        if(MainControler.getInstance().isRecognizing()){
+        if(MainControler.getInstance().isRecognizing() && MainControler.getInstance().isControllerVoice){
             MLog.i("BeeReceiver", "recognizing with controller, ignore broadcast.");
             return;
         }

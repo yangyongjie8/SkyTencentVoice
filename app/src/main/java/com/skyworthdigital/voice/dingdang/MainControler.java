@@ -459,7 +459,7 @@ public class MainControler implements MyTTS.MyTTSListener {
 
         @Override
         public void onAsrFinalResult(String results) {
-            MLog.d(TAG, "Final Partial:" + results);
+            MLog.d(TAG, "Final Result:" + results);
             IStatus.mRecognizeStatus = IStatus.STATUS_RECOGNITION;
             //if (IStatus.mSceneType != IStatus.SCENE_GIVEN) {
             mAsrDialogControler.dialogRefresh(mContext, null, results, 0);

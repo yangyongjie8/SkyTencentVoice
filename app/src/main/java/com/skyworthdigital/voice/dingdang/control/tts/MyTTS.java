@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.skyworthdigital.voice.dingdang.VoiceApp;
 import com.skyworthdigital.voice.dingdang.control.model.AsrResult;
+import com.skyworthdigital.voice.dingdang.utils.MLog;
 import com.tencent.ai.sdk.tts.ITtsInitListener;
 import com.tencent.ai.sdk.tts.ITtsListener;
 import com.tencent.ai.sdk.tts.TtsSession;
@@ -208,11 +209,14 @@ public class MyTTS {
             if(content.needDisplay){
                 myTTSListener.onOutputChange(content.displayText, 0);
             }
+        }else if (mTTSSession==null){
+            MLog.e(TAG, "mTTSSession is null, check it please.");
         }
     }
 
     // 播放不显示
     public void talkWithoutDisplay(String text) {
+        Log.d(TAG, "talk without display:"+text);
         mHandler.sendMessage(mHandler.obtainMessage(MSG_TALK_NOW_WITHOUT_DISPLAY, new MyTTS.Content(text, null, null)));
     }
 
@@ -225,6 +229,7 @@ public class MyTTS {
     }
 
     public void talk(String text) {//同 talk(tts,output)
+        Log.d(TAG, "talk now:"+text);
         mHandler.sendMessage(mHandler.obtainMessage(MSG_TALK_NOW, new MyTTS.Content(text, text, null)));
     }
 

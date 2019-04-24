@@ -136,6 +136,11 @@ public class GuideTip {
             mMusicCmd.executeCmd(1);
         }
     }
+    public void playQQMusic(){
+        if(mIsQQmusic){
+            mMusicCmd.executeCmd(0);
+        }
+    }
 
     public String getCurrentClass() {
         return mClassname;
