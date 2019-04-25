@@ -130,7 +130,7 @@ public class AppUtil {
                 MLog.d("AppUtil", "running Task:" + packageName);
                 if(BuildConfig.APPLICATION_ID.equals(packageName)){//本语音app，则返回关掉对话。偶现。
                     Utils.simulateKeystroke(KeyEvent.KEYCODE_BACK);
-                    break;
+                    return;
                 }else if(!killPackage(VoiceApp.getInstance(), packageName)){
                     // 没杀成功，模拟home键
                     MLog.d("AppUtil", "kill failure, simulate home key.");
