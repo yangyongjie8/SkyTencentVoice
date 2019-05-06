@@ -250,5 +250,13 @@ public class VolumeUtils {
             return false;
         }
     }
+
+    /**
+     * 是否有音频正在播放（即使静音）
+     * @return
+     */
+    public boolean isAudioActive(){
+        return mAudioManager.isMusicActive();
+    }
 }
 

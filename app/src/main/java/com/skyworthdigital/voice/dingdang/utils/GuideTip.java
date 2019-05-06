@@ -5,6 +5,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.skyworthdigital.voice.dingdang.SkyAsrDialogControl;
+import com.skyworthdigital.voice.dingdang.VoiceApp;
 import com.skyworthdigital.voice.dingdang.control.model.UserGuideStrings;
 import com.skyworthdigital.voice.dingdang.domains.music.utils.MusicCmd;
 import com.skyworthdigital.voice.dingdang.domains.tvlive.TvLiveControl;
@@ -123,7 +124,7 @@ public class GuideTip {
             return true;
         }
 
-        if (mIsQQmusic) {
+        if (mIsQQmusic && VolumeUtils.getInstance(VoiceApp.getInstance()).isAudioActive()) {
             mMusicCmd.executeCmd(1);
             mMusicCmd.unregister();
         }
@@ -132,7 +133,7 @@ public class GuideTip {
     }
 
     public void pauseQQMusic() {
-        if (mIsQQmusic) {
+        if (mIsQQmusic && VolumeUtils.getInstance(VoiceApp.getInstance()).isAudioActive()) {
             mMusicCmd.executeCmd(1);
         }
     }
