@@ -184,9 +184,9 @@ public class MyRecognizer implements IAsrDataListener {
      * 开启语音识别
      */
     private void startRecognize() {
-        if(Utils.isP201IPtv()) {
-            tempFit412RepeatRun();
-        }
+//        if(Utils.isP201IPtv()) {
+//            tempFit412RepeatRun();
+//        }
         // 停止上次录音
         if(mMyRecoder!=null) {
             mMyRecoder.stopRecord();
