@@ -224,11 +224,11 @@
 
         <receiver android:name=".domains.alarm.AlarmReceiver" />
         <receiver android:name=".receiver.BeeReceiver" >
-            <intent-filter>
-                <action android:name="com.skyworthdigital.voice.ACTIVATE"/>
-                <action android:name="com.skyworthdigital.voice.RECOGNIZE"/>
-                <action android:name="com.skyworthdigital.voice.CANCEL"/>
-            </intent-filter>
+            <!--<intent-filter>-->
+                <!--<action android:name="com.skyworthdigital.voice.ACTIVATE"/>-->
+                <!--<action android:name="com.skyworthdigital.voice.RECOGNIZE"/>-->
+                <!--<action android:name="com.skyworthdigital.voice.CANCEL"/>-->
+            <!--</intent-filter>-->
         </receiver>
 
         <service android:name=".IoT.IoTService" android:exported="false">

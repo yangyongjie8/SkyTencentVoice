@@ -34,7 +34,7 @@ android {
     }
     buildTypes {
         debug {
-            signingConfig signingConfigs.privately
+            signingConfig signingConfigs.ta412
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             minifyEnabled false
             defaultConfig.versionName defaultConfig.versionName + currentTimeTail()
