@@ -3,7 +3,6 @@ package com.skyworthdigital.voice.dingdang.domains.videosearch.utils;
 import android.content.Context;
 import android.view.View;
 
-
 import com.skyworthdigital.voice.dingdang.R;
 
 import java.sql.Date;

@@ -8,10 +8,10 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.WindowManager;
 
-import com.skyworthdigital.voice.dingdang.control.model.AsrResult;
-import com.skyworthdigital.voice.dingdang.control.recognization.IStatus;
+import com.skyworthdigital.voice.common.AbsTTS;
+import com.skyworthdigital.voice.common.IStatus;
 import com.skyworthdigital.voice.dingdang.control.tts.MyTTS;
-import com.skyworthdigital.voice.dingdang.domains.tv.TvlistDialog;
+import com.skyworthdigital.voice.dingdang.tv.TvlistDialog;
 import com.skyworthdigital.voice.dingdang.domains.videosearch.model.BeeSearchParams;
 import com.skyworthdigital.voice.dingdang.utils.GlobalVariable;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
@@ -30,7 +30,7 @@ public class SkyAsrDialogControl {
     public static final int MSG_DISMISS_USER_INPUT = 3;
     public static final int MSG_SHOW_TVDIALOG = 154;
     public static final int MSG_HIDE_TVDIALOG = 155;
-    private int mTTSStatus = MyTTS.STATUS_TALKOVER;
+    private int mTTSStatus = AbsTTS.STATUS_TALKOVER;
     private TvlistDialog mTvdialog = null;
     //public boolean isScene = false;
 
@@ -71,7 +71,7 @@ public class SkyAsrDialogControl {
             //String dateStr = dateformat.format(IStatus.mSmallDialogDimissTime);
             Context ctx = VoiceApp.getInstance();
             Log.i(TAG, "stopVoiceTriggerDialog ttsstatus:" + mTTSStatus + " check:" + IStatus.mAsrErrorCnt + " dialog:" + IStatus.mSceneType + " " + System.currentTimeMillis() + " " + " detect:" + IStatus.mSceneDetectType);
-            if (VoiceApp.getInstance().mAiType == GlobalVariable.AI_VOICE) {
+            if (com.skyworthdigital.voice.VoiceApp.getVoiceApp().mAiType == GlobalVariable.AI_VOICE) {
                 if ((IStatus.mSceneType == IStatus.SCENE_GIVEN || IStatus.mSceneType == IStatus.SCENE_SEARCHPAGE) && System.currentTimeMillis() >= IStatus.mSmallDialogDimissTime) {
                     if (IStatus.mSceneType == IStatus.SCENE_SEARCHPAGE) {
                         MyTTS.getInstance(null).talk(ctx.getString(R.string.exit_note));
@@ -83,7 +83,7 @@ public class SkyAsrDialogControl {
                     //VoiceApp.getInstance().sendBroadcast(intent);
                     dialogDismiss(3000);
                 } else if (mAsrDialog.isShowing() && IStatus.mSceneDetectType != IStatus.SCENE_NONE && (IStatus.mSceneType == IStatus.SCENE_GLOBAL && IStatus.mSceneType != IStatus.SCENE_SHOULD_STOP)) {
-                    if (mTTSStatus == MyTTS.STATUS_TALKING || (IStatus.mRecognizeStatus == IStatus.STATUS_ERROR && IStatus.mAsrErrorCnt < IStatus.getMaxAsrErrorCount())) {
+                    if (mTTSStatus == AbsTTS.STATUS_TALKING || (IStatus.mRecognizeStatus == IStatus.STATUS_ERROR && IStatus.mAsrErrorCnt < IStatus.getMaxAsrErrorCount())) {
                         dialogDismiss(2000);
                         return;
                     } else if (BeeSearchParams.getInstance().isInSearchPage()) {
@@ -97,7 +97,7 @@ public class SkyAsrDialogControl {
                     VoiceApp.getInstance().sendBroadcast(tmp);
                     dialogDismiss(IStatus.SMALL_DIALOG_PERIOD);
                 } else if (mAsrDialog.isShowing() && IStatus.mSceneType == IStatus.SCENE_SHOULD_GIVEN) {
-                    if (mTTSStatus == MyTTS.STATUS_TALKING) {
+                    if (mTTSStatus == AbsTTS.STATUS_TALKING) {
                         dialogDismiss(2000);
                     } else {
                         IStatus.setSceneType(IStatus.SCENE_GIVEN);
@@ -107,7 +107,7 @@ public class SkyAsrDialogControl {
                         }
                         mAsrDialog.dialogResize(true);
                     }
-                } else if (mAsrDialog.isShowing() && (mTTSStatus == MyTTS.STATUS_TALKING || (IStatus.mRecognizeStatus == IStatus.STATUS_ERROR && IStatus.mAsrErrorCnt < IStatus.getMaxAsrErrorCount()))
+                } else if (mAsrDialog.isShowing() && (mTTSStatus == AbsTTS.STATUS_TALKING || (IStatus.mRecognizeStatus == IStatus.STATUS_ERROR && IStatus.mAsrErrorCnt < IStatus.getMaxAsrErrorCount()))
                         || ((IStatus.mSceneType == IStatus.SCENE_GIVEN || IStatus.mSceneType == IStatus.SCENE_SEARCHPAGE) && System.currentTimeMillis() < IStatus.mSmallDialogDimissTime)) {
                     dialogDismiss(3000);
                 } else {
@@ -120,7 +120,7 @@ public class SkyAsrDialogControl {
                     mAsrDialog = null;
                 }
             } else {
-                if (mAsrDialog.isShowing() && mTTSStatus == MyTTS.STATUS_TALKING) {
+                if (mAsrDialog.isShowing() && mTTSStatus == AbsTTS.STATUS_TALKING) {
                     dialogDismiss(3000);
                 } else {
                     IStatus.setSceneType(IStatus.SCENE_NONE);

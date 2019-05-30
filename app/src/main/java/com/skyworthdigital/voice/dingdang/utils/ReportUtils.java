@@ -4,10 +4,11 @@ import android.text.TextUtils;
 
 import com.forest.bigdatasdk.ForestDataReport;
 import com.forest.bigdatasdk.model.EventInfo;
-import com.skyworthdigital.voice.dingdang.VoiceApp;
+import com.skyworthdigital.voice.VoiceApp;
 import com.skyworthdigital.voice.dingdang.control.model.Semantic;
 import com.skyworthdigital.voice.dingdang.control.model.Slot;
 import com.skyworthdigital.voice.dingdang.control.model.ValueItem;
+
 import org.json.JSONObject;
 
 import java.util.List;
@@ -31,7 +32,7 @@ public class ReportUtils {
         }
         EventInfo info;
         int keycount = 0;
-        if (VoiceApp.getInstance().mAiType == GlobalVariable.AI_VOICE) {
+        if (VoiceApp.getVoiceApp().mAiType == GlobalVariable.AI_VOICE) {
             info = new EventInfo(EVENT_ID, EVENT_NAME, EVENT_TYPE_SOUNDBOX);
         } else {
             info = new EventInfo(EVENT_ID, EVENT_NAME, EVENT_TYPE_DEFAULT);

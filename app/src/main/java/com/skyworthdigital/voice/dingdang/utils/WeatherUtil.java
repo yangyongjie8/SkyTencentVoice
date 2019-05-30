@@ -30,7 +30,7 @@ public final class WeatherUtil {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Call call = VoiceApp.getInstance().getOkHttpClient()
+                Call call = VoiceApp.getVoiceApp().getOkHttpClient()
                         .newCall(new Request.Builder().url("http://gt.beevideo.tv/hometv/api/weather/info/"+city).build());
                 call.enqueue(new Callback() {
                     @Override

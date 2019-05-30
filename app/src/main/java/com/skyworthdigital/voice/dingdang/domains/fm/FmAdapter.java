@@ -1,18 +1,17 @@
 package com.skyworthdigital.voice.dingdang.domains.fm;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.skyworthdigital.voice.dingdang.R;
+
+import java.util.ArrayList;
 
 /**
  * Created by SDT03046 on 2018/7/26.

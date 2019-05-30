@@ -12,22 +12,26 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 
+import com.skyworthdigital.voice.VoiceApp;
+import com.skyworthdigital.voice.common.AbsController;
+import com.skyworthdigital.voice.common.AbsRecognizer;
+import com.skyworthdigital.voice.common.AbsTTS;
+import com.skyworthdigital.voice.common.AbsWakeup;
+import com.skyworthdigital.voice.common.IRecogListener;
+import com.skyworthdigital.voice.common.IStatus;
+import com.skyworthdigital.voice.common.IWakeupResultListener;
+import com.skyworthdigital.voice.common.utils.Utils;
 import com.skyworthdigital.voice.dingdang.control.ActionUtils;
-import com.skyworthdigital.voice.dingdang.control.model.AsrResult;
-import com.skyworthdigital.voice.dingdang.control.recognization.IRecogListener;
-import com.skyworthdigital.voice.dingdang.control.recognization.IStatus;
 import com.skyworthdigital.voice.dingdang.control.recognization.MyRecognizer;
-import com.skyworthdigital.voice.dingdang.control.record.SkyVoiceProcessor;
 import com.skyworthdigital.voice.dingdang.control.tts.MyTTS;
 import com.skyworthdigital.voice.dingdang.control.tts.WakeUpWord;
-import com.skyworthdigital.voice.dingdang.control.wakeup.IWakeupResultListener;
 import com.skyworthdigital.voice.dingdang.control.wakeup.MyWakeup;
-import com.skyworthdigital.voice.dingdang.domains.tvlive.TvLiveControl;
 import com.skyworthdigital.voice.dingdang.domains.videosearch.model.BeeSearchParams;
 import com.skyworthdigital.voice.dingdang.globalcmd.GlobalUtil;
 import com.skyworthdigital.voice.dingdang.scene.ISceneCallback;
 import com.skyworthdigital.voice.dingdang.scene.SkySceneService;
 import com.skyworthdigital.voice.dingdang.service.RecognizeService;
+import com.skyworthdigital.voice.dingdang.tv.TvLiveControl;
 import com.skyworthdigital.voice.dingdang.utils.AppUtil;
 import com.skyworthdigital.voice.dingdang.utils.DefaultCmds;
 import com.skyworthdigital.voice.dingdang.utils.GlobalVariable;
@@ -37,18 +41,17 @@ import com.skyworthdigital.voice.dingdang.utils.IntentUtils;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
 import com.skyworthdigital.voice.dingdang.utils.ReportUtils;
 import com.skyworthdigital.voice.dingdang.utils.StringUtils;
-import com.skyworthdigital.voice.dingdang.utils.Utils;
 import com.skyworthdigital.voice.dingdang.utils.VolumeUtils;
 import com.tencent.ai.sdk.utils.ISSErrors;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class MainControler implements MyTTS.MyTTSListener {
-    private static final String TAG = "MainControler";
-    private MyRecognizer myRecognizer;
-    private MyWakeup myWakeup;
-    private MyTTS myTTS = MyTTS.getInstance(this);
+public class MainControler extends AbsController {
+    private static final String TAG = "TxController";
+    private AbsRecognizer myRecognizer;
+    private AbsWakeup myWakeup;
+    private AbsTTS myTTS = MyTTS.getInstance(this);
     private SkyAsrDialogControl mAsrDialogControler = null;
 
     private Context mContext;
@@ -57,7 +60,7 @@ public class MainControler implements MyTTS.MyTTSListener {
     private SkySceneService mSceneService;
     private boolean mBound = false;
     private String mRecoResult;
-    private BoxReceiver mBoxReceiver;
+    private MainControler.BoxReceiver mBoxReceiver;
     private boolean mTvdialog = false;
     private static MainControler mManagerInstance = null;
     private ExecutorService mExecutor = Executors.newSingleThreadExecutor();
@@ -67,7 +70,6 @@ public class MainControler implements MyTTS.MyTTSListener {
     private boolean isKeyDown = false;//是否语音遥控器按下
     private long mKeyDownTime = 0;
     private long mKeyUpTime = 0;
-    public volatile boolean isControllerVoice = true;//是否遥控器语音，可能是远场语音
 
     public static MainControler getInstance() {
         if (mManagerInstance == null) {
@@ -77,11 +79,8 @@ public class MainControler implements MyTTS.MyTTSListener {
     }
 
     private MainControler() {
-        mContext = VoiceApp.getInstance();
-        if (VoiceApp.getInstance().mAiType == GlobalVariable.AI_VOICE) {
-            if (Utils.isQ3031Recoder()) {
-                SkyVoiceProcessor.init();
-            }
+        mContext = com.skyworthdigital.voice.VoiceApp.getInstance();
+        if (com.skyworthdigital.voice.VoiceApp.getVoiceApp().mAiType == GlobalVariable.AI_VOICE) {
             myWakeup = MyWakeup.getInstance(mWkresultlistener);
             myWakeup.init();
         }
@@ -93,7 +92,7 @@ public class MainControler implements MyTTS.MyTTSListener {
             Intent intent = new Intent(mContext, SkySceneService.class);
             mContext.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
         }
-        mBoxReceiver = new BoxReceiver();
+        mBoxReceiver = new MainControler.BoxReceiver();
         final IntentFilter mScreenCheckFilter = new IntentFilter();
         mScreenCheckFilter.addAction(IStatus.ACTION_RESTART_ASR);
         mScreenCheckFilter.addAction(IStatus.ACTION_TTS);
@@ -106,7 +105,7 @@ public class MainControler implements MyTTS.MyTTSListener {
     }
 
     public void onDestroy() {
-        VoiceApp.getInstance().unregisterReceiver(mBoxReceiver);
+        com.skyworthdigital.voice.VoiceApp.getInstance().unregisterReceiver(mBoxReceiver);
     }
 
     public boolean onKeyEvent(int code) {
@@ -139,7 +138,7 @@ public class MainControler implements MyTTS.MyTTSListener {
     }
 
     private void main(final AsrResult bean) {
-        Context ctx = VoiceApp.getInstance();
+        Context ctx = com.skyworthdigital.voice.VoiceApp.getInstance();
         try {
             mAsrDialogControler.dialogDismiss(3000);
             if (bean == null || TextUtils.isEmpty(bean.mDomain)) {
@@ -171,7 +170,7 @@ public class MainControler implements MyTTS.MyTTSListener {
                 return;
             }
 
-            if (VoiceApp.getInstance().mAiType == GlobalVariable.AI_VOICE) {
+            if (com.skyworthdigital.voice.VoiceApp.getVoiceApp().mAiType == GlobalVariable.AI_VOICE) {
                 if (IStatus.mSceneType == IStatus.SCENE_GIVEN || IStatus.mSceneType == IStatus.SCENE_SEARCHPAGE) {
                     if (ActionUtils.sceneControl(ctx, mAsrDialogControler, bean)) {
                         MLog.d(TAG, "sceneControl");
@@ -185,7 +184,7 @@ public class MainControler implements MyTTS.MyTTSListener {
                 if (BeeSearchParams.getInstance().isInSearchPage() && (bean.mQuery.startsWith("修改") || bean.mQuery.startsWith("修正") || bean.mQuery.startsWith("纠正"))) {
                     bean.mDomain = "video";
                 }
-                if (VoiceApp.getInstance().mAiType == GlobalVariable.AI_VOICE) {
+                if (com.skyworthdigital.voice.VoiceApp.getVoiceApp().mAiType == GlobalVariable.AI_VOICE) {
                     if (IStatus.mSceneType == IStatus.SCENE_SHOULD_GIVEN || IStatus.mSceneType == IStatus.SCENE_SHOULD_STOP) {
                         MLog.d(TAG, "scene not sure");
                         return;
@@ -290,7 +289,7 @@ public class MainControler implements MyTTS.MyTTSListener {
                     case "astro":
                         mAsrDialogControler.dialogRefresh(mContext, bean, null, 0);
                         mAsrDialogControler.dialogDismiss(30000);
-                        myTTS.parseSemanticToTTS(bean);
+                        myTTS.parseSemanticToTTS(TextUtils.isEmpty(bean.mAnswer)?bean.mTips:bean.mAnswer);
                         break;
                     case "sound":
                         ActionUtils.jumpToSound(ctx, mAsrDialogControler, bean);
@@ -302,11 +301,11 @@ public class MainControler implements MyTTS.MyTTSListener {
                         }
                         mAsrDialogControler.dialogRefresh(mContext, bean, null, 0);
                         mAsrDialogControler.dialogDismiss(3000);
-                        myTTS.parseSemanticToTTS(bean);
+                        myTTS.parseSemanticToTTS(TextUtils.isEmpty(bean.mAnswer)?bean.mTips:bean.mAnswer);
                         break;
                 }
             }
-            if (VoiceApp.getInstance().mAiType == GlobalVariable.AI_VOICE) {
+            if (com.skyworthdigital.voice.VoiceApp.getVoiceApp().mAiType == GlobalVariable.AI_VOICE) {
                 if (IStatus.mSceneType != IStatus.SCENE_GIVEN && IStatus.mSceneType != IStatus.SCENE_SEARCHPAGE && !bean.mSession) {
                     MLog.d(TAG, "RESTART_ASR 222");
                     mAsrDialogControler.dialogDismiss(DEFAULT_DISMISS_TIME);
@@ -328,7 +327,7 @@ public class MainControler implements MyTTS.MyTTSListener {
         MLog.i(TAG, "语音键按下");
         mKeyDownTime = System.currentTimeMillis();
 //        if (isKeyDown) {
-            myRecognizer.start();
+        myRecognizer.start();
 //        }
         myTTS.stopSpeak();
         //myRecognizer.stop();
@@ -388,7 +387,7 @@ public class MainControler implements MyTTS.MyTTSListener {
         myRecognizer.cancel();
         VolumeUtils.getInstance(mContext).setMuteWithNoUi(false);
         mAsrDialogControler.animStop();
-        mAsrDialogControler.dialogRefresh(mContext, null, VoiceApp.getInstance().getResources().getString(R.string.str_input_note_hint), 0);
+        mAsrDialogControler.dialogRefresh(mContext, null, com.skyworthdigital.voice.VoiceApp.getInstance().getResources().getString(R.string.str_input_note_hint), 0);
         mAsrDialogControler.dialogDismiss(3000);
     }
 
@@ -448,7 +447,7 @@ public class MainControler implements MyTTS.MyTTSListener {
             //if (IStatus.mSceneType != IStatus.SCENE_GIVEN) {
             mAsrDialogControler.dialogRefresh(mContext, null, results, 0);
             //}
-            if (VoiceApp.getInstance().mAiType == GlobalVariable.AI_VOICE) {
+            if (com.skyworthdigital.voice.VoiceApp.getVoiceApp().mAiType == GlobalVariable.AI_VOICE) {
                 if (results.contains("叮当")) {
                     MLog.d(TAG, "asr wakeup checked");
                     wakeupSuccess();
@@ -491,7 +490,7 @@ public class MainControler implements MyTTS.MyTTSListener {
                 //myRecognizer.stop();
                 mAsrDialogControler.animStop();
                 mAsrDialogControler.dialogDismiss(3000);
-                mAsrDialogControler.dialogRefresh(mContext, null, VoiceApp.getInstance().getResources().getString(R.string.str_error_network), 0);
+                mAsrDialogControler.dialogRefresh(mContext, null, com.skyworthdigital.voice.VoiceApp.getInstance().getResources().getString(R.string.str_error_network), 0);
             } else {
                 if (mAsrDialogControler.mAsrDialog != null && (IStatus.isInScene() || (!IStatus.isInScene() && IStatus.mAsrErrorCnt < IStatus.getMaxAsrErrorCount()))) {
                     restartRecognize();
@@ -502,13 +501,13 @@ public class MainControler implements MyTTS.MyTTSListener {
                     mAsrDialogControler.dialogDismiss(3000);
                     if (IStatus.mSceneType != IStatus.SCENE_GIVEN) {
                         if (errorCode == ISSErrors.ISS_ERROR_VOICE_TIMEOUT) {
-                            mAsrDialogControler.dialogRefresh(mContext, null, VoiceApp.getInstance().getResources().getString(R.string.str_error_audio), 0);
+                            mAsrDialogControler.dialogRefresh(mContext, null, com.skyworthdigital.voice.VoiceApp.getInstance().getResources().getString(R.string.str_error_audio), 0);
                         } else if (errorCode == ISSErrors.ISS_ERROR_NOT_INITIALIZED) {
-                            mAsrDialogControler.dialogRefresh(mContext, null, VoiceApp.getInstance().getResources().getString(R.string.str_error_init), 0);
+                            mAsrDialogControler.dialogRefresh(mContext, null, com.skyworthdigital.voice.VoiceApp.getInstance().getResources().getString(R.string.str_error_init), 0);
                         } else if (errorCode == ISSErrors.ISS_ERROR_COMMOM_SERVICE_RESP) {
-                            mAsrDialogControler.dialogRefresh(mContext, null, VoiceApp.getInstance().getResources().getString(R.string.str_reco_busy), 0);
+                            mAsrDialogControler.dialogRefresh(mContext, null, com.skyworthdigital.voice.VoiceApp.getInstance().getResources().getString(R.string.str_reco_busy), 0);
                         } else {
-                            mAsrDialogControler.dialogRefresh(mContext, null, VoiceApp.getInstance().getResources().getString(R.string.str_error_other) + errorCode, 0);
+                            mAsrDialogControler.dialogRefresh(mContext, null, com.skyworthdigital.voice.VoiceApp.getInstance().getResources().getString(R.string.str_error_other) + errorCode, 0);
                         }
                     }
                 }
@@ -667,7 +666,7 @@ public class MainControler implements MyTTS.MyTTSListener {
                     ActionUtils.jumpToHelp(mContext, mAsrDialogControler, bean);
                     return;
                 }
-                if (VoiceApp.getInstance().mAiType != GlobalVariable.AI_REMOTE) {
+                if (com.skyworthdigital.voice.VoiceApp.getVoiceApp().mAiType != GlobalVariable.AI_REMOTE) {
                     if (!isEnd || IStatus.isInScene() || TextUtils.equals(bean.mAnswer, "我在，有什么需要我帮忙吗？")) {
                         restartRecognize();
                     }
@@ -733,7 +732,7 @@ public class MainControler implements MyTTS.MyTTSListener {
                     if (tip != null) {
                         tip.pauseQQMusic();//pause music when power off
                     }
-                    if (VoiceApp.getInstance().mAiType == GlobalVariable.AI_VOICE && myWakeup != null) {
+                    if (com.skyworthdigital.voice.VoiceApp.getVoiceApp().mAiType == GlobalVariable.AI_VOICE && myWakeup != null) {
                         myWakeup.stopWakeup();
                     }
                     myRecognizer.release();
@@ -762,7 +761,7 @@ public class MainControler implements MyTTS.MyTTSListener {
 
                 case WAKEUP_OPEN_ACTION:
                     Utils.setWakeupProperty(2);//opening
-                    if (VoiceApp.getInstance().mAiType == GlobalVariable.AI_VOICE) {
+                    if (com.skyworthdigital.voice.VoiceApp.getVoiceApp().mAiType == GlobalVariable.AI_VOICE) {
                         myWakeup.startWakeup();
                     }
                     myRecognizer.register();
@@ -772,7 +771,7 @@ public class MainControler implements MyTTS.MyTTSListener {
                     break;
                 case Intent.ACTION_SCREEN_ON:
                     //case GlobalVariable.RELEASE_AUDIO_RECORDER_ACTION:
-                    if (VoiceApp.getInstance().mAiType == GlobalVariable.AI_VOICE && myWakeup != null) {
+                    if (VoiceApp.getVoiceApp().mAiType == GlobalVariable.AI_VOICE && myWakeup != null) {
                         myWakeup.startWakeup();
                     }
                     myRecognizer.register();
@@ -808,4 +807,5 @@ public class MainControler implements MyTTS.MyTTSListener {
             MLog.d(TAG, "识音中");
         }
     }
+
 }

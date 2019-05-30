@@ -4,16 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 
+import com.skyworthdigital.voice.common.IStatus;
+import com.skyworthdigital.voice.dingdang.AsrResult;
 import com.skyworthdigital.voice.dingdang.R;
 import com.skyworthdigital.voice.dingdang.SkyAsrDialogControl;
 import com.skyworthdigital.voice.dingdang.VoiceApp;
 import com.skyworthdigital.voice.dingdang.control.model.AIDataType;
-import com.skyworthdigital.voice.dingdang.control.model.AsrResult;
 import com.skyworthdigital.voice.dingdang.control.model.BaikeVideoItem;
 import com.skyworthdigital.voice.dingdang.control.model.MusicSlots;
 import com.skyworthdigital.voice.dingdang.control.model.Semantic;
 import com.skyworthdigital.voice.dingdang.control.model.TemplateItem;
-import com.skyworthdigital.voice.dingdang.control.recognization.IStatus;
 import com.skyworthdigital.voice.dingdang.control.tts.MyTTS;
 import com.skyworthdigital.voice.dingdang.domains.alarm.Alarm;
 import com.skyworthdigital.voice.dingdang.domains.alarm.AlarmHelper;
@@ -21,10 +21,10 @@ import com.skyworthdigital.voice.dingdang.domains.alarm.database.AlarmDbOperator
 import com.skyworthdigital.voice.dingdang.domains.music.MusicControl;
 import com.skyworthdigital.voice.dingdang.domains.poem.SkyPoemActivity;
 import com.skyworthdigital.voice.dingdang.domains.tianmai.TianmaiIntent;
-import com.skyworthdigital.voice.dingdang.domains.tv.TvControl;
 import com.skyworthdigital.voice.dingdang.domains.videosearch.BeeSearchUtils;
 import com.skyworthdigital.voice.dingdang.domains.videosearch.model.BeeSearchParams;
 import com.skyworthdigital.voice.dingdang.globalcmd.GlobalUtil;
+import com.skyworthdigital.voice.dingdang.tv.TvControl;
 import com.skyworthdigital.voice.dingdang.utils.DefaultCmds;
 import com.skyworthdigital.voice.dingdang.utils.DialogCellType;
 import com.skyworthdigital.voice.dingdang.utils.GlobalVariable;
@@ -43,7 +43,7 @@ import java.util.List;
  */
 
 public class ActionUtils {
-    private static final String TAG = "MainControler";
+    private static final String TAG = "ActionUtils";
 
 
     public static void jumpToVideoSearch(Context ctx, SkyAsrDialogControl dialogControl, AsrResult bean) {
@@ -52,7 +52,7 @@ public class ActionUtils {
             case "search_relation_person_kg":
                 dialogControl.dialogRefresh(ctx, bean, null, 0);
                 dialogControl.dialogDismiss(3000);
-                MyTTS.getInstance(null).parseSemanticToTTS(bean);
+                MyTTS.getInstance(null).parseSemanticToTTS(TextUtils.isEmpty(bean.mAnswer)?bean.mTips:bean.mAnswer);
                 break;
             default:
                 dialogControl.dialogDismiss(15000);
@@ -112,7 +112,7 @@ public class ActionUtils {
                             dialogControl.dialogRefresh(ctx, null, bean.mAnswer, 0);
                         }
                         dialogControl.dialogDismiss(35000);
-                        MyTTS.getInstance(null).parseSemanticToTTS(bean);
+                        MyTTS.getInstance(null).parseSemanticToTTS(TextUtils.isEmpty(bean.mAnswer)?bean.mTips:bean.mAnswer);
                         return;
                     }
                 }
@@ -129,7 +129,7 @@ public class ActionUtils {
         }
         dialogControl.dialogRefresh(ctx, bean, null, 0);
         dialogControl.dialogDismiss(5000);
-        MyTTS.getInstance(null).parseSemanticToTTS(bean);
+        MyTTS.getInstance(null).parseSemanticToTTS(TextUtils.isEmpty(bean.mAnswer)?bean.mTips:bean.mAnswer);
     }
 
     public static void jumpToPoem(Context ctx, SkyAsrDialogControl dialogControl, AsrResult bean) {
@@ -164,7 +164,7 @@ public class ActionUtils {
             dialogControl.dialogRefresh(ctx, null, bean.mAnswer, 0);
         }
         dialogControl.dialogDismiss(2000);
-        MyTTS.getInstance(null).parseSemanticToTTS(bean);
+        MyTTS.getInstance(null).parseSemanticToTTS(TextUtils.isEmpty(bean.mAnswer)?bean.mTips:bean.mAnswer);
     }
 
     public static boolean jumpToFM(Context ctx, SkyAsrDialogControl dialogControl, AsrResult bean) {
@@ -483,7 +483,7 @@ public class ActionUtils {
             dialogControl.dialogRefresh(ctx, null, bean.mAnswer, 0);
         }
         dialogControl.dialogDismiss(2000);
-        MyTTS.getInstance(null).parseSemanticToTTS(bean);
+        MyTTS.getInstance(null).parseSemanticToTTS(TextUtils.isEmpty(bean.mAnswer)?bean.mTips:bean.mAnswer);
     }
 
     public static void jumpToHelp(Context ctx, SkyAsrDialogControl dialogControl, AsrResult bean) {
@@ -548,7 +548,7 @@ public class ActionUtils {
         }
         dialogControl.dialogRefresh(ctx, bean, null, 0);
         dialogControl.dialogDismiss(3000);
-        MyTTS.getInstance(null).parseSemanticToTTS(bean);
+        MyTTS.getInstance(null).parseSemanticToTTS(TextUtils.isEmpty(bean.mAnswer)?bean.mTips:bean.mAnswer);
     }
 
     public static void jumpToTvControl(Context ctx, SkyAsrDialogControl dialogControl, AsrResult bean) {
@@ -562,7 +562,7 @@ public class ActionUtils {
         try {
             if (!TvControl.main(ctx, bean, dialogControl)) {
                 dialogControl.dialogRefresh(ctx, bean, null, 0);
-                MyTTS.getInstance(null).parseSemanticToTTS(bean);
+                MyTTS.getInstance(null).parseSemanticToTTS(TextUtils.isEmpty(bean.mAnswer)?bean.mTips:bean.mAnswer);
             }
         } catch (Exception e) {
             e.printStackTrace();

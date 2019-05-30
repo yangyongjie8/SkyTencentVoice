@@ -8,17 +8,16 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.text.TextUtils;
 
+import com.skyworthdigital.voice.common.IStatus;
 import com.skyworthdigital.voice.dingdang.R;
 import com.skyworthdigital.voice.dingdang.VoiceApp;
-import com.skyworthdigital.voice.dingdang.domains.music.musictype.TypeCell;
 import com.skyworthdigital.voice.dingdang.control.model.MusicSlots;
-import com.skyworthdigital.voice.dingdang.control.recognization.IStatus;
 import com.skyworthdigital.voice.dingdang.control.tts.MyTTS;
+import com.skyworthdigital.voice.dingdang.domains.music.musictype.TypeCell;
 import com.skyworthdigital.voice.dingdang.utils.AppUtil;
 import com.skyworthdigital.voice.dingdang.utils.GuideTip;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
 import com.skyworthdigital.voice.dingdang.utils.StringUtils;
-
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

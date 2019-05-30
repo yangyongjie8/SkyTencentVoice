@@ -8,12 +8,12 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.skyworthdigital.voice.VoiceApp;
+import com.skyworthdigital.voice.common.IStatus;
+import com.skyworthdigital.voice.common.utils.Utils;
 import com.skyworthdigital.voice.dingdang.R;
-import com.skyworthdigital.voice.dingdang.VoiceApp;
 import com.skyworthdigital.voice.dingdang.control.model.UserGuideStrings;
-import com.skyworthdigital.voice.dingdang.control.recognization.IStatus;
 import com.skyworthdigital.voice.dingdang.control.tts.MyTTS;
-import com.skyworthdigital.voice.dingdang.domains.tv.TvControl;
 import com.skyworthdigital.voice.dingdang.domains.videoplay.BeeVideoPlayUtils;
 import com.skyworthdigital.voice.dingdang.domains.videoplay.SkyVideoPlayUtils;
 import com.skyworthdigital.voice.dingdang.domains.videoplay.callback.SkyCommonCallback;
@@ -25,6 +25,7 @@ import com.skyworthdigital.voice.dingdang.domains.videosearch.model.BeeSearchBea
 import com.skyworthdigital.voice.dingdang.domains.videosearch.model.BeeSearchParams;
 import com.skyworthdigital.voice.dingdang.domains.videosearch.model.BeeSearchVideoResult;
 import com.skyworthdigital.voice.dingdang.domains.videosearch.model.SpeakSameInfo;
+import com.skyworthdigital.voice.dingdang.tv.TvControl;
 import com.skyworthdigital.voice.dingdang.utils.AppUtil;
 import com.skyworthdigital.voice.dingdang.utils.DefaultCmds;
 import com.skyworthdigital.voice.dingdang.utils.GlobalVariable;
@@ -32,7 +33,6 @@ import com.skyworthdigital.voice.dingdang.utils.GsonUtils;
 import com.skyworthdigital.voice.dingdang.utils.GuideTip;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
 import com.skyworthdigital.voice.dingdang.utils.StringUtils;
-import com.skyworthdigital.voice.dingdang.utils.Utils;
 import com.skyworthdigital.voice.dingdang.utils.VolumeUtils;
 
 import org.json.JSONException;
@@ -58,7 +58,7 @@ public class BeeSearchUtils {
     private static String getNluPath(@NonNull String txt, String localcallid, String usrid, String token) {
         StringBuilder sb = new StringBuilder();
         sb.append(BeeSearchParams.ASR_PATH);
-        if (VoiceApp.getInstance().mAiType == GlobalVariable.AI_VOICE) {
+        if (VoiceApp.getVoiceApp().mAiType == GlobalVariable.AI_VOICE) {
             sb.append(BeeSearchParams.VOICE_MODEL);
         } else {
             sb.append(BeeSearchParams.IR_MODEL);
@@ -87,7 +87,7 @@ public class BeeSearchUtils {
     private static String getSearchPath() {
         StringBuilder sb = new StringBuilder();
         sb.append(BeeSearchParams.ASR_PATH);
-        if (VoiceApp.getInstance().mAiType == GlobalVariable.AI_VOICE) {
+        if (VoiceApp.getVoiceApp().mAiType == GlobalVariable.AI_VOICE) {
             sb.append(BeeSearchParams.VOICE_MODEL);
         } else {
             sb.append(BeeSearchParams.IR_MODEL);
@@ -105,7 +105,7 @@ public class BeeSearchUtils {
                 .get()
                 .url(getNluPath(txt, BeeSearchParams.getInstance().getLocalcallid(), BeeSearchParams.getInstance().getUserid(), token))
                 .build();
-        VoiceApp.getInstance().getOkHttpClient().newCall(request).enqueue(callback);
+        com.skyworthdigital.voice.dingdang.VoiceApp.getVoiceApp().getOkHttpClient().newCall(request).enqueue(callback);
     }
 
     public static void sendSearchRequest(@NonNull String abnf, String lastreply,/*String localcallid, String usrid, String token,*/ SkyCommonCallback callback) {
@@ -124,7 +124,7 @@ public class BeeSearchUtils {
         bodybuilder.add("channel", "search");
 
         final Request request = builder.post(bodybuilder.build()).build();
-        Call call = VoiceApp.getInstance().getOkHttpClient().newCall(request);
+        Call call = com.skyworthdigital.voice.dingdang.VoiceApp.getVoiceApp().getOkHttpClient().newCall(request);
         call.enqueue(callback);
     }
 
@@ -132,7 +132,7 @@ public class BeeSearchUtils {
     public static String getVedioListPath() {
         StringBuilder sb = new StringBuilder();
         sb.append(BeeSearchParams.ASR_PATH);
-        if (VoiceApp.getInstance().mAiType == GlobalVariable.AI_VOICE) {
+        if (VoiceApp.getVoiceApp().mAiType == GlobalVariable.AI_VOICE) {
             sb.append(BeeSearchParams.VOICE_MODEL);
         } else {
             sb.append(BeeSearchParams.IR_MODEL);
@@ -290,7 +290,7 @@ public class BeeSearchUtils {
                         return;
                     }
                 }
-                if (VoiceApp.getInstance().mAiType == GlobalVariable.AI_VOICE) {
+                if (VoiceApp.getVoiceApp().mAiType == GlobalVariable.AI_VOICE) {
                     IStatus.mAsrErrorCnt += 1;
                     IStatus.mRecognizeStatus = IStatus.STATUS_ERROR;
                     if (!IStatus.isInScene() && IStatus.mAsrErrorCnt >= IStatus.getMaxAsrErrorCount()) {
@@ -315,7 +315,7 @@ public class BeeSearchUtils {
                 if (IStatus.mRecognizeStatus == IStatus.STATUS_FINISHED) {
                     MyTTS.getInstance(null).talkDelay(""/*skyItemObj.getTts()*/, skyItemObj.getOutput(), 1000);
                 }
-                if (VoiceApp.getInstance().mAiType == GlobalVariable.AI_VOICE && BeeSearchParams.getInstance().isInSearchPage()) {
+                if (VoiceApp.getVoiceApp().mAiType == GlobalVariable.AI_VOICE && BeeSearchParams.getInstance().isInSearchPage()) {
                     IStatus.mAsrErrorCnt += 1;
                     IStatus.mRecognizeStatus = IStatus.STATUS_ERROR;
                     Log.i(TAG, "err cnt:" + IStatus.mAsrErrorCnt + " type:" + IStatus.mSceneType);

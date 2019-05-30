@@ -1,6 +1,5 @@
 package com.skyworthdigital.voice.dingdang.domains.fm;
 
-import android.content.res.AssetManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnBufferingUpdateListener;
@@ -10,7 +9,6 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import com.skyworthdigital.voice.dingdang.VoiceApp;
 import com.skyworthdigital.voice.dingdang.domains.videosearch.generalview.SkyLoadingView;

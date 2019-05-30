@@ -1,1 +1,1 @@
-include ':app', ':tencent_module'
+include ':app', ':tencent_module', ':baidu_module', ':common'

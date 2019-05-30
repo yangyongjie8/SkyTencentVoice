@@ -10,10 +10,11 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 
 
+import com.skyworthdigital.voice.common.utils.Utils;
 import com.skyworthdigital.voice.dingdang.R;
 import com.skyworthdigital.voice.dingdang.VoiceApp;
 import com.skyworthdigital.voice.dingdang.domains.music.utils.QQMusicUtils;
-import com.skyworthdigital.voice.dingdang.domains.tvlive.TvLiveControl;
+import com.skyworthdigital.voice.dingdang.tv.TvLiveControl;
 import com.skyworthdigital.voice.dingdang.control.tts.MyTTS;
 import com.skyworthdigital.voice.dingdang.globalcmd.Action;
 import com.skyworthdigital.voice.dingdang.globalcmd.GlobalUtil;

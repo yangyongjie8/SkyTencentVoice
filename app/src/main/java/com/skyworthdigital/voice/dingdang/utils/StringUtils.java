@@ -134,6 +134,76 @@ public class StringUtils {
         }
     }
 
+    //去除字符串中的标点
+    public static String format(String s) {
+        String str = s.replaceAll("[`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……& amp;*（）——+|{}【】‘；：”“’。， ·、？|-]", "");
+        return str;
+    }
+
+    /**
+     * 功能：提取字符串中的数字
+     */
+    public static String getStringNumbers(String str) {
+        String regEx = "[^0-9]";
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(str);
+        return m.replaceAll("").trim();
+    }
+
+    /**
+     * 功能：中文转为罗马数字，暂只处理千以内的。
+     */
+    public static int chineseNumber2Int(String chineseNumber) {
+        int result = 0;
+        int temp = 0;//存放一个单位的数字如：十万
+        int count = 0;//判断是否有chArr
+        char[] cnArr = new char[]{'一', '二', '三', '四', '五', '六', '七', '八', '九'};
+        char[] chArr = new char[]{'十', '百'};
+        for (int i = 0; i < chineseNumber.length(); i++) {
+            boolean b = true;//判断是否是chArr
+            char c = chineseNumber.charAt(i);
+            for (int j = 0; j < cnArr.length; j++) {//非单位，即数字
+                if (c == cnArr[j]) {
+                    if (0 != count) {//添加下一个单位之前，先把上一个单位值添加到结果中
+                        result += temp;
+                        count = 0;
+                    }
+                    // 下标+1，就是对应的值
+                    temp = j + 1;
+                    b = false;
+                    break;
+                }
+            }
+            if (b) {//单位{'十','百','千','万','亿'}
+                for (int j = 0; j < chArr.length; j++) {
+                    if (c == chArr[j]) {
+                        switch (j) {
+                            case 0:
+                                if (temp == 0) {
+                                    temp = 1;
+                                }
+                                temp *= 10;
+                                break;
+                            case 1:
+                                if (temp == 0) {
+                                    temp = 1;
+                                }
+                                temp *= 100;
+                                break;
+                            default:
+                                break;
+                        }
+                        count++;
+                    }
+                }
+            }
+            if (i == chineseNumber.length() - 1) {//遍历到最后一个字符
+                result += temp;
+            }
+        }
+        return result;
+    }
+
     /**
      * 根据用户语音原话，提取里面的数值，如播放第5集中的数字5
      */
@@ -207,6 +277,12 @@ public class StringUtils {
         String regex = ".*(怎么使用|如何使用|功能介绍|使用说明|功能说明|使用帮助).*";
         MLog.d("wyf", "isExitCmdFromSpeech");
         return Pattern.matches(regex, speech);
+    }
+
+    public static String getDateString() {
+        SimpleDateFormat formatter = new SimpleDateFormat("MM月dd日 E", Locale.CHINA);
+        Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+        return formatter.format(curDate);
     }
 
     /**
@@ -321,118 +397,88 @@ public class StringUtils {
         return map.get(num);
     }
 
-    /**
-     * 功能：中文转为罗马数字，暂只处理千以内的。
+    /*
+     * 将时间戳转换为时间
      */
-    public static int chineseNumber2Int(String chineseNumber) {
-        int result = 0;
-        int temp = 0;//存放一个单位的数字如：十万
-        int count = 0;//判断是否有chArr
-        char[] cnArr = new char[]{'一', '二', '三', '四', '五', '六', '七', '八', '九'};
-        char[] chArr = new char[]{'十', '百'};
-        for (int i = 0; i < chineseNumber.length(); i++) {
-            boolean b = true;//判断是否是chArr
-            char c = chineseNumber.charAt(i);
-            for (int j = 0; j < cnArr.length; j++) {//非单位，即数字
-                if (c == cnArr[j]) {
-                    if (0 != count) {//添加下一个单位之前，先把上一个单位值添加到结果中
-                        result += temp;
-                        count = 0;
-                    }
-                    // 下标+1，就是对应的值
-                    temp = j + 1;
-                    b = false;
-                    break;
+    public static String stampToDate(Long lt) {
+        String res;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
+        Date date = new Date(lt * 1000);
+        res = simpleDateFormat.format(date);
+        return res;
+    }
+
+    // 判断一个字符串是否含有数字
+    public static boolean hasDigit(String content) {
+        boolean flag = false;
+        Pattern p = Pattern.compile(".*\\d+.*");
+        Matcher m = p.matcher(content);
+        if (m.matches()) {
+            flag = true;
+        }
+        return flag;
+    }
+
+    // 判断一个字符串是否含有中文数字
+    public static boolean hasChineseDigit(String content) {
+        boolean flag = false;
+        Pattern p = Pattern.compile(".*[一二三四五六七八九十]{1,5}.*");
+        Matcher m = p.matcher(content);
+        if (m.matches()) {
+            flag = true;
+        }
+        return flag;
+    }
+
+    //截取数字  【读取字符串中第一个连续的字符串，不包含后面不连续的数字】
+    public static String getChineseNumbers(String content) {
+        Pattern pattern = Pattern.compile("[一二三四五六七八九十]{1,5}");
+        Matcher matcher = pattern.matcher(content);
+        while (matcher.find()) {
+            return matcher.group(0);
+        }
+        return "";
+    }
+
+    private static String sectionTOChinese(int section, String chineseNum) {
+        String setionChinese = new String();//小节部分用独立函数操作
+        int unitPos = 0;//小节内部的权值计数器
+        boolean zero = true;//小节内部的制零判断，每个小节内只能出现一个零
+
+        final String[] chnNumChar = {"零", "一", "二", "三", "四", "五", "六", "七", "八", "九"};
+        final char[] chnNumChinese = {'零', '一', '二', '三', '四', '五', '六', '七', '八', '九'};
+        //节权位
+        final String[] chnUnitSection = {"", "万", "亿", "万亿"};
+        //权位
+        final String[] chnUnitChar = {"", "十", "百", "千"};
+        HashMap intList = new HashMap();
+
+        for (int i = 0; i < chnNumChar.length; i++) {
+            intList.put(chnNumChinese[i], i);
+        }
+
+        intList.put('十', 10);
+        intList.put('百', 100);
+        intList.put('千', 1000);
+
+        while (section > 0) {
+            int v = section % 10;//取当前最末位的值
+            if (v == 0) {
+                if (!zero) {
+                    zero = true;//需要补零的操作，确保对连续多个零只是输出一个
+                    chineseNum = chnNumChar[0] + chineseNum;
                 }
+            } else {
+                zero = false;//有非零的数字，就把制零开关打开
+                setionChinese = chnNumChar[v];//对应中文数字位
+                setionChinese = setionChinese + chnUnitChar[unitPos];//对应中文权位
+                chineseNum = setionChinese + chineseNum;
             }
-            if (b) {//单位{'十','百','千','万','亿'}
-                for (int j = 0; j < chArr.length; j++) {
-                    if (c == chArr[j]) {
-                        switch (j) {
-                            case 0:
-                                if (temp == 0) {
-                                    temp = 1;
-                                }
-                                temp *= 10;
-                                break;
-                            case 1:
-                                if (temp == 0) {
-                                    temp = 1;
-                                }
-                                temp *= 100;
-                                break;
-                            default:
-                                break;
-                        }
-                        count++;
-                    }
-                }
-            }
-            if (i == chineseNumber.length() - 1) {//遍历到最后一个字符
-                result += temp;
-            }
-        }
-        return result;
-    }
-
-    /**
-     * 功能：提取字符串中的数字
-     */
-    public static String getStringNumbers(String str) {
-        String regEx = "[^0-9]";
-        Pattern p = Pattern.compile(regEx);
-        Matcher m = p.matcher(str);
-        return m.replaceAll("").trim();
-    }
-
-    public static Map<String, String> getUrl(String str) {
-        String reg = "(?i)<a[^>]+href[=\"\']+([^\"\']+)[\"\']?[^>]*>((?!<\\/a>)[\\s\\S]*)<\\/a>";
-        Map<String, String> ret = new HashMap<>();
-        //String str = "<a href=\"url\">text</a> ";
-        Pattern p = Pattern.compile(reg);
-        Matcher m = p.matcher(str);
-        while (m.find()) {
-            ret.put(m.group(1), m.group(2));
-            //MLog.d("geturl", "链接: %s, 内容: %s" + m.group(1) + m.group(2));
-        }
-        return ret;
-    }
-
-    public static String removeUrl(String str) {
-        String reg = "(?i)<a[^>]+href[=\"\']+([^\"\']+)[\"\']?[^>]*>((?!<\\/a>)[\\s\\S]*)<\\/a>";
-        Map<String, String> ret = new HashMap<>();
-        //String str = "<a href=\"url\">text</a> ";
-        Pattern p = Pattern.compile(reg);
-        Matcher m = p.matcher(str);
-        while (m.find()) {
-            ret.put(m.group(1), m.group(2));
-            //MLog.d("geturl", "链接: %s, 内容: %s" + m.group(1) + m.group(2));
+            unitPos++;
+            section = section / 10;
         }
 
-        int start, end;
-        StringBuilder substr = new StringBuilder();
-        if (ret.size() > 0) {
-            start = str.indexOf("<a");
-            end = str.indexOf("</a>");
-            //MLog.d("geturl", start + " ~ " + end);
-            if (start < end) {
-                end += "</a>".length();
-            }
-            substr.append(str.substring(0, start));
-            substr.append(str.substring(end));
-        }
-
-        //MLog.d("geturl", substr.toString());
-        Set<Map.Entry<String, String>> set = ret.entrySet();
-        // 遍历键值对对象的集合，得到每一个键值对对象
-        for (Map.Entry<String, String> me : set) {
-            // 根据键值对对象获取键和值
-            String key = me.getKey();
-            String value = me.getValue();
-            //MLog.d("geturl", key + "---" + value);
-            substr.append(value);
-        }
-        return substr.toString();
+        return chineseNum;
     }
 
     public static String numberToChinese(int num) {//转化一个阿拉伯数字为中文字符串
@@ -484,70 +530,6 @@ public class StringUtils {
         return All;
     }
 
-    private static String sectionTOChinese(int section, String chineseNum) {
-        String setionChinese = new String();//小节部分用独立函数操作
-        int unitPos = 0;//小节内部的权值计数器
-        boolean zero = true;//小节内部的制零判断，每个小节内只能出现一个零
-
-        final String[] chnNumChar = {"零", "一", "二", "三", "四", "五", "六", "七", "八", "九"};
-        final char[] chnNumChinese = {'零', '一', '二', '三', '四', '五', '六', '七', '八', '九'};
-        //节权位
-        final String[] chnUnitSection = {"", "万", "亿", "万亿"};
-        //权位
-        final String[] chnUnitChar = {"", "十", "百", "千"};
-        HashMap intList = new HashMap();
-
-        for (int i = 0; i < chnNumChar.length; i++) {
-            intList.put(chnNumChinese[i], i);
-        }
-
-        intList.put('十', 10);
-        intList.put('百', 100);
-        intList.put('千', 1000);
-
-        while (section > 0) {
-            int v = section % 10;//取当前最末位的值
-            if (v == 0) {
-                if (!zero) {
-                    zero = true;//需要补零的操作，确保对连续多个零只是输出一个
-                    chineseNum = chnNumChar[0] + chineseNum;
-                }
-            } else {
-                zero = false;//有非零的数字，就把制零开关打开
-                setionChinese = chnNumChar[v];//对应中文数字位
-                setionChinese = setionChinese + chnUnitChar[unitPos];//对应中文权位
-                chineseNum = setionChinese + chineseNum;
-            }
-            unitPos++;
-            section = section / 10;
-        }
-
-        return chineseNum;
-    }
-
-
-    // 判断一个字符串是否含有数字
-    public static boolean hasDigit(String content) {
-        boolean flag = false;
-        Pattern p = Pattern.compile(".*\\d+.*");
-        Matcher m = p.matcher(content);
-        if (m.matches()) {
-            flag = true;
-        }
-        return flag;
-    }
-
-    // 判断一个字符串是否含有中文数字
-    public static boolean hasChineseDigit(String content) {
-        boolean flag = false;
-        Pattern p = Pattern.compile(".*[一二三四五六七八九十]{1,5}.*");
-        Matcher m = p.matcher(content);
-        if (m.matches()) {
-            flag = true;
-        }
-        return flag;
-    }
-
     //截取数字  【读取字符串中第一个连续的字符串，不包含后面不连续的数字】
     public static String getNumbers(String content) {
         Pattern pattern = Pattern.compile("\\d+");
@@ -556,41 +538,6 @@ public class StringUtils {
             return matcher.group(0);
         }
         return "";
-    }
-
-    //截取数字  【读取字符串中第一个连续的字符串，不包含后面不连续的数字】
-    public static String getChineseNumbers(String content) {
-        Pattern pattern = Pattern.compile("[一二三四五六七八九十]{1,5}");
-        Matcher matcher = pattern.matcher(content);
-        while (matcher.find()) {
-            return matcher.group(0);
-        }
-        return "";
-    }
-
-    //去除字符串中的标点
-    public static String format(String s) {
-        String str = s.replaceAll("[`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……& amp;*（）——+|{}【】‘；：”“’。， ·、？|-]", "");
-        return str;
-    }
-
-
-    /*
-    * 将时间戳转换为时间
-    */
-    public static String stampToDate(Long lt) {
-        String res;
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
-        Date date = new Date(lt * 1000);
-        res = simpleDateFormat.format(date);
-        return res;
-    }
-
-
-    public static String getDateString() {
-        SimpleDateFormat formatter = new SimpleDateFormat("MM月dd日 E", Locale.CHINA);
-        Date curDate = new Date(System.currentTimeMillis());//获取当前时间
-        return formatter.format(curDate);
     }
 
     /**
@@ -851,7 +798,7 @@ public class StringUtils {
             MLog.i("StringUtils", "" + url);
 //            String response = "";
 //            String response_jni = SSRService.httpGet(url, response);
-            Call call = VoiceApp.getInstance().getOkHttpClient().newCall(new Request.Builder().url(url).build());
+            Call call = VoiceApp.getVoiceApp().getOkHttpClient().newCall(new Request.Builder().url(url).build());
             Response response = call.execute();
             if(response==null || !response.isSuccessful() || response.body()==null)return false;
             String resText = response.body().string();

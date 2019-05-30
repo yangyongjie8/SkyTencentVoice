@@ -10,11 +10,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-
+import com.skyworthdigital.voice.dingdang.AsrResult;
 import com.skyworthdigital.voice.dingdang.R;
-import com.skyworthdigital.voice.dingdang.control.model.AsrResult;
 import com.skyworthdigital.voice.dingdang.utils.StringUtils;
-
 
 import java.util.ArrayList;
 import java.util.List;

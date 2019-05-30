@@ -6,7 +6,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.text.TextUtils;
 
-import com.skyworthdigital.voice.dingdang.VoiceApp;
+import com.skyworthdigital.voice.VoiceApp;
 import com.skyworthdigital.voice.dingdang.control.tts.MyTTS;
 
 import java.io.IOException;
@@ -78,7 +78,7 @@ public class SkyRing {
     }
 
     public void playDing() {
-        if (VoiceApp.getInstance().mAiType == GlobalVariable.AI_REMOTE) {
+        if (VoiceApp.getVoiceApp().mAiType == GlobalVariable.AI_REMOTE) {
             final Context ctx = VoiceApp.getInstance();
             if (mSkymediaPlayer == null) {
                 mSkymediaPlayer = new MediaPlayer();

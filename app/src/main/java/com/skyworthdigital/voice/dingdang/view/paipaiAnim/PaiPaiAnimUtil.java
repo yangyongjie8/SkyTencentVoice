@@ -3,9 +3,8 @@ package com.skyworthdigital.voice.dingdang.view.paipaiAnim;
 import android.util.Log;
 import android.widget.ImageView;
 
-
-import com.skyworthdigital.voice.dingdang.VoiceApp;
-import com.skyworthdigital.voice.dingdang.control.recognization.IStatus;
+import com.skyworthdigital.voice.VoiceApp;
+import com.skyworthdigital.voice.common.IStatus;
 import com.skyworthdigital.voice.dingdang.utils.GlobalVariable;
 
 import java.util.Arrays;
@@ -48,7 +47,7 @@ public class PaiPaiAnimUtil {
                 //LogUtil.log("paipai default");
                 break;
             case ID_PAIPAI_RECORE:
-                if (VoiceApp.getInstance().mAiType == GlobalVariable.AI_REMOTE) {
+                if (VoiceApp.getVoiceApp().mAiType == GlobalVariable.AI_REMOTE) {
                     frames = PaiPaiAnimVars.IMAGE_RECORDS;
                 } else if (IStatus.mSceneType == IStatus.SCENE_GIVEN) {
                     frames = PaiPaiAnimVars.IMAGE_DEFAULTS;
@@ -65,7 +64,7 @@ public class PaiPaiAnimUtil {
         //Log.i("wyf", "showPaiPaiAnim:" + idx);
         int[] frams = PaiPaiAnimVars.IMAGE_DEFAULTS;
         if (mIsRecording) {
-            if (VoiceApp.getInstance().mAiType == GlobalVariable.AI_REMOTE) {
+            if (VoiceApp.getVoiceApp().mAiType == GlobalVariable.AI_REMOTE) {
                 frams = PaiPaiAnimVars.IMAGE_RECORDS;
             } else if (IStatus.mSceneType == IStatus.SCENE_GIVEN) {
                 frams = PaiPaiAnimVars.IMAGE_DEFAULTS;

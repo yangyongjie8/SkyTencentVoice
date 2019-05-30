@@ -3,7 +3,6 @@ package com.skyworthdigital.voice.dingdang.domains.music.utils;
 import android.content.Context;
 import android.text.TextUtils;
 
-
 import com.google.gson.Gson;
 import com.skyworthdigital.voice.dingdang.R;
 import com.skyworthdigital.voice.dingdang.domains.music.musictype.TypeBean;

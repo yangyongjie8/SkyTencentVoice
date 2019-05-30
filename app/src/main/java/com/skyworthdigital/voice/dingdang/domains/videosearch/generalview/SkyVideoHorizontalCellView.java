@@ -1,11 +1,5 @@
 package com.skyworthdigital.voice.dingdang.domains.videosearch.generalview;
 
-import com.facebook.common.util.UriUtil;
-import com.facebook.drawee.backends.pipeline.Fresco;
-import com.facebook.drawee.generic.GenericDraweeHierarchy;
-import com.facebook.drawee.interfaces.DraweeController;
-import com.facebook.drawee.view.SimpleDraweeView;
-
 import android.content.Context;
 import android.graphics.Rect;
 import android.net.Uri;
@@ -22,8 +16,12 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-//import com.bumptech.glide.Glide;
-//import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.facebook.common.util.UriUtil;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.generic.GenericDraweeHierarchy;
+import com.facebook.drawee.interfaces.DraweeController;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.skyworthdigital.skyallmedia.details.model.SkyVideoSubInfo;
 import com.skyworthdigital.voice.dingdang.R;
 import com.skyworthdigital.voice.dingdang.domains.videoplay.model.CollectionVideoInfo;
 import com.skyworthdigital.voice.dingdang.domains.videoplay.model.SkyVideoInfo;
@@ -32,7 +30,9 @@ import com.skyworthdigital.voice.dingdang.domains.videosearch.manager.IModelMana
 import com.skyworthdigital.voice.dingdang.domains.videosearch.manager.IScrollManager;
 import com.skyworthdigital.voice.dingdang.domains.videosearch.utils.OtherUtil;
 import com.skyworthdigital.voice.dingdang.utils.GlobalVariable;
-import com.skyworthdigital.skyallmedia.details.model.SkyVideoSubInfo;
+
+//import com.bumptech.glide.Glide;
+//import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 
 public class SkyVideoHorizontalCellView extends SkyWin8RelativeLayout {

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
-
 import com.skyworthdigital.voice.dingdang.domains.videoplay.model.SkyVideoInfo;
 import com.skyworthdigital.voice.dingdang.domains.videosearch.generalview.MetroRecyclerView;
 import com.skyworthdigital.voice.dingdang.domains.videosearch.generalview.SkyVideoCellView;

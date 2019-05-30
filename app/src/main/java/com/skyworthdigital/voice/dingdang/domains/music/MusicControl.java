@@ -2,9 +2,9 @@ package com.skyworthdigital.voice.dingdang.domains.music;
 
 import android.content.Context;
 
+import com.skyworthdigital.voice.dingdang.control.model.MusicSlots;
 import com.skyworthdigital.voice.dingdang.domains.music.utils.KalaokUtils;
 import com.skyworthdigital.voice.dingdang.domains.music.utils.QQMusicUtils;
-import com.skyworthdigital.voice.dingdang.control.model.MusicSlots;
 
 
 /**

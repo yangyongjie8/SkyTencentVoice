@@ -6,8 +6,7 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.text.TextUtils;
 
-
-import com.skyworthdigital.voice.dingdang.VoiceApp;
+import com.skyworthdigital.voice.VoiceApp;
 import com.skyworthdigital.voice.dingdang.domains.videosearch.BeeSearchUtils;
 import com.skyworthdigital.voice.dingdang.utils.DefaultCmds;
 import com.skyworthdigital.voice.dingdang.utils.GlobalVariable;
@@ -83,7 +82,7 @@ public class SkySceneService extends Service {
                         }
                     }
                     //LogUtil.log("regist cmd: " + scene + "mToken:" + token + " pkg:" + pkg);
-                    if (VoiceApp.getInstance().mAiType == GlobalVariable.AI_VOICE) {
+                    if (VoiceApp.getVoiceApp().mAiType == GlobalVariable.AI_VOICE) {
                         if (scene.contains("SkyVoiceSearchAcitivity")) {
                             mOnSceneListener.onSearchPageRegisted();
                         } else {

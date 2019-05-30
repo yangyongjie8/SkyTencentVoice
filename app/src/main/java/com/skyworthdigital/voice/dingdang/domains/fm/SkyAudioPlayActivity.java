@@ -14,9 +14,9 @@ import android.widget.TextView;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.core.ImagePipeline;
+import com.skyworthdigital.voice.common.IStatus;
 import com.skyworthdigital.voice.dingdang.R;
 import com.skyworthdigital.voice.dingdang.control.model.TemplateItem;
-import com.skyworthdigital.voice.dingdang.control.recognization.IStatus;
 import com.skyworthdigital.voice.dingdang.control.tts.MyTTS;
 import com.skyworthdigital.voice.dingdang.domains.videosearch.generalview.SkyLoadingView;
 import com.skyworthdigital.voice.dingdang.scene.SceneJsonUtil;

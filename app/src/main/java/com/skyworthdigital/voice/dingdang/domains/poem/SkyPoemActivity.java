@@ -22,14 +22,14 @@ import android.widget.TextView;
 import com.skyworthdigital.voice.dingdang.R;
 import com.skyworthdigital.voice.dingdang.control.model.DataItem;
 import com.skyworthdigital.voice.dingdang.control.tts.MyTTS;
-import com.skyworthdigital.voice.dingdang.service.RecognizeService;
-import com.skyworthdigital.voice.dingdang.utils.StringUtils;
-import com.skyworthdigital.voiceassistant.scene.ISkySceneListener;
 import com.skyworthdigital.voice.dingdang.scene.SceneJsonUtil;
-import com.skyworthdigital.voiceassistant.scene.SkyScene;
+import com.skyworthdigital.voice.dingdang.service.RecognizeService;
 import com.skyworthdigital.voice.dingdang.utils.DefaultCmds;
 import com.skyworthdigital.voice.dingdang.utils.GlobalVariable;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
+import com.skyworthdigital.voice.dingdang.utils.StringUtils;
+import com.skyworthdigital.voiceassistant.scene.ISkySceneListener;
+import com.skyworthdigital.voiceassistant.scene.SkyScene;
 
 import java.util.List;
 

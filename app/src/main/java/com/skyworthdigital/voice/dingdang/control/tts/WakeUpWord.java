@@ -1,6 +1,6 @@
 package com.skyworthdigital.voice.dingdang.control.tts;
 
-import com.skyworthdigital.voice.dingdang.VoiceApp;
+import com.skyworthdigital.voice.VoiceApp;
 import com.skyworthdigital.voice.dingdang.utils.GlobalVariable;
 import com.skyworthdigital.voice.dingdang.utils.SkyRing;
 
@@ -16,7 +16,7 @@ public class WakeUpWord {
 
     /*mediaplay 播放音频的方式来打招呼*/
     public static String getWord() {
-        if (VoiceApp.getInstance().mAiType == GlobalVariable.AI_REMOTE) {
+        if (VoiceApp.getVoiceApp().mAiType == GlobalVariable.AI_REMOTE) {
             return REMOTEVOICE_NOTE;
         }
         try {
@@ -49,7 +49,7 @@ public class WakeUpWord {
 
     /*tts的方式来打招呼,目前发现tts的时候会降低唤醒率*/
     public static String getWordy() {
-        if (VoiceApp.getInstance().mAiType == GlobalVariable.AI_REMOTE) {
+        if (VoiceApp.getVoiceApp().mAiType == GlobalVariable.AI_REMOTE) {
             return REMOTEVOICE_NOTE;
         }
         try {

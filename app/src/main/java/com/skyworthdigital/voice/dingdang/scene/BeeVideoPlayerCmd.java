@@ -9,8 +9,8 @@ import com.skyworthdigital.voice.dingdang.VoiceApp;
 import com.skyworthdigital.voice.dingdang.control.tts.MyTTS;
 import com.skyworthdigital.voice.dingdang.utils.DefaultCmds;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
+import com.skyworthdigital.voice.common.utils.Utils;
 import com.skyworthdigital.voice.dingdang.utils.StringUtils;
-import com.skyworthdigital.voice.dingdang.utils.Utils;
 import com.skyworthdigital.voiceassistant.scene.ISkySceneListener;
 import com.skyworthdigital.voiceassistant.scene.SkyScene;
 

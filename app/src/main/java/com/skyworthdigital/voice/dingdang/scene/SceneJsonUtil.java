@@ -5,11 +5,11 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.skyworthdigital.voice.dingdang.control.recognization.IStatus;
+import com.skyworthdigital.voice.common.IStatus;
+import com.skyworthdigital.voice.common.utils.Utils;
 import com.skyworthdigital.voice.dingdang.utils.DefaultCmds;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
 import com.skyworthdigital.voice.dingdang.utils.StringUtils;
-import com.skyworthdigital.voice.dingdang.utils.Utils;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

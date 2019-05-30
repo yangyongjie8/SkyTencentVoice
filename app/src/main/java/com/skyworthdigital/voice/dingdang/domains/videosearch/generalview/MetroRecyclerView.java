@@ -149,10 +149,10 @@ public class MetroRecyclerView extends RecyclerView {
         this.mOnScrollEndListener = onScrollEndListener;
     }
 
-    private View.OnKeyListener mKeyListener;
+    private OnKeyListener mKeyListener;
 
     @Override
-    public void setOnKeyListener(View.OnKeyListener l) {
+    public void setOnKeyListener(OnKeyListener l) {
         mKeyListener = l;
     }
 
@@ -2308,7 +2308,7 @@ public class MetroRecyclerView extends RecyclerView {
                 super.onMeasure(recycler, state, widthSpec, heightSpec);
             } else {
                 if (getOrientation() == RecyclerView.VERTICAL) {
-                    measuredHeight = View.MeasureSpec.getSize(heightSpec);
+                    measuredHeight = MeasureSpec.getSize(heightSpec);
                     if (measuredWidth == 0) {
                         View view;
                         try {
@@ -2326,7 +2326,7 @@ public class MetroRecyclerView extends RecyclerView {
                         measuredWidth += getPaddingLeft() + getPaddingRight();
                     }
                 } else {
-                    measuredWidth = View.MeasureSpec.getSize(widthSpec);
+                    measuredWidth = MeasureSpec.getSize(widthSpec);
                     if (measuredHeight == 0) {
                         if (isWholeMeasuer) {
                             int count = Math.min(getItemCount(), getSpanCount());
@@ -2438,7 +2438,7 @@ public class MetroRecyclerView extends RecyclerView {
         }
     }
 
-    public static abstract class MetroViewHolder extends ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+    public static abstract class MetroViewHolder extends ViewHolder implements OnClickListener, OnLongClickListener {
         boolean isLoadData = false;
         boolean isReLoadExtra = false;
         boolean isLoadDefaultDelayData = false;

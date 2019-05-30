@@ -1,7 +1,7 @@
 package com.skyworthdigital.voice.dingdang.domains.videosearch.model;
 
 
-import com.skyworthdigital.voice.dingdang.utils.Utils;
+import com.skyworthdigital.voice.common.utils.Utils;
 
 public class BeeSearchParams {
     public static final String ASR_PATH = "http://smartmovie.skyworthbox.com";//"http://119.23.12.86";

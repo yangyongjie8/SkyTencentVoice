@@ -1,7 +1,7 @@
 package com.skyworthdigital.voice.dingdang.control.model;
 
 
-import com.skyworthdigital.voice.dingdang.utils.Utils;
+import com.skyworthdigital.voice.common.utils.Utils;
 
 import java.util.ArrayList;
 

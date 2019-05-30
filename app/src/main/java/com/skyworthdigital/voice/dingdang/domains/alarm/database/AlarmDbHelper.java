@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.skyworthdigital.voice.dingdang.VoiceApp;
+import com.skyworthdigital.voice.VoiceApp;
 
 import java.io.File;
 

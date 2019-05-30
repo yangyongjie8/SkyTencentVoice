@@ -2,20 +2,18 @@ package com.skyworthdigital.voice.dingdang.domains.sports.cell;
 
 
 import android.content.Context;
-
 import android.os.Handler;
 import android.os.Message;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
-
 import android.widget.ListView;
 
+import com.skyworthdigital.voice.dingdang.AsrResult;
 import com.skyworthdigital.voice.dingdang.R;
 import com.skyworthdigital.voice.dingdang.domains.sports.SportsRecordAdapter;
 import com.skyworthdigital.voice.dingdang.domains.sports.TeamStatVecObj;
-import com.skyworthdigital.voice.dingdang.control.model.AsrResult;
 
 import java.util.ArrayList;
 import java.util.List;

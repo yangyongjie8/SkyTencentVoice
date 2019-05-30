@@ -2,7 +2,7 @@ package com.skyworthdigital.voice.dingdang.domains.alarm;
 
 import android.util.Log;
 
-import com.skyworthdigital.voice.dingdang.VoiceApp;
+import com.skyworthdigital.voice.VoiceApp;
 import com.skyworthdigital.voice.dingdang.control.model.Slot;
 import com.skyworthdigital.voice.dingdang.control.model.ValueItem;
 

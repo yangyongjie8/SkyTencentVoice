@@ -7,7 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 
-import com.skyworthdigital.voice.dingdang.VoiceApp;
+import com.skyworthdigital.voice.VoiceApp;
 import com.skyworthdigital.voice.dingdang.domains.alarm.database.AlarmDbHelper;
 import com.skyworthdigital.voice.dingdang.domains.alarm.database.AlarmDbOperator;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
@@ -40,7 +40,7 @@ public class AlarmHelper {
         }
     }
 
-    boolean saveAlarm(String content, String time, String repeat) {
+    public boolean saveAlarm(String content, String time, String repeat) {
         if (Long.parseLong(time) < System.currentTimeMillis() && TextUtils.equals(repeat, "once")) {
             MLog.d("alarm", "time expire");
             return false;

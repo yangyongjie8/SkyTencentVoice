@@ -2,6 +2,7 @@ package com.skyworthdigital.voice.dingdang;
 
 import android.app.Application;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
 import android.text.TextUtils;
@@ -13,16 +14,15 @@ import com.forest.bigdatasdk.hosttest.IErrorListener;
 import com.forest.bigdatasdk.model.ForestInitParam;
 import com.forest.bigdatasdk.util.BaseParamUtils;
 import com.forest.bigdatasdk.util.SystemUtil;
+import com.skyworthdigital.voice.common.AbsController;
+import com.skyworthdigital.voice.common.utils.Utils;
 import com.skyworthdigital.voice.dingdang.IoT.IoTService;
-import com.skyworthdigital.voice.dingdang.control.record.PcmRecorder;
-import com.skyworthdigital.voice.dingdang.control.record.SkyVoiceProcessor;
 import com.skyworthdigital.voice.dingdang.service.RecognizeService;
 import com.skyworthdigital.voice.dingdang.utils.GlobalVariable;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
-import com.skyworthdigital.voice.dingdang.utils.Utils;
+import com.skyworthdigital.voice.tencent_module.record.PcmRecorder;
 import com.tencent.ai.sdk.control.SpeechManager;
 import com.tencent.ai.sdk.utils.ISSErrors;
-import com.tencent.androidvprocessor.VoiceProcessor;
 
 import org.json.JSONObject;
 
@@ -32,32 +32,26 @@ import static com.forest.bigdatasdk.app.ForestAdvertCrossAppDataReport.HTTP_PREF
 
 public class VoiceApp extends Application {
     private static final String TAG = VoiceApp.class.getSimpleName();
-    private static VoiceApp sInstance;
+    private static com.skyworthdigital.voice.VoiceApp sInstance;
+    private static VoiceApp sVoiceApp;
     private OkHttpClient mOkHttpClient;
-    public MainControler mControler;
-    public int mAiType;
-    public static VoiceProcessor mVoiceProcessor = null;
-    public final static String mModel = Utils.get("ro.product.model");
+    public AbsController mControler;
     private static final int SDK_ID = 10021;
     private static final String SDK_KEY = "d5d2f64047526f4064845a3e964afbf9";
-
-    static {
-        if (Utils.isQ3031Recoder()) {
-            System.loadLibrary("voiceprocessor");
-        }
-    }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        sInstance = this;
-        mAiType = Utils.getAiType();
-        Log.i("VoiceApp", "voice type:" + mAiType);
-        if (mAiType == GlobalVariable.AI_NONE) {
+        setAccessibilityEnable();
+        sInstance = new com.skyworthdigital.voice.VoiceApp();
+        sInstance.onCreate(this);
+        sVoiceApp = this;
+
+        Log.i("VoiceApp", "voice type:" + sInstance.mAiType);
+        if (sInstance.mAiType == GlobalVariable.AI_NONE) {
             System.exit(0);
         }
-        setAccessibilityEnable();
-        int ret = SpeechManager.getInstance().startUp(sInstance, getAppInfo());
+        int ret = SpeechManager.getInstance().startUp(this, getAppInfo());
         SpeechManager.getInstance().setAsrDomain(80);
         //SpeechManager.getInstance().aisdkSetConfig(7002, "1");
         //SpeechManager.getInstance().aisdkSetConfig(6007, "1");
@@ -68,7 +62,7 @@ public class VoiceApp extends Application {
         if (ret != ISSErrors.ISS_SUCCESS) {
             System.exit(0);
         }
-        if (mAiType == GlobalVariable.AI_REMOTE) {
+        if (sInstance.mAiType == GlobalVariable.AI_REMOTE) {
             SpeechManager.getInstance().setManualMode(true);
         } else {
             //SpeechManager.getInstance().setFullMode(true);
@@ -84,6 +78,7 @@ public class VoiceApp extends Application {
         Log.d("wyf", "guid = " + SpeechManager.getInstance().getGuidStr());
         mControler = MainControler.getInstance();
         Fresco.initialize(this);
+
         initBigDataReport();
 
         startService(new Intent(this, IoTService.class));
@@ -116,10 +111,15 @@ public class VoiceApp extends Application {
         return result;
     }
 
-    public static VoiceApp getInstance() {
-        return sInstance;
+    public static Context getInstance() {
+        return com.skyworthdigital.voice.VoiceApp.getInstance();
     }
-
+    public static VoiceApp getVoiceApp(){
+        return sVoiceApp;
+    }
+    public OkHttpClient getOkHttpClient() {
+        return mOkHttpClient;
+    }
     private void setAccessibilityEnable() {
 //        需要权限android.permission.WRITE_SECURE_SETTINGS（貌似不需要也可以）
         //变量enabled_accessibility_services可通过查看/data/system/users/0/settings_secure.xml文件
@@ -147,21 +147,6 @@ public class VoiceApp extends Application {
         MLog.d(TAG, "set result:" + ret);
         Settings.Secure.putInt(getContentResolver(),
                 Settings.Secure.ACCESSIBILITY_ENABLED, 1);
-    }
-
-    public OkHttpClient getOkHttpClient() {
-        return mOkHttpClient;
-    }
-
-    public static String getModel() {
-        return mModel;
-    }
-
-    public static VoiceProcessor getVoiceProcessor() {
-        if (Utils.isQ3031Recoder()) {
-            mVoiceProcessor = SkyVoiceProcessor.getVoiceProcessor();
-        }
-        return mVoiceProcessor;
     }
 
     private void initBigDataReport() {

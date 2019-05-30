@@ -4,10 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 
+import com.skyworthdigital.voice.common.IStatus;
+import com.skyworthdigital.voice.dingdang.AsrResult;
 import com.skyworthdigital.voice.dingdang.R;
-import com.skyworthdigital.voice.dingdang.control.model.AsrResult;
 import com.skyworthdigital.voice.dingdang.control.model.Semantic;
-import com.skyworthdigital.voice.dingdang.control.recognization.IStatus;
 import com.skyworthdigital.voice.dingdang.control.tts.MyTTS;
 import com.skyworthdigital.voice.dingdang.domains.tianmai.TianmaiIntent;
 import com.skyworthdigital.voice.dingdang.domains.tianmai.WeatherBee;

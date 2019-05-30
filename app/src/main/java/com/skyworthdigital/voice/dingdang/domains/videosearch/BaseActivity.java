@@ -10,11 +10,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 
-import com.skyworthdigital.voice.dingdang.domains.videosearch.generalview.CheckDialog;
-
-
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.core.ImagePipeline;
+import com.skyworthdigital.voice.dingdang.domains.videosearch.generalview.CheckDialog;
 
 public class BaseActivity extends Activity {
     private HomeWatcherReceiver mHomeWatcherReceiver = null;

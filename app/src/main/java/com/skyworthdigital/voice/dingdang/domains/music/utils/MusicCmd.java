@@ -5,13 +5,13 @@ import android.content.Intent;
 import android.net.Uri;
 import android.view.KeyEvent;
 
+import com.skyworthdigital.voice.common.utils.Utils;
 import com.skyworthdigital.voice.dingdang.R;
 import com.skyworthdigital.voice.dingdang.VoiceApp;
 import com.skyworthdigital.voice.dingdang.control.tts.MyTTS;
-import com.skyworthdigital.voice.dingdang.utils.DefaultCmds;
-import com.skyworthdigital.voice.dingdang.utils.Utils;
-import com.skyworthdigital.voiceassistant.scene.ISkySceneListener;
 import com.skyworthdigital.voice.dingdang.scene.SceneJsonUtil;
+import com.skyworthdigital.voice.dingdang.utils.DefaultCmds;
+import com.skyworthdigital.voiceassistant.scene.ISkySceneListener;
 import com.skyworthdigital.voiceassistant.scene.SkyScene;
 
 

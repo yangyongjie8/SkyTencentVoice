@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
 
-
 import com.skyworthdigital.voice.dingdang.utils.MLog;
 
 import org.json.JSONArray;

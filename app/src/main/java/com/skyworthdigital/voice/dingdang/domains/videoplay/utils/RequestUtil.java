@@ -59,7 +59,7 @@ public class RequestUtil {
         //builder.addHeader("version", "");
         builder.addHeader("token", "");
         final Request request = builder.post(body).build();
-        Call call = VoiceApp.getInstance().getOkHttpClient().newCall(request);
+        Call call = VoiceApp.getVoiceApp().getOkHttpClient().newCall(request);
         call.enqueue(callback);
     }
 
@@ -99,7 +99,7 @@ public class RequestUtil {
                 .addHeader("version", "1.0")
                 .addHeader("token", "" + new TokenBuilder().getToken())
                 .post(RequestBody.create(null, "")).build();
-        Call call = VoiceApp.getInstance().getOkHttpClient().newCall(request);
+        Call call = VoiceApp.getVoiceApp().getOkHttpClient().newCall(request);
         call.enqueue(callback);
     }
 

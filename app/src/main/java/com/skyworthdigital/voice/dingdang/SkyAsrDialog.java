@@ -16,10 +16,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.skyworthdigital.voice.dingdang.control.model.AsrResult;
+import com.skyworthdigital.voice.VoiceApp;
+import com.skyworthdigital.voice.common.AbsTTS;
+import com.skyworthdigital.voice.common.IStatus;
 import com.skyworthdigital.voice.dingdang.control.model.TemplateItem;
-import com.skyworthdigital.voice.dingdang.control.recognization.IStatus;
-import com.skyworthdigital.voice.dingdang.control.tts.MyTTS;
 import com.skyworthdigital.voice.dingdang.domains.baike.BaikeInfoCell;
 import com.skyworthdigital.voice.dingdang.domains.sports.cell.SportsInfoCell;
 import com.skyworthdigital.voice.dingdang.domains.sports.cell.SportsScoresCell;
@@ -88,7 +88,7 @@ public class SkyAsrDialog extends Dialog {
             dialogRefreshTips(mGuideTip.getGuidetips());
         }
         mHandler.removeMessages(MSG_ANIM_START);
-        if (VoiceApp.getInstance().mAiType == GlobalVariable.AI_VOICE) {
+        if (VoiceApp.getVoiceApp().mAiType == GlobalVariable.AI_VOICE) {
             if (mPaiPaiAnimUtil != null) {
                 mPaiPaiAnimUtil.showPaiPai(PaiPaiAnimUtil.ID_PAIPAI_DEFAULT);
             }
@@ -255,7 +255,7 @@ public class SkyAsrDialog extends Dialog {
         if (mPaiPaiAnimUtil != null && mPaiPaiAnimUtil.isRecordAnim()) {
             return;
         }
-        if (status == MyTTS.STATUS_TALKING) {
+        if (status == AbsTTS.STATUS_TALKING) {
             mHandler.sendEmptyMessage(MSG_PAIPAI_SPEAK);
         } else {
             mHandler.sendEmptyMessage(MSG_PAIPAI_DEFAULT);

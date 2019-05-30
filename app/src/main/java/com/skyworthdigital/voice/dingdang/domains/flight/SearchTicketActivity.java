@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.core.ImagePipeline;
+import com.skyworthdigital.voice.dingdang.AsrResult;
 import com.skyworthdigital.voice.dingdang.R;
-import com.skyworthdigital.voice.dingdang.control.model.AsrResult;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
 
 import java.util.List;

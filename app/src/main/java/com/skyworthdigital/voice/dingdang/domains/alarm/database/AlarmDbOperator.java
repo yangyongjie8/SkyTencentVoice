@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.skyworthdigital.voice.dingdang.VoiceApp;
+import com.skyworthdigital.voice.VoiceApp;
 import com.skyworthdigital.voice.dingdang.domains.alarm.AlarmHelper;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
 
@@ -79,7 +79,7 @@ public class AlarmDbOperator {
         dbWriter.delete(AlarmDbHelper.ALARM_TABLE, "_id=?", args);
     }*/
 
-    public void delete(AlarmDbOperator.AlarmItem item) {
+    public void delete(AlarmItem item) {
         SQLiteDatabase dbWriter = mDbHelper.getWritableDatabase();
         String[] args = new String[]{String.valueOf(item.mTime)};
         try {

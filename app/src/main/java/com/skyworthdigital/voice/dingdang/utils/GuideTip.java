@@ -8,9 +8,9 @@ import com.skyworthdigital.voice.dingdang.SkyAsrDialogControl;
 import com.skyworthdigital.voice.dingdang.VoiceApp;
 import com.skyworthdigital.voice.dingdang.control.model.UserGuideStrings;
 import com.skyworthdigital.voice.dingdang.domains.music.utils.MusicCmd;
-import com.skyworthdigital.voice.dingdang.domains.tvlive.TvLiveControl;
 import com.skyworthdigital.voice.dingdang.domains.videosearch.model.BeeSearchParams;
 import com.skyworthdigital.voice.dingdang.scene.SceneManager;
+import com.skyworthdigital.voice.dingdang.tv.TvLiveControl;
 
 import java.util.ArrayList;
 import java.util.List;
