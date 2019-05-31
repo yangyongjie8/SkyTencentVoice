@@ -69,7 +69,7 @@ def static currentTimeTail() {
 
 repositories {
     flatDir {
-        dirs 'libs'
+        dirs 'libs','../baidu_module/libs'
     }
 }
 
