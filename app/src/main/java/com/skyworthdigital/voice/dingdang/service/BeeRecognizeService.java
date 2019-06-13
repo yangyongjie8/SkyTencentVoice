@@ -5,11 +5,11 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
-import com.skyworthdigital.voice.dingdang.MainControler;
+import com.skyworthdigital.voice.GuideTip;
 import com.skyworthdigital.voice.dingdang.VoiceApp;
-import com.skyworthdigital.voice.dingdang.domains.music.utils.QQMusicUtils;
-import com.skyworthdigital.voice.dingdang.utils.GuideTip;
 import com.skyworthdigital.voice.dingdang.utils.VolumeUtils;
+import com.skyworthdigital.voice.music.utils.QQMusicUtils;
+import com.skyworthdigital.voice.tencent_module.MainControler;
 
 /**
  * User: yangyongjie

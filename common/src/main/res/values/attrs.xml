@@ -1,0 +1,80 @@
+<resources>
+
+    <!-- Declare custom theme attributes that allow changing which styles are
+         used for button bars depending on the API level.
+         ?android:attr/buttonBarStyle is new as of API 11 so this is
+         necessary to support previous API levels. -->
+    <declare-styleable name="ButtonBarContainerTheme">
+        <attr name="metaButtonBarStyle" format="reference" />
+        <attr name="metaButtonBarButtonStyle" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="MetroRecyclerView">
+        <attr name="itemSpaceLeft" format="dimension" />
+        <attr name="itemSpaceRight" format="dimension" />
+        <attr name="itemSpaceTop" format="dimension" />
+        <attr name="itemSpaceBottom" format="dimension" />
+        <attr name="supportVLeftKey" format="boolean" />
+        <attr name="supportVRightKey" format="boolean" />
+        <attr name="focusViewOnFrontEnable" format="boolean" />
+        <attr name="delayBindEnable" format="boolean" />
+        <attr name="scaleEnable" format="boolean" />
+        <attr name="recyclerPadding" format="dimension" />
+        <attr name="recyclerPaddingLeft" format="dimension" />
+        <attr name="recyclerPaddingRight" format="dimension" />
+        <attr name="recyclerPaddingTop" format="dimension" />
+        <attr name="recyclerPaddingBottom" format="dimension" />
+        <attr name="scale" format="float" />
+    </declare-styleable>
+
+    <declare-styleable name="SkyView">
+        <attr name="isWin8Formart" format="boolean"/>
+        <attr name="needBeSelectedWhenParentIsFocused" format="boolean"/>
+        <attr name="isShowAnimation" format="boolean"/>
+        <attr name="magnitudeOfEnlargement" format="float"/>
+        <attr name="skyduration" format="integer"/>
+    </declare-styleable>
+    <declare-styleable name="VoiceLine">
+        <attr name="amplitude_big" format="dimension|reference" />
+        <attr name="amplitude_small" format="dimension|reference" />
+        <attr name="lineColor" format="color|reference" />
+        <attr name="backColor" format="color|reference" />
+        <attr name="frequency" format="float" />
+    </declare-styleable>
+
+    <bool name="is_rtl">false</bool>
+
+    <declare-styleable name="MyImageView">
+        <attr name="my_drawable" format="reference"></attr>
+        <attr name="start_color" format="color"></attr>
+        <attr name="end_color" format="color"></attr>
+    </declare-styleable>
+
+    <declare-styleable name="AudioBarGraph">
+        <attr name="rectCount" format="integer"/>
+        <attr name="rectOffset" format="float"/>
+        <attr name="topColor" format="color"/>
+        <attr name="bottomColor" format="color"/>
+        <attr name="delayTime" format="integer"/>
+    </declare-styleable>
+
+    <declare-styleable name="ExpandableTextView">
+        <attr name="etv_MaxLinesOnShrink" format="reference|integer" />
+        <attr name="etv_EllipsisHint" format="reference|string" /><!--default is ..-->
+        <attr name="etv_ToExpandHint" format="reference|string" /><!--"to expand" hint string, default is "Expand"-->
+        <attr name="etv_ToShrinkHint" format="reference|string" /><!--"to shrink" hint string, default is "Shrink"-->
+        <attr name="etv_GapToExpandHint" format="reference|string" /><!--gap between "toExpandHint" and "trimmed text"-->
+        <attr name="etv_GapToShrinkHint" format="reference|string" /><!--gap between "toShrinkHint" and "trimmed text"-->
+        <attr name="etv_EnableToggle" format="reference|boolean" /><!--if toggle the state when click ExpandTextView-->
+        <attr name="etv_ToExpandHintShow" format="reference|boolean" /><!--if show "toExpandHint"-->
+        <attr name="etv_ToShrinkHintShow" format="reference|boolean" /><!--if show "toShrinkHint"-->
+        <attr name="etv_ToExpandHintColor" format="reference|color" /><!--text color of "toExpandHint"-->
+        <attr name="etv_ToShrinkHintColor" format="reference|color" /><!--text color of "toShrinkHint"-->
+        <attr name="etv_ToExpandHintColorBgPressed" format="reference|color" /><!--background color if "toExpandHint" pressed-->
+        <attr name="etv_ToShrinkHintColorBgPressed" format="reference|color" /><!--background color if "toShrinkHint" pressed-->
+        <attr name="etv_InitState" format="enum"><!--init state, default is shrink-->
+            <enum name="shrink" value="0"/>
+            <enum name="expand" value="1"/>
+        </attr>
+    </declare-styleable>
+</resources>

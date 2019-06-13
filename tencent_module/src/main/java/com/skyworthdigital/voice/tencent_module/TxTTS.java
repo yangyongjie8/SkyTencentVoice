@@ -24,7 +24,6 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class TxTTS extends AbsTTS {
     private static final String TAG = "TxTTS";
-    private static TxTTS mInstance = null;
     private TtsSession mTTSSession = null;
     private boolean mIsSpeak = false;
     private MyTTSListener myTTSListener;
@@ -35,7 +34,7 @@ public class TxTTS extends AbsTTS {
     private static final int SPEECH_MAX_LENGTH = 512;//一次合成所允许的最长字符数
     private Content lastText;//最近一次播放的内容。用于叮当主动中断后仍然会调用onComplete导致的与百度版的不一致现象，从而引起的onComplete中getFirst()时已是空报出异常。
 
-    public static TxTTS getInstance(MyTTSListener listener) {
+    public static AbsTTS getInstance(MyTTSListener listener) {
         if (mInstance == null) {
             synchronized (TxTTS.class) {
                 if(mInstance==null) {

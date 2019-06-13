@@ -14,13 +14,18 @@ import com.forest.bigdatasdk.hosttest.IErrorListener;
 import com.forest.bigdatasdk.model.ForestInitParam;
 import com.forest.bigdatasdk.util.BaseParamUtils;
 import com.forest.bigdatasdk.util.SystemUtil;
+import com.skyworthdigital.voice.common.AbsAsrTranslator;
 import com.skyworthdigital.voice.common.AbsController;
 import com.skyworthdigital.voice.common.utils.Utils;
-import com.skyworthdigital.voice.dingdang.IoT.IoTService;
+import com.skyworthdigital.voice.iot.IoTService;
 import com.skyworthdigital.voice.dingdang.service.RecognizeService;
 import com.skyworthdigital.voice.dingdang.utils.GlobalVariable;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
+import com.skyworthdigital.voice.tencent_module.MainControler;
+import com.skyworthdigital.voice.tencent_module.TxAsrTranslator;
+import com.skyworthdigital.voice.tencent_module.TxTvLiveController;
 import com.skyworthdigital.voice.tencent_module.record.PcmRecorder;
+import com.skyworthdigital.voice.tv.AbsTvLiveControl;
 import com.tencent.ai.sdk.control.SpeechManager;
 import com.tencent.ai.sdk.utils.ISSErrors;
 
@@ -34,7 +39,6 @@ public class VoiceApp extends Application {
     private static final String TAG = VoiceApp.class.getSimpleName();
     private static com.skyworthdigital.voice.VoiceApp sInstance;
     private static VoiceApp sVoiceApp;
-    private OkHttpClient mOkHttpClient;
     public AbsController mControler;
     private static final int SDK_ID = 10021;
     private static final String SDK_KEY = "d5d2f64047526f4064845a3e964afbf9";
@@ -51,6 +55,7 @@ public class VoiceApp extends Application {
         if (sInstance.mAiType == GlobalVariable.AI_NONE) {
             System.exit(0);
         }
+        changePlatform();
         int ret = SpeechManager.getInstance().startUp(this, getAppInfo());
         SpeechManager.getInstance().setAsrDomain(80);
         //SpeechManager.getInstance().aisdkSetConfig(7002, "1");
@@ -70,7 +75,6 @@ public class VoiceApp extends Application {
         }
         String sn = Utils.get("ro.serialno");
         SpeechManager.getInstance().setAiDeviceInfo(sn, "497a7402-7660-4eb6-844f-543b2c2f6777:111d7f7d4dc6460fafce8875efbe0474", null, null, null);
-        mOkHttpClient = new OkHttpClient();
         //CrashHandler.getInstance().init(this);
         if (Utils.isQ3031Recoder()) {
             PcmRecorder.copyWcompTable(this);
@@ -82,6 +86,13 @@ public class VoiceApp extends Application {
         initBigDataReport();
 
         startService(new Intent(this, IoTService.class));
+    }
+
+    private void changePlatform(){
+        AbsAsrTranslator.clearInstance();
+        TxAsrTranslator.getInstance();
+        AbsTvLiveControl.clearInstance();
+        TxTvLiveController.getInstance();
     }
 
     private String getAppInfo() {
@@ -116,9 +127,6 @@ public class VoiceApp extends Application {
     }
     public static VoiceApp getVoiceApp(){
         return sVoiceApp;
-    }
-    public OkHttpClient getOkHttpClient() {
-        return mOkHttpClient;
     }
     private void setAccessibilityEnable() {
 //        需要权限android.permission.WRITE_SECURE_SETTINGS（貌似不需要也可以）

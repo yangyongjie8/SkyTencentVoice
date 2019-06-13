@@ -5,6 +5,12 @@ package com.skyworthdigital.voice.common;
  */
 public abstract class AbsRecognizer {
 
+    protected static AbsRecognizer mInstance;
+
+    public static AbsRecognizer getInstance(IRecogListener recogListener) {
+        return mInstance;
+    }
+
     public abstract void register();
 
     public abstract void start();

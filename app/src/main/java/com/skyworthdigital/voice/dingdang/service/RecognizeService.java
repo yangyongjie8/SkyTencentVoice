@@ -7,13 +7,13 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.accessibility.AccessibilityEvent;
 
+import com.skyworthdigital.voice.GuideTip;
 import com.skyworthdigital.voice.dingdang.BuildConfig;
-import com.skyworthdigital.voice.dingdang.MainControler;
 import com.skyworthdigital.voice.dingdang.VoiceApp;
 import com.skyworthdigital.voice.dingdang.utils.AppUtil;
-import com.skyworthdigital.voice.dingdang.utils.GuideTip;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
 import com.skyworthdigital.voice.dingdang.utils.VolumeUtils;
+import com.skyworthdigital.voice.tencent_module.MainControler;
 
 
 /**
@@ -23,7 +23,6 @@ import com.skyworthdigital.voice.dingdang.utils.VolumeUtils;
 public class RecognizeService extends AccessibilityService {
     private static final String TAG = "RecognizeService";
     private static final int VOICE_KEYCODE = 135;
-    public static final int KEYCODE_TA412_BACK = 111;
     private static long mRecordStart, getmRecordEnd;
 
     @Override
@@ -37,7 +36,7 @@ public class RecognizeService extends AccessibilityService {
         Log.i(TAG, "keyCode:" + code + "  action:" + action);
         switch (code) {
             case KeyEvent.KEYCODE_BACK:
-            case KEYCODE_TA412_BACK:
+            case com.skyworthdigital.voice.VoiceApp.KEYCODE_TA412_BACK:
                 if (action == KeyEvent.ACTION_DOWN) {
                     return MainControler.getInstance().onKeyEvent(code);
                 }

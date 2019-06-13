@@ -1,2 +1,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.skyworthdigital.voice.tencent_module" />
+    package="com.skyworthdigital.voice.tencent_module" >
+    <application>
+        <activity
+            android:name="com.skyworthdigital.voice.tencent_module.domains.poem.SkyPoemActivity"
+            android:launchMode="singleTask">
+        </activity>
+
+        <activity
+            android:name="com.skyworthdigital.voice.tencent_module.domains.fm.SkyAudioPlayActivity"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <action android:name="com.skyworthdigital.voice.dingdang.fmplay" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

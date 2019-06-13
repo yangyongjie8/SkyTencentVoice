@@ -8,10 +8,10 @@ import android.widget.TextView;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.core.ImagePipeline;
-import com.skyworthdigital.voice.dingdang.AsrResult;
 import com.skyworthdigital.voice.dingdang.R;
-import com.skyworthdigital.voice.dingdang.domains.train.TrainInfoItem;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
+import com.skyworthdigital.voice.tencent_module.AsrResult;
+import com.skyworthdigital.voice.tencent_module.domains.train.TrainInfoItem;
 
 import java.util.List;
 

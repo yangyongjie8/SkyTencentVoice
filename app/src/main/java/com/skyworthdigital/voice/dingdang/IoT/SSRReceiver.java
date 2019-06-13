@@ -7,8 +7,10 @@ import android.support.v4.content.LocalBroadcastManager;
 
 import com.skyworthdigital.voice.dingdang.VoiceApp;
 import com.skyworthdigital.voice.dingdang.control.tts.MyTTS;
-import com.skyworthdigital.voice.dingdang.domains.iot.IoTCommand;
+import com.skyworthdigital.voice.dingdang.utils.AppUtil;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
+import com.skyworthdigital.voice.iot.IoTCommand;
+import com.skyworthdigital.voice.iot.IoTService;
 
 
 public class SSRReceiver extends BroadcastReceiver {
@@ -43,7 +45,7 @@ public class SSRReceiver extends BroadcastReceiver {
                 intent_iot_cmd.putExtra("cmd_str", ioTCommand.toJsonStr());
                 MLog.d(TAG, ioTCommand.getCmd() + ioTCommand.getCmdType() + ioTCommand.getLocation() + ioTCommand.getOper() + ioTCommand.getUid() + ioTCommand.getValue());
                 MLog.d(TAG, "##will send cmd to IoT");
-                MLog.d(TAG, MainActivity.getMachineHardwareAddress().replace(":", ""));
+                MLog.d(TAG, AppUtil.getMachineHardwareAddress().replace(":", ""));
                 VoiceApp.getInstance().sendBroadcast(intent_iot_cmd);
 //            LocalBroadcastManager.getInstance(context).sendBroadcast(intent_iot_cmd);
             }

@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.skyworthdigital.voice.dingdang.MainControler;
+import com.skyworthdigital.voice.tencent_module.MainControler;
 import com.skyworthdigital.voice.dingdang.service.BeeRecognizeService;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
 

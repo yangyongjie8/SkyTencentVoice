@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.skyworthdigital.voice.dingdang.utils.AsyncImageLoader;
 import com.skyworthdigital.voice.dingdang.R;
-import com.skyworthdigital.voice.dingdang.domains.train.TrainInfoItem;
+import com.skyworthdigital.voice.tencent_module.domains.train.TrainInfoItem;
 
 import java.util.ArrayList;
 import java.util.List;

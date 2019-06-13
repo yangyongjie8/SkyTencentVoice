@@ -1,2 +1,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.skyworthdigital.voice.common" />
+    package="com.skyworthdigital.voice.common" >
+
+    <application>
+
+        <service android:name="com.skyworthdigital.voice.scene.SkySceneService">
+            <intent-filter>
+                <action android:name="com.skyworthdigital.voiceassistant.topActivity.COMMIT" />
+                <action android:name="com.skyworthdigital.voiceassistant.app.CALL" />
+                <action android:name="com.skyworthdigital.voiceassistant.topActivity.RELEASE" />
+            </intent-filter>
+        </service>
+    </application>
+</manifest>

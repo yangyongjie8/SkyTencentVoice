@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:focusable="false">
+
+    <RelativeLayout
+        android:id="@+id/layout_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bg">
+
+        <FrameLayout
+            android:id="@+id/scene_txt_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dip_100"
+            android:layout_marginTop="@dimen/dip_185"
+            android:background="@drawable/playing_order_bg">
+
+            <TextView
+                android:id="@+id/scene_txt"
+                android:alpha="0.5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dip_30"
+                android:layout_marginRight="@dimen/dip_10"
+                android:ellipsize="start"
+                android:maxWidth="@dimen/dip_160"
+                android:gravity="left"
+                android:singleLine="true"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/txt_31" />
+        </FrameLayout>
+
+        <ImageView
+            android:id="@+id/layout_head"
+            android:layout_width="@dimen/dip_164"
+            android:layout_height="@dimen/dip_158"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/dip_minus10"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="@dimen/dip_147"
+            android:background="@drawable/head_00001" />
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/dip_minus10"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="@dimen/dip_147">
+
+            <ImageView
+                android:id="@+id/retote_head"
+                android:layout_width="@dimen/dip_164"
+                android:layout_height="@dimen/dip_158"
+                android:background="@drawable/head_00001" />
+
+            <ImageView
+                android:id="@+id/retote_shadow"
+                android:layout_width="@dimen/dip_164"
+                android:layout_height="@dimen/dip_158"
+                android:background="@drawable/reaction"/>
+        </FrameLayout>
+
+        <com.skyworthdigital.voice.view.SkyVerticalMarqueeTextview
+            android:id="@+id/text_one"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dip_190"
+            android:layout_toRightOf="@id/layout_head"
+            android:focusable="true"
+            android:gravity="left"
+            android:maxLines="13"
+            android:scrollbarStyle="outsideInset"
+            android:scrollbars="vertical"
+            android:text="我是小派"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/txt_31" />
+
+        <FrameLayout
+            android:id="@+id/container_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_one"
+            android:layout_gravity="left"
+            android:layout_toRightOf="@+id/layout_head"
+            android:gravity="left" />
+
+        <TextView
+            android:id="@+id/txt_guide"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/container_layout"
+            android:layout_marginBottom="@dimen/dip_13"
+            android:layout_toRightOf="@id/layout_head"
+            android:gravity="left"
+            android:maxLines="1"
+            android:text="你可以说：下一集 快进"
+            android:textColor="@color/half_white"
+            android:textSize="@dimen/txt_25" />
+    </RelativeLayout>
+</RelativeLayout>

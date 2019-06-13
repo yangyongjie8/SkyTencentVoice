@@ -4,11 +4,16 @@ package com.skyworthdigital.voice.common;
  * Created by Ives 2019/5/29
  */
 public abstract class AbsTTS {
+    protected static AbsTTS mInstance = null;
 
     public static final int STATUS_INTERRUPT = 2;
     public static final int STATUS_TALKING = 1;
     public static final int STATUS_ERROR = 3;
     public static final int STATUS_TALKOVER = 4;
+
+    public static AbsTTS getInstance(AbsTTS.MyTTSListener listener) {
+        return mInstance;
+    }
 
     public abstract void stopSpeak() ;
 

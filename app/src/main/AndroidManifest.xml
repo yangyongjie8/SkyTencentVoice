@@ -131,21 +131,6 @@
         </activity>
 
         <activity
-            android:name=".domains.poem.SkyPoemActivity"
-            android:launchMode="singleTask">
-        </activity>
-
-        <activity
-            android:name=".domains.fm.SkyAudioPlayActivity"
-            android:launchMode="singleTask">
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <action android:name="com.skyworthdigital.voice.dingdang.fmplay" />
-            </intent-filter>
-        </activity>
-
-        <activity
             android:name=".activity.TrainTicketActivity"
             android:launchMode="singleTask">
             <intent-filter>
@@ -213,13 +198,6 @@
             </intent-filter>
         </receiver>
 
-        <service android:name="com.skyworthdigital.voice.dingdang.scene.SkySceneService">
-            <intent-filter>
-                <action android:name="com.skyworthdigital.voiceassistant.topActivity.COMMIT" />
-                <action android:name="com.skyworthdigital.voiceassistant.app.CALL" />
-                <action android:name="com.skyworthdigital.voiceassistant.topActivity.RELEASE" />
-            </intent-filter>
-        </service>
         <service android:name=".service.BeeRecognizeService" />
 
         <receiver android:name=".domains.alarm.AlarmReceiver" />
@@ -231,7 +209,7 @@
             <!--</intent-filter>-->
         </receiver>
 
-        <service android:name=".IoT.IoTService" android:exported="false">
+        <service android:name="com.skyworthdigital.voice.iot.IoTService" android:exported="false">
             <intent-filter android:priority="1000">
                 <action android:name="com.sdt.assistant.action.VOICE"/>
             </intent-filter>
