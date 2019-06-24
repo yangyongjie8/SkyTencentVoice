@@ -141,7 +141,7 @@
             android:layout_height="50dip"
             android:background="@drawable/play_download_timebg" />
     </RelativeLayout>
-    <com.skyworthdigital.voiceassistant.videosearch.generalview.SkyLoadingView
+    <com.skyworthdigital.voice.videosearch.gernalview.SkyLoadingView
         android:id="@+id/fm_play_loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

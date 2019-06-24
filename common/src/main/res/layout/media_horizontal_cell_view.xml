@@ -76,7 +76,7 @@
 	    android:clipToPadding="false"
 	    android:paddingTop="@dimen/dip_50" >
 
-	    <com.skyworthdigital.voiceassistant.videosearch.generalview.SkyMarqueeTextView
+	    <com.skyworthdigital.voice.videosearch.gernalview.SkyMarqueeTextView
 	        android:id="@+id/tv_h_cell_name"
 	        android:layout_width="@dimen/horizontal_cell_name_width"
 	        android:layout_height="wrap_content"

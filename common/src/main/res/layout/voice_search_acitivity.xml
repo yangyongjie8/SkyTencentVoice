@@ -22,7 +22,7 @@
             android:textColor="@color/half_white"
             android:textSize="@dimen/txt_23_33" />
 
-        <com.skyworthdigital.voice.dingdang.domains.videosearch.generalview.MetroRecyclerView
+        <com.skyworthdigital.voice.videosearch.gernalview.MetroRecyclerView
             android:id="@+id/search_content_list"
             android:layout_width="@dimen/dip_1200"
             android:layout_height="@dimen/dip_488"
@@ -43,7 +43,7 @@
             app:supportVRightKey="true" />
     </LinearLayout>
 
-    <com.skyworthdigital.voice.dingdang.domains.videosearch.generalview.SkyLoadingView
+    <com.skyworthdigital.voice.videosearch.gernalview.SkyLoadingView
         android:id="@+id/detail_playlist_loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
