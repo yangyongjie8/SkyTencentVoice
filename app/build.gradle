@@ -31,6 +31,11 @@ android {
         versionCode 10204
         versionName "1.02.04"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            // 设置支持的SO库架构
+            abiFilters 'armeabi'//, 'armeabi-v7a'
+        }
     }
     buildTypes {
         debug {
@@ -70,6 +75,7 @@ def static currentTimeTail() {
 repositories {
     flatDir {
         dirs 'libs','../baidu_module/libs','../common/libs'
+//        dirs 'libs','../common/libs'
     }
 }
 
@@ -81,6 +87,7 @@ dependencies {
     //implementation 'com.android.support:appcompat-v7:26.0.0-alpha1'
     testImplementation 'junit:junit:4.12'
 
-    implementation project(':tencent_module')
-    implementation project(':baidu_module')
+//    implementation project(':tencent_module')
+    api project(':baidu_module')
+    implementation project(':common')
 }

@@ -5,8 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 
+import com.skyworthdigital.voice.common.AbsTTS;
 import com.skyworthdigital.voice.dingdang.VoiceApp;
-import com.skyworthdigital.voice.dingdang.control.tts.MyTTS;
 import com.skyworthdigital.voice.dingdang.utils.AppUtil;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
 import com.skyworthdigital.voice.iot.IoTCommand;
@@ -32,11 +32,11 @@ public class SSRReceiver extends BroadcastReceiver {
             if(!IoTService.d618_gw_connected) {
                 if(IoTService.isD618_gw_recognized()) {
                     context.startService(new Intent(context, IoTService.class));
-                    MyTTS.getInstance(null).talk("正在连接网关，请重试");
+                    AbsTTS.getInstance(null).talk("正在连接网关，请重试");
                 }
                 else
                 {
-                    MyTTS.getInstance(null).talk("您还没有组网，请先组网");
+                    AbsTTS.getInstance(null).talk("您还没有组网，请先组网");
                 }
             }else {
                 IoTCommand ioTCommand = (IoTCommand) intent.getSerializableExtra("nlu_data");

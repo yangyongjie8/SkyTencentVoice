@@ -1,5 +1,7 @@
 package com.skyworthdigital.voice.dingdang.utils;
 
+import com.skyworthdigital.voice.common.BuildConfig;
+
 public class GlobalVariable {
     public static final int IQIYI_SOURCE = 3;
     public static final int TENCENT_SOURCE = 6;
@@ -19,14 +21,14 @@ public class GlobalVariable {
     public static final String INTENT_MUSIC_PLAY = "audio.music.play";
     public static final String INTENT_MUSIC_GOTO = "audio.music.goto";
     public static final String TYPE_TEXT = "Text";
-    static final String VOLUME_MAX = "max";
+    public static final String VOLUME_MAX = "max";
     public static final String FM_NAME = "fm_name";
     public static final String FM_URL = "fm_url";
     public static final String INTENT_AUDIO_JOKE = "audio.joke.play";
     public static final String INTENT_AUDIO_PAUSE = "audio.unicast.pause";
     public static final String INTENT_AUDIO_CONTINUE = "audio.unicast.continue";
 
-    static final String CMD_MUSIC_GOTO = "audio.music.goto";//音乐播放第几首
+    public static final String CMD_MUSIC_GOTO = "audio.music.goto";//音乐播放第几首
     public static final String INTENT_TV_LIVE = "tv.live.channel.search";
 
     //其它应用需要申请audio recorder时发送的广播。语音助手收到这个广播，会释放audio recorder，同时停止唤醒。

@@ -1,7 +1,7 @@
 package com.skyworthdigital.voice.common;
 
 /**
- * 第三方平台asr的翻译
+ * 第三方平台asr的解释
  * Created by Ives 2019/6/11
  */
 public abstract class AbsAsrTranslator<T> {

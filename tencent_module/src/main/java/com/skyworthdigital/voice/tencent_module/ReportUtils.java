@@ -7,9 +7,9 @@ import com.forest.bigdatasdk.model.EventInfo;
 import com.skyworthdigital.voice.VoiceApp;
 import com.skyworthdigital.voice.dingdang.utils.GlobalVariable;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
-import com.skyworthdigital.voice.tencent_module.model.ValueItem;
 import com.skyworthdigital.voice.tencent_module.model.Semantic;
 import com.skyworthdigital.voice.tencent_module.model.Slot;
+import com.skyworthdigital.voice.tencent_module.model.ValueItem;
 
 import org.json.JSONObject;
 

@@ -15,6 +15,7 @@ import com.skyworthdigital.voice.common.AbsTTS;
 import com.skyworthdigital.voice.common.IStatus;
 import com.skyworthdigital.voice.dingdang.utils.GlobalVariable;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
+import com.skyworthdigital.voice.guide.GuideTip;
 import com.skyworthdigital.voice.tencent_module.domains.tv.TvlistDialog;
 
 import java.util.List;
@@ -192,7 +193,7 @@ public class SkyAsrDialogControl extends AbsDialog {
     public void dialogRefreshTips(List<String> tips) {
         Log.i(TAG, "dialogRefreshTips");
         if (mAsrDialog != null) {
-            mAsrDialog.dialogRefreshTips(tips);
+            mAsrDialog.dialogRefreshTips(GuideTip.getInstance().getGuidetips());
         }
     }
 

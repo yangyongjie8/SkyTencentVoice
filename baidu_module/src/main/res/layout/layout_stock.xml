@@ -1,0 +1,181 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/stock"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/stock_win_height"
+    android:layout_gravity="top"
+    android:gravity="center_horizontal"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/stock_win_margintop"
+        android:minWidth="101dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/stock_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:textColor="@color/stock_text_name"
+            android:textSize="@dimen/stock_info_text" />
+
+        <TextView
+            android:id="@+id/code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/stock_infos_gap"
+            android:gravity="start"
+            android:textColor="@color/stock_text_name"
+            android:textSize="@dimen/stock_info_text" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="top"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/current_price"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|end"
+            android:minWidth="200dp"
+            android:textSize="@dimen/stock_curprice_text" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="118dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="@dimen/stock_win_margintop"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/change1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:textColor="@color/stock_text_color"
+            android:textSize="@dimen/stock_info_text" />
+
+        <TextView
+            android:id="@+id/change2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/stock_infos_gap"
+            android:gravity="start"
+            android:textSize="@dimen/stock_info_text" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/stock_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/stock_win_margintop"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="2dp"
+            android:layout_height="70dp"
+            android:background="#b4b4b4" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/stock_item1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:gravity="start"
+                android:minWidth="168dp"
+                android:textColor="@color/stock_text_color"
+                android:textSize="@dimen/stock_info_text" />
+
+            <TextView
+                android:id="@+id/stock_item2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="@dimen/stock_infos_gap"
+                android:gravity="start"
+                android:minWidth="168dp"
+                android:textColor="@color/stock_text_color"
+                android:textSize="@dimen/stock_info_text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="2dp"
+            android:layout_height="70dp"
+            android:background="#b4b4b4" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/stock_item3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:gravity="start"
+                android:minWidth="168dp"
+                android:textColor="@color/stock_text_color"
+                android:textSize="@dimen/stock_info_text" />
+
+            <TextView
+                android:id="@+id/stock_item4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="@dimen/stock_infos_gap"
+                android:gravity="start"
+                android:minWidth="168dp"
+                android:textColor="@color/stock_text_color"
+                android:textSize="@dimen/stock_info_text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="2dp"
+            android:layout_height="70dp"
+            android:background="#b4b4b4" />
+
+        <LinearLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/stock_item5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:gravity="start"
+                android:minWidth="168dp"
+                android:textColor="@color/stock_text_color"
+                android:textSize="@dimen/stock_info_text" />
+
+            <TextView
+                android:id="@+id/stock_item6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="@dimen/stock_infos_gap"
+                android:gravity="start"
+                android:minWidth="168dp"
+                android:textColor="@color/stock_text_color"
+                android:textSize="@dimen/stock_info_text" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
+

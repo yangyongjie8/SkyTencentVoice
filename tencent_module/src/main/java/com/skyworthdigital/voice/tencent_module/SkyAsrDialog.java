@@ -16,7 +16,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.skyworthdigital.voice.GuideTip;
+import com.skyworthdigital.voice.guide.GuideTip;
 import com.skyworthdigital.voice.VoiceApp;
 import com.skyworthdigital.voice.common.AbsTTS;
 import com.skyworthdigital.voice.common.IStatus;
@@ -293,7 +293,7 @@ public class SkyAsrDialog extends Dialog {
         }
     }
 
-    public void dialogRefreshTips(List<String> tips) {
+    public void dialogRefreshTips(String tips) {
         if (mGuideTip != null) {
             Message msg = new Message();
             msg.what = MSG_SHOW_TIPS;
@@ -405,7 +405,7 @@ public class SkyAsrDialog extends Dialog {
                     MLog.d(TAG, "scene:" + IStatus.mSceneType);
                     if (IStatus.mSceneType != IStatus.SCENE_GIVEN) {
                         mTextViewTip.setVisibility(View.VISIBLE);
-                        showUserGuide(mTextViewTip, (List<String>) msg.obj);
+                        showUserGuide(mTextViewTip, (String) msg.obj);
                     } else {
                         mTextViewTip.setVisibility(View.GONE);
                     }
@@ -454,15 +454,9 @@ public class SkyAsrDialog extends Dialog {
         }
     };
 
-    private void showUserGuide(TextView textView, List<String> guide) {
+    private void showUserGuide(TextView textView, String guide) {
         Log.i(TAG, "showUserGuide");
-        StringBuilder sb = new StringBuilder();
-        sb.append("你可以说：");
-        for (String item : guide) {
-            sb.append(item);
-            sb.append(" ");
-        }
-        textView.setText(sb.toString());//sp);
+        textView.setText(guide);//sp);
     }
 
     public void setDialogSizeSmall() {

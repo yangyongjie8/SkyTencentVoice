@@ -4,7 +4,7 @@ package com.skyworthdigital.voice.common;
  * Created by Ives 2019/5/29
  */
 public abstract class AbsTTS {
-    protected static AbsTTS mInstance = null;
+    protected volatile static AbsTTS mInstance = null;
 
     public static final int STATUS_INTERRUPT = 2;
     public static final int STATUS_TALKING = 1;
@@ -13,6 +13,10 @@ public abstract class AbsTTS {
 
     public static AbsTTS getInstance(AbsTTS.MyTTSListener listener) {
         return mInstance;
+    }
+
+    public static void clearInstance(){
+        mInstance = null;// 这样有可能造成单例失效隐患，注意clear前，不要在引用里持有实例
     }
 
     public abstract void stopSpeak() ;
@@ -51,6 +55,9 @@ public abstract class AbsTTS {
      * 解析语义数据，并将回复语进行语音合成
      */
     public abstract void parseSemanticToTTS(String semantic);
+
+    public abstract boolean isContentTalking(String tag);
+    public abstract void removeContent(String tag);
 
     public interface MyTTSListener {
         void onChange(int status);

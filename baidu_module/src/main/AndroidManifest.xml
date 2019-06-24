@@ -1,2 +1,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.skyworthdigital.voice.baidu_module" />
+    package="com.skyworthdigital.voice.baidu_module" >
+    <application>
+
+
+        <activity
+            android:name=".fm.SkyAudioPlayActivity"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <action android:name="com.skyworthdigital.voiceassistant.fmplay" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

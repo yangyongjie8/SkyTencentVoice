@@ -13,9 +13,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 
 import com.skyworthdigital.voice.DefaultCmds;
-import com.skyworthdigital.voice.GuideTip;
 import com.skyworthdigital.voice.VoiceApp;
-import com.skyworthdigital.voice.beesearch.BeeSearchParams;
 import com.skyworthdigital.voice.common.AbsAsrTranslator;
 import com.skyworthdigital.voice.common.AbsController;
 import com.skyworthdigital.voice.common.AbsRecognizer;
@@ -29,19 +27,17 @@ import com.skyworthdigital.voice.common.utils.Utils;
 import com.skyworthdigital.voice.dingdang.utils.AppUtil;
 import com.skyworthdigital.voice.dingdang.utils.GlobalVariable;
 import com.skyworthdigital.voice.dingdang.utils.GsonUtils;
-import com.skyworthdigital.voice.dingdang.utils.IntentUtils;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
 import com.skyworthdigital.voice.dingdang.utils.VolumeUtils;
-import com.skyworthdigital.voice.globalcmd.GlobalUtil;
+import com.skyworthdigital.voice.guide.GuideTip;
 import com.skyworthdigital.voice.scene.ISceneCallback;
 import com.skyworthdigital.voice.scene.SkySceneService;
-import com.skyworthdigital.voice.tv.AbsTvLiveControl;
 import com.tencent.ai.sdk.utils.ISSErrors;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class MainControler extends AbsController {
+public class MainControler extends AbsController implements AbsTTS.MyTTSListener {
     private static final String TAG = MainControler.class.getSimpleName();
     private AbsRecognizer myRecognizer;
     private AbsWakeup myWakeup;
@@ -55,7 +51,6 @@ public class MainControler extends AbsController {
     private boolean mBound = false;
     private String mRecoResult;
     private MainControler.BoxReceiver mBoxReceiver;
-    private static MainControler mManagerInstance = null;
     private ExecutorService mExecutor = Executors.newSingleThreadExecutor();
     private static final String WAKEUP_OPEN_ACTION = "com.skyworthdigital.voice.action.WAKEUP_OPEN";
     private static final String WAKEUP_CLOSE_ACTION = "com.skyworthdigital.voice.action.WAKEUP_CLOSE";
@@ -72,7 +67,7 @@ public class MainControler extends AbsController {
                 }
             }
         }
-        return mManagerInstance;
+        return (MainControler) mManagerInstance;
     }
 
     private MainControler() {
@@ -101,10 +96,12 @@ public class MainControler extends AbsController {
         mContext.registerReceiver(mBoxReceiver, mScreenCheckFilter);
     }
 
+    @Override
     public void onDestroy() {
         com.skyworthdigital.voice.VoiceApp.getInstance().unregisterReceiver(mBoxReceiver);
     }
 
+    @Override
     public boolean onKeyEvent(int code) {
         switch (code) {
             case KeyEvent.KEYCODE_BACK:

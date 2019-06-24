@@ -72,7 +72,7 @@ public class VolumeUtils {
         mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, scaledVolume, AudioManager.FLAG_SHOW_UI);
     }
 
-    void setVolumeMax() {
+    public void setVolumeMax() {
         int max_vol = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
         mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, max_vol, AudioManager.FLAG_SHOW_UI);
     }

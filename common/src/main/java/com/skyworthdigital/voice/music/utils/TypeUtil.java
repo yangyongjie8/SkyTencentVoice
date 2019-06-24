@@ -19,7 +19,7 @@ import java.util.List;
  * 语音原始输入内容和百度解析后的内容都和mListJson列表做比对，增加准确性，因为有时百度解析不准确。
  * 如果匹配列表中某条item的cmds中其中一个，那么按item中定义的action或package name做跳转
  */
-class TypeUtil {
+public class TypeUtil {
     private static TypeUtil mTypeInstance = null;
     private static List<TypeCell> mListJson = null;
     //private final static String[] START_FILTER = {"打开", "进入", "开启", "启动"};
@@ -40,7 +40,7 @@ class TypeUtil {
         }
     }
 
-    static TypeUtil getInstance(Context context) {
+    public static TypeUtil getInstance(Context context) {
         if (mTypeInstance == null) {
             mTypeInstance = new TypeUtil(context);
         }
@@ -63,7 +63,7 @@ class TypeUtil {
      * 参数：可同时有arg1和arg2，也可只有其中一个，另一个为空。
      * 一般一个参数是原始语音输入内容，另一个为百度解析后的内容，这样匹配更加准确
      */
-    TypeCell getInfo(String arg1, String speech) {
+    public TypeCell getInfo(String arg1, String speech) {
         if ((mListJson == null) || (TextUtils.isEmpty(arg1) && TextUtils.isEmpty(speech))) {
             return null;
         }

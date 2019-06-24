@@ -2,6 +2,7 @@ package com.skyworthdigital.voice;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.skyworthdigital.voice.beesearch.BeeSearchParams;
@@ -9,9 +10,11 @@ import com.skyworthdigital.voice.common.AbsTTS;
 import com.skyworthdigital.voice.common.IStatus;
 import com.skyworthdigital.voice.common.R;
 import com.skyworthdigital.voice.common.utils.StringUtils;
+import com.skyworthdigital.voice.dingdang.utils.AppUtil;
 import com.skyworthdigital.voice.dingdang.utils.GlobalVariable;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
 import com.skyworthdigital.voice.dingdang.utils.VolumeUtils;
+import com.skyworthdigital.voice.guide.GuideTip;
 import com.skyworthdigital.voice.tianmai.TianmaiIntent;
 import com.skyworthdigital.voice.tianmai.WeatherBee;
 import com.skyworthdigital.voice.tianmai.WeatherUtil;
@@ -45,27 +48,23 @@ public class DefaultCmds {
     public static final String COMMAND_PAGE_NEXT = "page.next";
     public static final String COMMAND_PAGE_PRE = "page.previous";
     public static final String COMMAND_LOCATION = "command.location";//定位指令
-    private static final String COMMAND_RESOLUTION = "command.resolution";
+    protected static final String COMMAND_RESOLUTION = "command.resolution";
     public static final String PLAYER_CMD_PREVIOUS = "player.previous";//上一集
     public static final String PLAYER_CMD_NEXT = "player.next";//下一集
     public static final String PLAYER_CMD_EPISODE = "player.episode";//第几集
     public static final String PLAYER_CMD_PAGE = "page_select";
     public static final String PLAYER_CMD_PAUSE = "player.pause";
-    private static final String PLAYER_CMD_CONTINUE = "player.continue";//暂停或播放
+    protected static final String PLAYER_CMD_CONTINUE = "player.continue";//暂停或播放
     public static final String PLAYER_CMD_FASTFORWARD = "player.fastforward";//快进
     public static final String PLAYER_CMD_BACKFORWARD = "player.backforward";//快退
-    private static final String AUDIO_UNICAST_CMD_SPEED = "audio.unicast.speed";
+    protected static final String AUDIO_UNICAST_CMD_SPEED = "audio.unicast.speed";
     public static final String PLAYER_CMD_GOTO = "player.goto";
     protected static final String PLAYER_CMD_SPEED = "player.speed";//多倍速播放
     protected static final String PLAYER_CMD_SKIPTITLE = "player.skiptitle";
-    private static final String PLAYER_CMD_AUDIO_PREVIOUS = "audio.unicast.previous";
-    private static final String PLAYER_CMD_AUDIO_NEXT = "audio.unicast.next";
+    protected static final String PLAYER_CMD_AUDIO_PREVIOUS = "audio.unicast.previous";
+    protected static final String PLAYER_CMD_AUDIO_NEXT = "audio.unicast.next";
     public static final String PLAYER_CMD_AUDIO_GOTO = "audio.unicast.goto";
     public static final String CMD_OPEN_DETAILS = "open.details";
-    private static final String ROW = "row";//行
-    private static final String COL = "col";//列
-    private static final String RE_ROW = "re_row";//倒数行
-    private static final String RE_COL = "re_col";//倒数列
     public static final String VALUE = "_value";
     //public static final String RE_EPISODE = "re_episode";
     public static final String INTENT = "_intent";
@@ -115,6 +114,13 @@ public class DefaultCmds {
         playactions.add("play_skipforward");
         MLog.d(TAG, "isPlay:" + name + " " + playactions.contains(name));
         return (playactions.contains(name));
+    }
+
+    public static boolean isMusicCmd(String command) {
+        ArrayList<String> playactions = new ArrayList<>();
+        playactions.add(GlobalVariable.CMD_MUSIC_GOTO);
+
+        return playactions.contains(command);
     }
 
     /***
@@ -178,6 +184,9 @@ public class DefaultCmds {
                 VolumeUtils.getInstance(ctx).cancelMute();
                 return true;
             } else if (StringUtils.isExitCmdFromSpeech(speech)) {
+                MLog.i(TAG, "SystemCmdPatch");
+                AppUtil.killTopApp();
+                AbsTTS.getInstance(null).talk(ctx.getString(R.string.str_exit));
                 if (IStatus.mSceneType != IStatus.SCENE_GLOBAL) {
                     IStatus.mSmallDialogDimissTime = System.currentTimeMillis() - 1;
                     return true;
@@ -187,6 +196,33 @@ public class DefaultCmds {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public static void startEpisodeIntent(Context ctx, int value, String originSpeech) {
+        String strPackage = GlobalVariable.VOICE_PACKAGE_NAME;
+        Intent intent = new Intent(INTENT_TOPACTIVITY_CALL);
+        intent.putExtra(SEQUERY, originSpeech);
+        intent.putExtra(CATEGORY_SERV, PLAY_CMD);
+        intent.setPackage(strPackage);
+        intent.putExtra(INTENT, PLAYER_CMD_EPISODE);
+
+        intent.putExtra(VALUE, value);
+        ctx.startService(intent);
+    }
+
+    public static void startPauseIntent(Context ctx, boolean pause, String originSpeech) {
+        String strPackage = GlobalVariable.VOICE_PACKAGE_NAME;
+        Intent intent = new Intent(INTENT_TOPACTIVITY_CALL);
+        intent.putExtra(SEQUERY, originSpeech);
+        intent.putExtra(CATEGORY_SERV, PLAY_CMD);
+        intent.setPackage(strPackage);
+        intent.putExtra(INTENT, PLAYER_CMD_PAUSE);//百度V3版本播放和暂停去掉了槽位值，播放改为了continue。我们送给全媒资的数据格式保持不变
+        if (pause) {
+            intent.putExtra(VALUE, 1);
+        } else {
+            intent.putExtra(VALUE, 0);
+        }
+        ctx.startService(intent);
     }
 
     public static void startTianmaiPlay(final Context ctx, final TianmaiIntent intent){

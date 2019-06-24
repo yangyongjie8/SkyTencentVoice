@@ -35,4 +35,6 @@ dependencies {
     api 'com.facebook.fresco:fresco:0.14.1'
     api 'com.facebook.fresco:animated-gif:0.14.1'
     api 'com.facebook.fresco:imagepipeline-okhttp3:0.14.1'
+
+    api project(':assistantsdk')
 }

@@ -94,78 +94,34 @@
         android:supportsRtl="true"
         android:theme="@android:style/Theme.Wallpaper.NoTitleBar.Fullscreen">
 
+        <!-- 腾讯配置 -->
         <meta-data
             android:name="com.tencent.rdm.uuid"
             android:value="07c7e2e3-982c-4995-bcc8-56332db07812" />
+        <!-- 腾讯配置结束 -->
 
-        <activity
-            android:name=".domains.videosearch.SkyBeeSearchAcitivity"
-            android:label="@string/app_name"
-            android:launchMode="standard">
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
+        <!-- 如果集成了ASR模块，需要如下设置 -->
+        <meta-data
+            android:name="com.baidu.speech.APP_ID"
+            android:value="9912349" />
+        <meta-data
+            android:name="com.baidu.speech.API_KEY"
+            android:value="1EaBQMv9q9aGdOyGn4hSd4Gu" />
+        <meta-data
+            android:name="com.baidu.speech.SECRET_KEY"
+            android:value="38e073b72accfe83b2bac50d2c352ff5" />
+        <!-- lbs设置 -->
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="XPk6G4rA34MS9ZLGa6fWWIly" />
+        <meta-data
+            android:name="BD_IM_API_KEY"
+            android:value="AGnZQAN7v0Gc9HPQipw7Smj5" />
+        <meta-data
+            android:name="BD_IM_APPID"
+            android:value="6696445" />
+        <!-- 百度配置结束 -->
 
-                <action android:name="com.skyworthdigital.voice.dingdang.beesearch" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".domains.sports.SportsScheduleActivity"
-            android:label="@string/app_name">
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <action android:name="com.skyworthdigital.voice.dingdang.sports" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".domains.sports.SportsRecordActivity"
-            android:label="@string/app_name"
-            android:launchMode="singleTask">
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <action android:name="com.skyworthdigital.voice.dingdang.sportsrecord" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".activity.TrainTicketActivity"
-            android:launchMode="singleTask">
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <action android:name="com.skyworthdigital.voice.dingdang.trainticket" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".domains.flight.SearchTicketActivity"
-            android:launchMode="singleTask">
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <action android:name="com.skyworthdigital.voice.dingdang.flightticket" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".domains.baike.SkyBaikeVideoActivity"
-            android:launchMode="singleTask">
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
-                <action android:name="com.skyworthdigital.voice.dingdang.baikevideo" />
-            </intent-filter>
-        </activity>
-
-        <activity android:name=".domains.recipe.RecipeActivity">
-            <intent-filter>
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <action android:name="com.skyworthdigital.voice.dingdang.recipe" />
-            </intent-filter>
-        </activity>
         <activity android:name="com.skyworthdigital.voice.TestActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -199,8 +155,6 @@
         </receiver>
 
         <service android:name=".service.BeeRecognizeService" />
-
-        <receiver android:name=".domains.alarm.AlarmReceiver" />
         <receiver android:name=".receiver.BeeReceiver" >
             <!--<intent-filter>-->
                 <!--<action android:name="com.skyworthdigital.voice.ACTIVATE"/>-->

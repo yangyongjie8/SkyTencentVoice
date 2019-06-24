@@ -5,11 +5,11 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
-import com.skyworthdigital.voice.GuideTip;
+import com.skyworthdigital.voice.common.AbsController;
 import com.skyworthdigital.voice.dingdang.VoiceApp;
 import com.skyworthdigital.voice.dingdang.utils.VolumeUtils;
+import com.skyworthdigital.voice.guide.GuideTip;
 import com.skyworthdigital.voice.music.utils.QQMusicUtils;
-import com.skyworthdigital.voice.tencent_module.MainControler;
 
 /**
  * User: yangyongjie
@@ -34,17 +34,17 @@ public class BeeRecognizeService extends Service {
         if (ACTION_VOICE_ACTIVATE.equals(action)) {
             QQMusicUtils.isPauseInRemote = true;
             GuideTip.getInstance().pauseQQMusic();
-            MainControler.getInstance().isControllerVoice = false;
-            MainControler.getInstance().manualRecognizeStart();
+            AbsController.getInstance().isControllerVoice = false;
+            AbsController.getInstance().manualRecognizeStart();
         } else if (ACTION_VOICE_RECOGNIZE.equals(action)) {
             String txt = intent.getStringExtra(KEY_ORIGINAL_TXT);
             Log.d(TAG, "RECOGNIZE:" + txt);
             recoverySound();
-            MainControler.getInstance().testYuyiParse(txt);
+            AbsController.getInstance().testYuyiParse(txt);
         } else if (ACTION_VOICE_CANCEL.equals(action)) {
             Log.d(TAG, "VOICE_CANCEL");
             recoverySound();
-            MainControler.getInstance().cancelYuyiParse();
+            AbsController.getInstance().cancelYuyiParse();
         }
         return super.onStartCommand(intent, flags, startId);
     }

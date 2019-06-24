@@ -10,7 +10,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 
 import com.skyworthdigital.voice.DefaultCmds;
-import com.skyworthdigital.voice.GuideTip;
+import com.skyworthdigital.voice.guide.GuideTip;
 import com.skyworthdigital.voice.UserGuideStrings;
 import com.skyworthdigital.voice.VoiceApp;
 import com.skyworthdigital.voice.common.AbsTTS;

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">baidu_module</string>
+
+    <string name="str_error_audiopermission">麦克风不可用</string>
 </resources>

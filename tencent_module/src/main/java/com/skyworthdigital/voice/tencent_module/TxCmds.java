@@ -3,7 +3,7 @@ package com.skyworthdigital.voice.tencent_module;
 import android.content.Intent;
 
 import com.skyworthdigital.voice.DefaultCmds;
-import com.skyworthdigital.voice.GuideTip;
+import com.skyworthdigital.voice.guide.GuideTip;
 import com.skyworthdigital.voice.beesearch.BeeSearchParams;
 import com.skyworthdigital.voice.beesearch.BeeSearchUtils;
 import com.skyworthdigital.voice.dingdang.utils.GlobalVariable;

@@ -5,13 +5,13 @@ import android.content.Intent;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
-import com.skyworthdigital.voice.GuideTip;
 import com.skyworthdigital.voice.VoiceApp;
 import com.skyworthdigital.voice.common.AbsTTS;
 import com.skyworthdigital.voice.common.R;
 import com.skyworthdigital.voice.dingdang.utils.AppUtil;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
 import com.skyworthdigital.voice.dingdang.utils.SPUtil;
+import com.skyworthdigital.voice.guide.GuideTip;
 import com.skyworthdigital.voice.iot.IoTParserResult;
 import com.skyworthdigital.voice.iot.IoTService;
 import com.skyworthdigital.voice.tianmai.TianmaiIntent;
@@ -43,6 +43,7 @@ import okhttp3.Response;
  * Created by Ives 2019/5/30
  */
 public class StringUtils {
+    private static String TAG = StringUtils.class.getSimpleName();
 
     //去除字符串中的标点
     public static String format(String s) {
@@ -154,6 +155,80 @@ public class StringUtils {
         return result;
     }
 
+
+    /*
+     *功能：根据语音输入获取可能的片名。对带季或部的片名做特殊处理，提高搜索结果准确度。
+     * 例如film:速度与激情，speech：速度与激情第五部，
+     * 返回：速度与激情第五季，速度与激情 第五季，速度与激情第五部，速度与激情 第五部，速度与激情五，速度与激情 五，速度与激情第5季，速度与激情 第5季，速度与激情第5部，速度与激情 第5部，速度与激情5，速度与激情 5，
+     */
+    public static String composeNameWithSpeech(String film, String speech) {
+        String regex = "第([0~9,一二三四五六七八九十]{1,2})(季|部)";
+
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(speech);
+        if (m.find()) {
+            StringBuilder whff = new StringBuilder();
+            whff.append(film + "第" + m.group(1) + "季");
+            whff.append(",");
+            whff.append(film + " 第" + m.group(1) + "季");
+            whff.append(",");
+            whff.append(film + "第" + m.group(1) + "部");
+            whff.append(",");
+            whff.append(film + " 第" + m.group(1) + "部");
+            whff.append(",");
+            whff.append(film + m.group(1));
+            whff.append(",");
+            whff.append(film + " " + m.group(1));
+            whff.append(",");
+            String num = chineseToRome(m.group(1));
+            if (num != null) {
+                whff.append(film + "第" + num + "季");
+                whff.append(",");
+                whff.append(film + " 第" + num + "季");
+                whff.append(",");
+                whff.append(film + "第" + num + "部");
+                whff.append(",");
+                whff.append(film + " 第" + num + "部");
+                whff.append(",");
+                whff.append(film + num);
+                whff.append(",");
+                whff.append(film + " " + num);
+            }
+            MLog.i(TAG, ""+whff.toString());
+            return whff.toString();
+        }
+        return null;
+    }
+
+    /*
+     *功能：重新组合可能的影片名。对片名做特殊处理。
+     * 例如film:速度与激情，Whdepart：5，
+     * 返回：速度与激情5，速度与激情 5，速度与激情五，速度与激情 五
+     */
+    public static String composeNameWithWhdepart(String film, String Whdepart) {
+        try {
+            StringBuilder sb = new StringBuilder();
+            sb.append(film);
+            sb.append(Integer.parseInt(Whdepart));
+            sb.append(",");
+            sb.append(film);
+            sb.append(Integer.parseInt(Whdepart));
+            String chinanum = numToChinese(Whdepart);
+            if (chinanum != null) {
+                sb.append(",");
+                sb.append(film);
+                sb.append(chinanum);
+                sb.append(",");
+                sb.append(film);
+                sb.append(chinanum);
+            }
+            MLog.i(TAG,sb.toString());
+            return sb.toString();
+        } catch (Exception e) {
+            return film;
+        }
+    }
+
     /**
      * 根据用户语音原话，提取里面的数值，如播放第5集中的数字5
      */
@@ -165,7 +240,7 @@ public class StringUtils {
             Matcher m = p.matcher(speech);
             if (m.find()) {
                 String strnum = m.group(2);
-                MLog.d("wyf", "getEpisodeFromSpeech:" + strnum);
+                MLog.d(TAG, "getEpisodeFromSpeech:" + strnum);
                 if (chineseNumber2Int(strnum) != 0) {
                     return chineseNumber2Int(strnum);
                 } else {
@@ -183,7 +258,7 @@ public class StringUtils {
      */
     public static boolean isUnmuteCmdFromSpeech(String speech) {
         String regex = ".*(取消静音|恢复音量|音量恢复|静音取消).*";
-        MLog.d("wyf", "isUnmuteCmdFromSpeech");
+        MLog.d(TAG, "isUnmuteCmdFromSpeech");
         return Pattern.matches(regex, speech);
     }
 
@@ -191,8 +266,8 @@ public class StringUtils {
      * 根据用户语音原话，提取是否退出指令
      */
     public static boolean isExitCmdFromSpeech(String speech) {
-        String regex = ".*(退下).*";
-        MLog.d("wyf", "isExitCmdFromSpeech");
+        String regex = "^(结束播放|播放结束|退出|不想看了|不想听了).*";
+        MLog.d(TAG, "isExitCmdFromSpeech");
         return Pattern.matches(regex, speech);
     }
 
@@ -210,6 +285,41 @@ public class StringUtils {
     public static boolean isReplayCmdFromSpeech(String speech) {
         String regex = "^(从头开始|重新开始|重播|重新播|从头播).*";
         return Pattern.matches(regex, speech);
+    }
+    /**
+     * 根据用户语音原话，判断是否是播放命令
+     */
+    public static boolean isPlayCmdFromSpeech(String speech) {
+        String regex = "^(播放|继续播放|回复播放)$";
+
+        try {
+            Pattern p = Pattern.compile(regex);
+            Matcher m = p.matcher(speech);
+            if (m.find()) {
+                return true;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+        return false;
+    }
+
+    /**
+     * 根据用户语音原话，判断是否是暂停命令
+     */
+    public static boolean isPauseCmdFromSpeech(String speech) {
+        String regex = "^(暂停|暂停播放|播放暂停)$";
+
+        try {
+            Pattern p = Pattern.compile(regex);
+            Matcher m = p.matcher(speech);
+            if (m.find()) {
+                return true;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+        return false;
     }
 
     public static String convertStreamToString(InputStream input) throws IOException {
@@ -243,7 +353,7 @@ public class StringUtils {
      * @return
      */
     public static TianmaiIntent isTianMaiDemoSpeech(String speech){
-        MLog.i("StringUtils", "speech:"+speech);
+        MLog.i(TAG, "speech:"+speech);
         List<TianmaiIntent> intentList = Arrays.asList(new TianmaiIntent("开始演示", "开始.{0,3}(演示|掩饰|也是)"),
                 new TianmaiIntent("十三点半行程", buildTianmaiTimeScheduleRegex("十三点半")+"|"+ buildTianmaiTimeScheduleRegex("下午一点半")+"|"+ buildTianmaiTimeScheduleRegex("下午1:30")),
                 new TianmaiIntent("十三点行程", buildTianmaiTimeScheduleRegex("十三点")+"|"+ buildTianmaiTimeScheduleRegex("下午一点")+"|"+ buildTianmaiTimeScheduleRegex("13:00")),
@@ -288,7 +398,7 @@ public class StringUtils {
         for (TianmaiIntent intent : intentList) {
             if(Pattern.compile(intent.getMatchRegex()).matcher(speech).find()) {
                 intent.setVoiceContent(getTianmaiActionContent(intent));
-                MLog.i("StringUtils", "found match time");
+                MLog.i(TAG, "found match time");
                 return intent;
             }
         }
@@ -297,7 +407,7 @@ public class StringUtils {
 
         if(isAskforTianmaiNextSchedule(speech)){
             String nextScheduleKey = getNextScheduleName();
-            MLog.i("StringUtils", "nextScheduleKey:"+nextScheduleKey);
+            MLog.i(TAG, "nextScheduleKey:"+nextScheduleKey);
             // 直接返回最近对应的有效的行程
             boolean hasFoundTime = false;
             for (TianmaiIntent intent : intentList) {
@@ -312,7 +422,7 @@ public class StringUtils {
                 }
                 if(intent.getName().equalsIgnoreCase(nextScheduleKey)) {
                     hasFoundTime = true;
-                    MLog.i("StringUtils", "found latest time");
+                    MLog.i(TAG, "found latest time");
                     if(intent.isTurnOn()) {//当前intent有效
                         intent.setVoiceContent(intent.getName().replace("行程","，") + getTianmaiActionContent(intent));
                         return intent;
@@ -415,7 +525,7 @@ public class StringUtils {
                 return VoiceApp.getInstance().getString(R.string.str_tianmai_schedule_21);
             case "睡眠注意事项":
                 return VoiceApp.getInstance().getString(R.string.str_tianmai_sleep_notice);
-            default:MLog.i("StringUtils", "有漏掉的意图，请检查并补充");
+            default:MLog.i(TAG, "有漏掉的意图，请检查并补充");
         }
         return null;
     }
@@ -452,11 +562,11 @@ public class StringUtils {
                 AbsTTS.getInstance(null).talk("正在清除网关数据,请重启设备并重新组网");
                 return true;
             }
-            MLog.i("StringUtils", "check IoT Cmd" + speech);
+            MLog.i(TAG, "check IoT Cmd" + speech);
 
             // 关闭前退出所有应用
             if(Pattern.compile("关.?电视").matcher(speech).find() && !GuideTip.getInstance().isMusicPlay()){
-                MLog.i("StringUtils", "发送home键，关闭电视");
+                MLog.i(TAG, "发送home键，关闭电视");
                 AppUtil.killTopApp();
             }
 
@@ -469,14 +579,14 @@ public class StringUtils {
             //speech=speech.replace("玉刚","浴缸");
             //speech=speech.replace("与缸","浴缸");
             url = url + URLEncoder.encode(speech, "utf-8");
-            MLog.i("StringUtils", "" + url);
+            MLog.i(TAG, "" + url);
 //            String response = "";
 //            String response_jni = SSRService.httpGet(url, response);
             Call call = VoiceApp.getVoiceApp().getOkHttpClient().newCall(new Request.Builder().url(url).build());
             Response response = call.execute();
             if(response==null || !response.isSuccessful() || response.body()==null)return false;
             String resText = response.body().string();
-            MLog.i("StringUtils", "response_jni:"+resText);
+            MLog.i(TAG, "response_jni:"+resText);
             // SSRJXGDResultBean ssrjxgdResultBean = gson.fromJson(response_jni,SSRJXGDResultBean.class);
             //
             // LogUtil.log(ssrjxgdResultBean.getDomainName() + ssrjxgdResultBean.getPayLoad() +
@@ -492,7 +602,7 @@ public class StringUtils {
             IoTParserResult rslt=gson.fromJson(resText,IoTParserResult.class);
             if(rslt!=null&&rslt.iotCommand!=null) {
                 if(rslt.iotCommand.isValid()) {
-                    MLog.i("StringUtils", "2send broadcast:" + IoTService.MSG_IOT_CMD);
+                    MLog.i(TAG, "2send broadcast:" + IoTService.MSG_IOT_CMD);
                     Intent intent_IoT = new Intent("action.IoT_CMD");
                     intent_IoT.putExtra("nlu_data", rslt.iotCommand);
                     VoiceApp.getInstance().sendBroadcast(intent_IoT);
@@ -525,7 +635,7 @@ public class StringUtils {
      */
     public static boolean isExitMusicCmdFromSpeech(String speech) {
         String regex = ".*(不想听|不听了|停止播放|播放停止|不想听了|不听呢|不听啦).*";
-        MLog.d("wyf", "isExitMusicCmdFromSpeech");
+        MLog.d(TAG, "isExitMusicCmdFromSpeech");
         return Pattern.matches(regex, speech);
     }
 
@@ -540,7 +650,7 @@ public class StringUtils {
      */
     public static boolean isMusicCmdFromSpeech(String speech) {
         String regex = ".*(听|歌|曲|音乐|唱|首).*";
-        MLog.d("wyf", "isMusicCmdFromSpeech");
+        MLog.d(TAG, "isMusicCmdFromSpeech");
         return Pattern.matches(regex, speech);
     }
     public static boolean isDingdangInvalidBack(String word) {
@@ -578,7 +688,7 @@ public class StringUtils {
      */
     public static boolean isHelpCmdFromSpeech(String speech) {
         String regex = ".*(怎么使用|如何使用|功能介绍|使用说明|功能说明|使用帮助).*";
-        MLog.d("wyf", "isExitCmdFromSpeech");
+        MLog.d(TAG, "isExitCmdFromSpeech");
         return Pattern.matches(regex, speech);
     }
 
@@ -587,7 +697,7 @@ public class StringUtils {
      */
     public static boolean isHomeCmdFromSpeech(String speech) {
         String regex = "^(退出).*";
-        MLog.d("wyf", "isExitCmdFromSpeech");
+        MLog.d(TAG, "isExitCmdFromSpeech");
         return Pattern.matches(regex, speech);
     }
 
@@ -601,6 +711,25 @@ public class StringUtils {
         res = simpleDateFormat.format(date);
         return res;
     }
+
+    /**
+     * 根据用户语音原话，提取里面的数值，如播放第5集中的数字5
+     */
+    public static int getEpisodeFromSpeech(String speech) {
+        String regex = "^(第|播放第|播放的|我想看第|我要看第)([一二三四五六七八九十]{1,5})(集|季|期|级)";
+
+        try {
+            Pattern p = Pattern.compile(regex);
+            Matcher m = p.matcher(speech);
+            if (m.find()) {
+                return chineseNumber2Int(m.group(2));
+            }
+        } catch (Exception e) {
+            return -1;
+        }
+        return -1;
+    }
+
     private static String sectionTOChinese(int section, String chineseNum) {
         String setionChinese = new String();//小节部分用独立函数操作
         int unitPos = 0;//小节内部的权值计数器
@@ -732,6 +861,46 @@ public class StringUtils {
             flag = true;
         }
         return flag;
+    }
+
+
+    /**
+     * 功能：数字转为中文，暂只处理1~10的。
+     */
+    private static String numToChinese(String num) {
+        Map<String, String> map = new HashMap<>();
+        map.put("1", "一");
+        map.put("2", "二");
+        map.put("3", "三");
+        map.put("4", "四");
+        map.put("5", "五");
+        map.put("6", "六");
+        map.put("7", "七");
+        map.put("8", "八");
+        map.put("9", "九");
+        map.put("10", "十");
+
+        return map.get(num);
+    }
+
+    /**
+     *功能：中文转为罗马数字，暂只处理1~10的。
+     */
+    private static String chineseToRome(String num) {
+        Map<String, String> map = new HashMap<>();
+        map.put("一", "1");
+        map.put("二", "2");
+        map.put("三", "3");
+        map.put("四", "4");
+        map.put("五", "5");
+        map.put("六", "6");
+        map.put("七", "7");
+        map.put("八", "8");
+        map.put("九", "9");
+        map.put("十", "10");
+        map.put("十一", "11");
+        map.put("十二", "12");
+        return map.get(num);
     }
 
     public static boolean isMatches(String text, String regex){

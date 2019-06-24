@@ -1,13 +1,6 @@
 package com.skyworthdigital.voice.dingdang.utils;
 
-import android.text.TextUtils;
-
-import com.skyworthdigital.voice.dingdang.control.tts.MyTTS;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

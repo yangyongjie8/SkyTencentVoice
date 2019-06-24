@@ -15,5 +15,62 @@
                 <action android:name="com.skyworthdigital.voice.dingdang.fmplay" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".domains.sports.SportsScheduleActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <action android:name="com.skyworthdigital.voice.dingdang.sports" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".domains.sports.SportsRecordActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <action android:name="com.skyworthdigital.voice.dingdang.sportsrecord" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".domains.flight.SearchTicketActivity"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <action android:name="com.skyworthdigital.voice.dingdang.flightticket" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".domains.baike.SkyBaikeVideoActivity"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="com.skyworthdigital.voice.dingdang.baikevideo" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".domains.recipe.RecipeActivity">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <action android:name="com.skyworthdigital.voice.dingdang.recipe" />
+            </intent-filter>
+        </activity>
+
+
+        <activity
+            android:name=".train.TrainTicketActivity"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <action android:name="com.skyworthdigital.voice.dingdang.trainticket" />
+            </intent-filter>
+        </activity>
     </application>
 </manifest>

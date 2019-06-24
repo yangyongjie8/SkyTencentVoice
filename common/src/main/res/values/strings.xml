@@ -182,6 +182,7 @@
     <string name="no_content_tips">没有搜索到影片,换个词试试</string>
     <string name="str_install_tencenttv">这是云视听的视频源,请选择安装云视听极光~</string>
     <string name="str_search_nomatch_whepisode">没有找到匹配集,尝试播放第一集</string>
+    <string name="str_goto_watch">前往观看</string>
 
     <!-- 天脉演示应答 -->
     <string name="str_tianmai_start_play">爷爷您该起床了</string>

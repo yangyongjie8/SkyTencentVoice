@@ -5,8 +5,9 @@ import android.content.Intent;
 import android.text.TextUtils;
 
 import com.skyworthdigital.voice.DefaultCmds;
-import com.skyworthdigital.voice.GuideTip;
 import com.skyworthdigital.voice.VoiceApp;
+import com.skyworthdigital.voice.alarm.AlarmHelper;
+import com.skyworthdigital.voice.alarm.database.AlarmDbOperator;
 import com.skyworthdigital.voice.beesearch.BeeSearchParams;
 import com.skyworthdigital.voice.beesearch.BeeSearchUtils;
 import com.skyworthdigital.voice.common.IStatus;
@@ -17,11 +18,9 @@ import com.skyworthdigital.voice.dingdang.utils.MLog;
 import com.skyworthdigital.voice.dingdang.utils.PrefsUtils;
 import com.skyworthdigital.voice.dingdang.utils.SkyRing;
 import com.skyworthdigital.voice.globalcmd.GlobalUtil;
+import com.skyworthdigital.voice.guide.GuideTip;
 import com.skyworthdigital.voice.music.MusicControl;
 import com.skyworthdigital.voice.music.musictype.MusicSlots;
-import com.skyworthdigital.voice.tencent_module.domains.alarm.Alarm;
-import com.skyworthdigital.voice.tencent_module.domains.alarm.AlarmHelper;
-import com.skyworthdigital.voice.tencent_module.domains.alarm.database.AlarmDbOperator;
 import com.skyworthdigital.voice.tencent_module.domains.poem.SkyPoemActivity;
 import com.skyworthdigital.voice.tencent_module.domains.tv.TvControl;
 import com.skyworthdigital.voice.tencent_module.model.AIDataType;
@@ -447,9 +446,9 @@ public class ActionUtils {
     public static void jumpToNews(Context ctx,AsrResult bean) {
         try {
             Intent intent = new Intent();
-            intent.setAction("com.skyworthdigital.skyallmedia.ShortVideoList");
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setAction("cn.mipt.videohj.intent.action.LOAD_NEWS");//"com.skyworthdigital.skyallmedia.ShortVideoList"
+//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             ctx.startActivity(intent);
             TxTTS.getInstance(null).talk(ctx.getString(R.string.str_news));
         } catch (Exception e) {

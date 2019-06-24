@@ -3,17 +3,16 @@ package com.skyworthdigital.voice.dingdang.service;
 
 import android.accessibilityservice.AccessibilityService;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.accessibility.AccessibilityEvent;
 
-import com.skyworthdigital.voice.GuideTip;
+import com.skyworthdigital.voice.common.AbsController;
 import com.skyworthdigital.voice.dingdang.BuildConfig;
 import com.skyworthdigital.voice.dingdang.VoiceApp;
 import com.skyworthdigital.voice.dingdang.utils.AppUtil;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
 import com.skyworthdigital.voice.dingdang.utils.VolumeUtils;
-import com.skyworthdigital.voice.tencent_module.MainControler;
+import com.skyworthdigital.voice.guide.GuideTip;
 
 
 /**
@@ -33,24 +32,25 @@ public class RecognizeService extends AccessibilityService {
     protected boolean onKeyEvent(KeyEvent event) {
         int code = event.getKeyCode();
         int action = event.getAction();
-        Log.i(TAG, "keyCode:" + code + "  action:" + action);
+        MLog.i(TAG, "keyCode:" + code + "  action:" + action);
         switch (code) {
             case KeyEvent.KEYCODE_BACK:
             case com.skyworthdigital.voice.VoiceApp.KEYCODE_TA412_BACK:
                 if (action == KeyEvent.ACTION_DOWN) {
-                    return MainControler.getInstance().onKeyEvent(code);
+                    return AbsController.getInstance().onKeyEvent(code);
                 }
                 break;
             case VOICE_KEYCODE:
+            case 138://dongo键值
             case 2054://TA412修改的语音键值
                 if (action == KeyEvent.ACTION_DOWN) {
                     //mRecordStart = System.currentTimeMillis();
                     //if (MainControler.getInstance().isStartValid()) {
-                    MainControler.getInstance().isControllerVoice = true;
-                    MainControler.getInstance().manualRecognizeStart();
+                    AbsController.getInstance().isControllerVoice = true;
+                    AbsController.getInstance().manualRecognizeStart();
                 } else if (action == KeyEvent.ACTION_UP) {
                     //if (System.currentTimeMillis() - mRecordStart > 1000) {
-                        MainControler.getInstance().manualRecognizeStop();
+                    AbsController.getInstance().manualRecognizeStop();
                     //} else {
                     //    MainControler.getInstance().manualRecognizeCancel();
                     //}
@@ -65,7 +65,7 @@ public class RecognizeService extends AccessibilityService {
 
             case KeyEvent.KEYCODE_VOLUME_DOWN:
                 if (action == KeyEvent.ACTION_DOWN) {
-                    if (MainControler.getInstance().isAsrDialogShowing() && !VolumeUtils.getInstance(VoiceApp.getInstance()).isM2001()) {
+                    if (AbsController.getInstance().isAsrDialogShowing() && !VolumeUtils.getInstance(VoiceApp.getInstance()).isM2001()) {
                         VolumeUtils.getInstance(VoiceApp.getInstance()).setVoiceVolumeMinus(1);
                         return true;
                     }
@@ -75,7 +75,7 @@ public class RecognizeService extends AccessibilityService {
                 break;
             case KeyEvent.KEYCODE_VOLUME_UP:
                 if (action == KeyEvent.ACTION_DOWN) {
-                    if (MainControler.getInstance().isAsrDialogShowing() && !VolumeUtils.getInstance(VoiceApp.getInstance()).isM2001()) {
+                    if (AbsController.getInstance().isAsrDialogShowing() && !VolumeUtils.getInstance(VoiceApp.getInstance()).isM2001()) {
                         VolumeUtils.getInstance(VoiceApp.getInstance()).setVoiceVolumePlus(1);
                         return true;
                     }
@@ -89,7 +89,7 @@ public class RecognizeService extends AccessibilityService {
             case KeyEvent.KEYCODE_DPAD_UP:
             case KeyEvent.KEYCODE_DPAD_DOWN:
             case KeyEvent.KEYCODE_DPAD_CENTER:
-                return MainControler.getInstance().isAsrDialogShowing();
+                return AbsController.getInstance().isAsrDialogShowing();
 
             default:
                 break;
@@ -100,8 +100,8 @@ public class RecognizeService extends AccessibilityService {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.i(TAG, "onCreate");
-        //mControler = new MainControler();
+        MLog.i(TAG, "onCreate");
+//        mControler = new MainControler();
     }
 
     @Override

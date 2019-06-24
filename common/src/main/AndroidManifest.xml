@@ -1,7 +1,30 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.skyworthdigital.voice.common" >
 
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
+    <permission
+        android:name="com.skyworthdigital.voiceassistant.permission.RESULT_CALL"
+        android:label="voice Service Permission"
+        android:protectionLevel="normal" />
+    <permission
+        android:name="com.skyworthdigital.voiceassistant.permission.ALARM_DIALOG"
+        android:label="voice Schedule Dialog Permission"
+        android:protectionLevel="normal" />
+
     <application>
+
+        <activity
+            android:name="com.skyworthdigital.voice.videosearch.SkyBeeSearchAcitivity"
+            android:label="@string/app_name"
+            android:launchMode="standard">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <action android:name="com.skyworthdigital.voice.dingdang.beesearch" />
+            </intent-filter>
+        </activity>
 
         <service android:name="com.skyworthdigital.voice.scene.SkySceneService">
             <intent-filter>
@@ -10,5 +33,21 @@
                 <action android:name="com.skyworthdigital.voiceassistant.topActivity.RELEASE" />
             </intent-filter>
         </service>
+
+        <service
+            android:name="com.skyworthdigital.voice.sdk.VoiceService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="com.skyworthdigital.voiceassistant.permission.RESULT_CALL">
+            <intent-filter>
+                <action android:name="com.skyworthdigital.voiceassistant.service.VoiceService" />
+            </intent-filter>
+        </service>
+
+        <receiver android:name="com.skyworthdigital.voice.alarm.AlarmReceiver" android:permission="com.skyworthdigital.voiceassistant.permission.ALARM_DIALOG">
+            <intent-filter>
+                <action android:name="com.skyworthdigital.voiceassisntant.showdialog"/>
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>

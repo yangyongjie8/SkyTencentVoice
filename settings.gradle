@@ -1,1 +1,1 @@
-include ':app', ':tencent_module', ':baidu_module', ':common'
+include ':app', ':tencent_module', ':baidu_module', ':common', ':assistantsdk'

@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.skyworthdigital.voice.tencent_module.MainControler;
+import com.skyworthdigital.voice.common.AbsController;
 import com.skyworthdigital.voice.dingdang.service.BeeRecognizeService;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
 
@@ -20,7 +20,7 @@ public class BeeReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         MLog.i("BeeReceiver", "onReceive" + intent.getAction());
-        if(MainControler.getInstance().isRecognizing() && MainControler.getInstance().isControllerVoice){
+        if(AbsController.getInstance().isRecognizing() && AbsController.getInstance().isControllerVoice){
             MLog.i("BeeReceiver", "recognizing with controller, ignore broadcast.");
             return;
         }

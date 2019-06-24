@@ -1,6 +1,6 @@
 package com.skyworthdigital.voice.scene;
 
-import com.skyworthdigital.voice.GuideTip;
+import com.skyworthdigital.voice.guide.GuideTip;
 
 /**
  * 场景实例的容器（仅非activity场景）

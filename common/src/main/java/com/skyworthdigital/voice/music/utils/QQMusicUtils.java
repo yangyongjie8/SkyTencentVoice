@@ -8,7 +8,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.text.TextUtils;
 
-import com.skyworthdigital.voice.GuideTip;
+import com.skyworthdigital.voice.guide.GuideTip;
 import com.skyworthdigital.voice.VoiceApp;
 import com.skyworthdigital.voice.common.AbsTTS;
 import com.skyworthdigital.voice.common.IStatus;
@@ -33,7 +33,7 @@ public class QQMusicUtils {
     private static final String QQ_PACKAGENAME = "com.tencent.qqmusictv";
     public static boolean isPauseInRemote;// 因远场唤醒而暂停
 
-    private static void qqMusicInstallPage() {
+    public static void qqMusicInstallPage() {
         AbsTTS.getInstance(null).talk(VoiceApp.getInstance().getString(R.string.str_qqmusic_uninstall));
         try {
             Intent intent = new Intent();
@@ -47,7 +47,7 @@ public class QQMusicUtils {
         }
     }
 
-    private static boolean checkApkExist(Context context, String packageName) {
+    public static boolean checkApkExist(Context context, String packageName) {
         if (TextUtils.isEmpty(packageName))
             return false;
         try {
@@ -101,7 +101,7 @@ public class QQMusicUtils {
     /**
      * 进入具体某个电台
      */
-    private static void openOneAadioStationAction(Context ctx, int radioid) {
+    public static void openOneAadioStationAction(Context ctx, int radioid) {
         try {
             IStatus.resetDismissTime();
             Intent intent = new Intent();

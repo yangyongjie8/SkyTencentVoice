@@ -38,7 +38,7 @@
     {"cmds": ["全民k歌"], "app": "com.tencent.karaoketv"},
     {"cmds": ["语音版本","语音助手版本"], "action": {"local": "com.skyworth.voice.action.GET_VERSION"}},
     {"cmds": ["分辨率","清晰度"], "action": {"local":"com.skyworthdigital.voice.Resolution"}},
-    {"cmds": ["今日资讯"], "action": {"value":"com.skyworthdigital.skyallmedia.ShortVideoList"}},
+    {"cmds": ["今日资讯"], "action": {"value":"cn.mipt.videohj.intent.action.LOAD_NEWS"}},
     {"cmds": ["产品信息"], "action": {"value":"com.skyworthdigital.settings.activity.BOX_INFO_ACTIVITY"}},
     {"cmds": ["联系我们","售后热线","官方售后"], "action": {"value":"com.skyworthdigital.settings.activity.CONTACT_US_ACTIVITY"}},
     {"cmds": ["语音技能","技能展示","语音能力"], "action": {"value":"com.skyworthdigital.settings.activity.SkillShowActivity"}},

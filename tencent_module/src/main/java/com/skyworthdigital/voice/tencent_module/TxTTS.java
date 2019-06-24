@@ -10,11 +10,13 @@ import android.util.Log;
 import com.skyworthdigital.voice.VoiceApp;
 import com.skyworthdigital.voice.common.AbsTTS;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
+import com.skyworthdigital.voice.sdk.VoiceService;
 import com.tencent.ai.sdk.tts.ITtsInitListener;
 import com.tencent.ai.sdk.tts.ITtsListener;
 import com.tencent.ai.sdk.tts.TtsSession;
 import com.tencent.ai.sdk.utils.ISSErrors;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -264,6 +266,30 @@ public class TxTTS extends AbsTTS {
         } catch (Exception e) {
             Log.e(TAG, "parseSemanticToTTS : " + e.getMessage());
         }
+    }
+
+    // 根据tag判断是否对应内容正在播放
+    @Override
+    public boolean isContentTalking(String tag){
+        if(TextUtils.isEmpty(tag))return isSpeak();//tag为空，只需判断当前是否在播放
+
+        Content content = mContentList.peekFirst();
+        return isSpeak() && content!=null && tag.equals(content.tag);
+    }
+    // 根据tag移除队列内容，暂只供第三方app用
+    @Override
+    public void removeContent(String tag){
+        if(TextUtils.isEmpty(tag))return;
+        lock.lock();
+        Iterator<Content> it = mContentList.iterator();
+        Content next = null;
+        while (it.hasNext()){
+            if(tag.equals(next.tag)){
+                it.remove();
+                checkSendThirthAppListener(next, VoiceService.STATUS_CHANGED_VALUE_CANCEL);
+            }
+        }
+        lock.unlock();
     }
 
     private ITtsListener mTTSListener = new ITtsListener() {

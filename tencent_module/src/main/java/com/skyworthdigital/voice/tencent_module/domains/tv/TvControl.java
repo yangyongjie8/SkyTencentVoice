@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 
-import com.skyworthdigital.voice.GuideTip;
+import com.skyworthdigital.voice.guide.GuideTip;
 import com.skyworthdigital.voice.common.utils.Utils;
 import com.skyworthdigital.voice.dingdang.utils.AppUtil;
 import com.skyworthdigital.voice.dingdang.utils.GlobalVariable;
@@ -16,7 +16,6 @@ import com.skyworthdigital.voice.dingdang.utils.VolumeUtils;
 import com.skyworthdigital.voice.tencent_module.AsrResult;
 import com.skyworthdigital.voice.tencent_module.MainControler;
 import com.skyworthdigital.voice.tencent_module.R;
-import com.skyworthdigital.voice.tencent_module.SkyAsrDialogControl;
 import com.skyworthdigital.voice.tencent_module.TxTTS;
 import com.skyworthdigital.voice.tv.AbsTvLiveControl;
 

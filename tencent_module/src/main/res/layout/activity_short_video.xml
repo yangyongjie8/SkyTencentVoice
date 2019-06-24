@@ -108,7 +108,7 @@
             android:focusable="true"
             android:orientation="vertical">
 
-            <com.skyworthdigital.voice.dingdang.view.ExpandTextView
+            <com.skyworthdigital.voice.view.ExpandTextView
                 android:id="@+id/introduce"
                 android:layout_width="@dimen/dip_398"
                 android:layout_height="wrap_content"
