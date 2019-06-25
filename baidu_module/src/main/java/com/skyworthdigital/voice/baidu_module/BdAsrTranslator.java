@@ -35,10 +35,14 @@ public class BdAsrTranslator extends AbsAsrTranslator<String> {
     private static final String DOMAIN_ALARM = "alarm";
 
     public static AbsAsrTranslator getInstance(){
-        if(instance==null){
-            instance = new BdAsrTranslator();
+        if(instance[0]==null){
+            synchronized (BdAsrTranslator.class) {
+                if(instance[0]==null) {
+                    instance[0] = new BdAsrTranslator();
+                }
+            }
         }
-        return instance;
+        return instance[0];
     }
 
     @Override

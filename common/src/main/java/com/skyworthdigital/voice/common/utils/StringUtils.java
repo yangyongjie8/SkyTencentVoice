@@ -36,6 +36,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.Request;
 import okhttp3.Response;
 
@@ -570,7 +571,6 @@ public class StringUtils {
                 AppUtil.killTopApp();
             }
 
-            Gson gson = new Gson();
             // String url = "http://119.23.12.86/SmartJX/api/parse?words=";
             String url = "http://smartmovie.skyworthbox.com/SmartTianmai/api/isiot?txt=";
             //translate some word from Hanzi to decimal
@@ -583,34 +583,46 @@ public class StringUtils {
 //            String response = "";
 //            String response_jni = SSRService.httpGet(url, response);
             Call call = VoiceApp.getVoiceApp().getOkHttpClient().newCall(new Request.Builder().url(url).build());
-            Response response = call.execute();
-            if(response==null || !response.isSuccessful() || response.body()==null)return false;
-            String resText = response.body().string();
-            MLog.i(TAG, "response_jni:"+resText);
-            // SSRJXGDResultBean ssrjxgdResultBean = gson.fromJson(response_jni,SSRJXGDResultBean.class);
-            //
-            // LogUtil.log(ssrjxgdResultBean.getDomainName() + ssrjxgdResultBean.getPayLoad() +
-            // ssrjxgdResultBean.getTts() + ssrjxgdResultBean.getCode());
-            //NluResult nluResult=gson.fromJson(response_jni,NluResult.class);
-            //if(nluResult.getOperationCode().equals(DomainOpCode.IOT.getOperationCodeStr()))
-            //{
-            //todo:IOT things here
-            //  IoTParserResult rslt=IoTParser.parser(nluResult);
-            //LogUtil.log(rslt.iotCommand.toJsonStr());
-
-            //todo:call iot command here
-            IoTParserResult rslt=gson.fromJson(resText,IoTParserResult.class);
-            if(rslt!=null&&rslt.iotCommand!=null) {
-                if(rslt.iotCommand.isValid()) {
-                    MLog.i(TAG, "2send broadcast:" + IoTService.MSG_IOT_CMD);
-                    Intent intent_IoT = new Intent("action.IoT_CMD");
-                    intent_IoT.putExtra("nlu_data", rslt.iotCommand);
-                    VoiceApp.getInstance().sendBroadcast(intent_IoT);
+            call.enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    MLog.d(TAG, "response onFailure");
                 }
-                AbsTTS.getInstance(null).talk(rslt.replyWord);
-                return true;
-            }
 
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    if(response==null || !response.isSuccessful() || response.body()==null){
+                        MLog.d(TAG, "response failure");
+                        return;
+                    }
+                    String resText = response.body().string();
+                    MLog.i(TAG, "response_jni:"+resText);
+                    // SSRJXGDResultBean ssrjxgdResultBean = gson.fromJson(response_jni,SSRJXGDResultBean.class);
+                    //
+                    // LogUtil.log(ssrjxgdResultBean.getDomainName() + ssrjxgdResultBean.getPayLoad() +
+                    // ssrjxgdResultBean.getTts() + ssrjxgdResultBean.getCode());
+                    //NluResult nluResult=gson.fromJson(response_jni,NluResult.class);
+                    //if(nluResult.getOperationCode().equals(DomainOpCode.IOT.getOperationCodeStr()))
+                    //{
+                    //todo:IOT things here
+                    //  IoTParserResult rslt=IoTParser.parser(nluResult);
+                    //LogUtil.log(rslt.iotCommand.toJsonStr());
+
+                    //todo:call iot command here
+                    Gson gson = new Gson();
+                    IoTParserResult rslt=gson.fromJson(resText,IoTParserResult.class);
+                    if(rslt!=null&&rslt.iotCommand!=null) {
+                        if(rslt.iotCommand.isValid()) {
+                            MLog.i(TAG, "2send broadcast:" + IoTService.MSG_IOT_CMD);
+                            Intent intent_IoT = new Intent("action.IoT_CMD");
+                            intent_IoT.putExtra("nlu_data", rslt.iotCommand);
+                            VoiceApp.getInstance().sendBroadcast(intent_IoT);
+                        }
+                        AbsTTS.getInstance(null).talk(rslt.replyWord);
+                    }
+
+                }
+            });
             //}
 
         } catch (Exception e) {

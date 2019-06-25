@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import com.skyworthdigital.voice.DefaultCmds;
 import com.skyworthdigital.voice.VoiceApp;
 import com.skyworthdigital.voice.baidu_module.R;
+import com.skyworthdigital.voice.baidu_module.VoiceManager;
 import com.skyworthdigital.voice.baidu_module.duerbean.DuerBean;
 import com.skyworthdigital.voice.baidu_module.duerbean.FilmSlots;
 import com.skyworthdigital.voice.baidu_module.duerbean.Nlu;
@@ -24,6 +25,8 @@ import com.skyworthdigital.voice.baidu_module.music.MusicInfo;
 import com.skyworthdigital.voice.baidu_module.robot.Robot;
 import com.skyworthdigital.voice.baidu_module.video.VideoInfo;
 import com.skyworthdigital.voice.baidu_module.voicemode.VoiceModeAdapter;
+import com.skyworthdigital.voice.common.AbsController;
+import com.skyworthdigital.voice.common.AbsTTS;
 import com.skyworthdigital.voice.common.utils.BluetoothUtil;
 import com.skyworthdigital.voice.common.utils.StringUtils;
 import com.skyworthdigital.voice.common.utils.Utils;
@@ -398,6 +401,20 @@ public class ActionUtils {
      */
     private static boolean specialCmdProcess(Context ctx, String speech) {
         MLog.i(TAG, "######### specialCmdProcess");
+
+        if("切换到叮当".equalsIgnoreCase(speech)||"切换到丁当".equalsIgnoreCase(speech)||"切换到订单".equalsIgnoreCase(speech)){
+            VoiceApp.isDuer = false;
+            VoiceManager.getInstance().stopVoiceTriggerDialog();
+            VoiceManager.getInstance().onDestroy();
+            AbsTTS.getInstance(null).talk("我是叮当");
+            return true;
+        }
+        if("切换到百度".equalsIgnoreCase(speech)){
+            VoiceApp.isDuer = true;
+            AbsTTS.getInstance(null).talk("我就是百度Duer");
+            return true;
+        }
+
         try {
             GuideTip tip = GuideTip.getInstance();
             if (tip != null && !tip.isAudioPlay()) {// 不是正在播放页面

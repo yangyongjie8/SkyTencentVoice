@@ -10,6 +10,7 @@ import com.skyworthdigital.voice.alarm.AlarmHelper;
 import com.skyworthdigital.voice.alarm.database.AlarmDbOperator;
 import com.skyworthdigital.voice.beesearch.BeeSearchParams;
 import com.skyworthdigital.voice.beesearch.BeeSearchUtils;
+import com.skyworthdigital.voice.common.AbsTTS;
 import com.skyworthdigital.voice.common.IStatus;
 import com.skyworthdigital.voice.common.utils.StringUtils;
 import com.skyworthdigital.voice.dingdang.utils.DialogCellType;
@@ -649,6 +650,19 @@ public class ActionUtils {
 
         if(StringUtils.isIoTCmdFromSpeech(speech)){
             MLog.i(TAG, "special IoT cmd");
+            return true;
+        }
+
+        if("切换到叮当".equalsIgnoreCase(speech)||"切换到订单".equalsIgnoreCase(speech)){
+            VoiceApp.isDuer = false;
+            AbsTTS.getInstance(null).talk("我就是叮当");
+            return true;
+        }
+        if("切换到百度".equalsIgnoreCase(speech)){
+            VoiceApp.isDuer = true;
+            MainControler.getInstance().getAsrDialogControler().dialogDismiss(0);
+            MainControler.getInstance().onDestroy();
+            AbsTTS.getInstance(null).talk("我是百度");
             return true;
         }
 

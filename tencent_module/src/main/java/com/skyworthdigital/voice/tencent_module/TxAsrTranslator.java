@@ -21,10 +21,14 @@ public class TxAsrTranslator extends AbsAsrTranslator<AsrResult> {
     private String TAG = TxAsrTranslator.class.getSimpleName();
 
     public static AbsAsrTranslator getInstance(){
-        if(instance==null){
-            instance = new TxAsrTranslator();
+        if(instance[1]==null){
+            synchronized (TxAsrTranslator.class) {
+                if(instance[1]==null) {
+                    instance[1] = new TxAsrTranslator();
+                }
+            }
         }
-        return instance;
+        return instance[1];
     }
 
     @Override

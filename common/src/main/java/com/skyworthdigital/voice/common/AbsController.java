@@ -1,18 +1,21 @@
 package com.skyworthdigital.voice.common;
 
+import com.skyworthdigital.voice.VoiceApp;
+
 /**
  * Created by Ives 2019/5/29
  */
 public abstract class AbsController {
 
     public volatile boolean isControllerVoice = true;//是否遥控器语音，可能是远场语音
-    protected static AbsController mManagerInstance = null;
+    protected volatile static AbsController[] mManagerInstance = new AbsController[2];
 
     public static AbsController getInstance() {
-        return mManagerInstance;
-    }
-    public static void clear(){
-        mManagerInstance = null;
+        if(VoiceApp.isDuer){
+            return mManagerInstance[0];
+        }else {
+            return mManagerInstance[1];
+        }
     }
 
     public abstract void onDestroy();

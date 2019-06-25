@@ -40,14 +40,14 @@ public class Robot extends AbsTTS {
     }
 
     public static AbsTTS getInstance(){
-        if(mInstance==null){
+        if(mInstance[0]==null){
             synchronized (Robot.class){
-                if (mInstance==null){
-                    mInstance = new Robot();
+                if (mInstance[0]==null){
+                    mInstance[0] = new Robot();
                 }
             }
         }
-        return mInstance;
+        return mInstance[0];
     }
 
     private LinkedList<Content> mContentList = new LinkedList<>();//第三方消息只会有一句话在队列里，但可能被切成多个。
@@ -329,6 +329,7 @@ public class Robot extends AbsTTS {
     @Override
     public void talkDelay(String tts, String output, int delay) {
         //todo
+        mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_TALK_NOW, new Robot.Content(tts, true, null)), delay);
     }
 
     /**

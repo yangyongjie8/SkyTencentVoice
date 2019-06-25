@@ -161,7 +161,9 @@ public class SkyAsrDialogControl extends AbsDialog {
 
     public void dialogRefresh(Context ctx, AsrResult bean, String partialresults, int delay) {
         if (mAsrDialog == null) {
-            return;//show(ctx);
+//            show(ctx);
+//            mAsrDialog.animStop();
+            return;
         }
         //Log.i(TAG, " " + partialresults);
         if (!TextUtils.isEmpty(partialresults)) {
@@ -238,13 +240,6 @@ public class SkyAsrDialogControl extends AbsDialog {
         }
         Log.i(TAG, "dialog show");
         mAsrDialog.show();
-    }
-
-    public void reShow(Context ctx) {
-        if (mAsrDialog == null) {
-            Log.i(TAG, "dialog reShow");
-            show(ctx);
-        }
     }
 
     public void dialogDismiss(long time) {

@@ -37,14 +37,14 @@ public class TxTTS extends AbsTTS {
     private Content lastText;//最近一次播放的内容。用于叮当主动中断后仍然会调用onComplete导致的与百度版的不一致现象，从而引起的onComplete中getFirst()时已是空报出异常。
 
     public static AbsTTS getInstance(MyTTSListener listener) {
-        if (mInstance == null) {
+        if (mInstance[1] == null) {
             synchronized (TxTTS.class) {
-                if(mInstance==null) {
-                    mInstance = new TxTTS(listener);
+                if(mInstance[1]==null) {
+                    mInstance[1] = new TxTTS(listener);
                 }
             }
         }
-        return mInstance;
+        return mInstance[1];
     }
 
     private TxTTS(MyTTSListener listener) {

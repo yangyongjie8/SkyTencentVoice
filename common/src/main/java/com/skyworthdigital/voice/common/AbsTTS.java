@@ -1,10 +1,12 @@
 package com.skyworthdigital.voice.common;
 
+import com.skyworthdigital.voice.VoiceApp;
+
 /**
  * Created by Ives 2019/5/29
  */
 public abstract class AbsTTS {
-    protected volatile static AbsTTS mInstance = null;
+    protected volatile static AbsTTS[] mInstance = new AbsTTS[2];//  0 百度 1 叮当
 
     public static final int STATUS_INTERRUPT = 2;
     public static final int STATUS_TALKING = 1;
@@ -12,11 +14,11 @@ public abstract class AbsTTS {
     public static final int STATUS_TALKOVER = 4;
 
     public static AbsTTS getInstance(AbsTTS.MyTTSListener listener) {
-        return mInstance;
-    }
-
-    public static void clearInstance(){
-        mInstance = null;// 这样有可能造成单例失效隐患，注意clear前，不要在引用里持有实例
+        if(VoiceApp.isDuer){
+            return mInstance[0];
+        }else {
+            return mInstance[1];
+        }
     }
 
     public abstract void stopSpeak() ;

@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
+import com.skyworthdigital.voice.common.BuildConfig;
 import com.skyworthdigital.voice.common.utils.Utils;
 import com.skyworthdigital.voice.dingdang.utils.AppUtil;
 
@@ -28,6 +29,7 @@ public class VoiceApp {
     public static String deviceId="";
     public static String lanMac="";
     private boolean mIsAudioBox = false;
+    public static boolean isDuer = BuildConfig.isDuer;
 
     public void onCreate(Context context) {
         sInstance = context;

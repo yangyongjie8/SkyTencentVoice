@@ -7,8 +7,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Handler;
-import android.os.HandlerThread;
 import android.os.IBinder;
+import android.os.Looper;
 import android.os.Message;
 import android.speech.SpeechRecognizer;
 import android.support.annotation.NonNull;
@@ -61,8 +61,6 @@ public class VoiceManager extends AbsController {
     private boolean mDialogShow = false;
     private SkySceneService mService;
     private static Handler mVoiceHandler;
-    private Handler mProcHandler;
-    private HandlerThread mProcThread;
     private boolean mIsRecoCanStart = true;//默认必须为真。默认可以开始语音识别
     private long mRecoFinishTime = 0;//记录asr.exit状态的时间
     private long mStartRecTime = 0;//记录执行startRecognize时间，必须保证mStartRecTime>mRecoFinishTime+200ms
@@ -93,6 +91,9 @@ public class VoiceManager extends AbsController {
     @Override
     public void onDestroy() {
         //TODO
+        mBound = false;
+        VoiceApp.getInstance().unbindService(mConnection);// 需要解绑，否则切换到叮当后还会收到回调。
+        VoiceApp.getInstance().unregisterReceiver(mAudioboxReceiver);
     }
 
     @Override
@@ -171,14 +172,14 @@ public class VoiceManager extends AbsController {
      * 获取实例
      */
     public static VoiceManager getInstance() {
-        if (mManagerInstance == null) {
+        if (mManagerInstance[0] == null) {
             synchronized (VoiceManager.class) {
-                if(mManagerInstance==null) {
-                    mManagerInstance = new VoiceManager();
+                if(mManagerInstance[0]==null) {
+                    mManagerInstance[0] = new VoiceManager();
                 }
             }
         }
-        return (VoiceManager) mManagerInstance;
+        return (VoiceManager) mManagerInstance[0];
     }
 
     private VoiceManager() {
@@ -191,10 +192,6 @@ public class VoiceManager extends AbsController {
         mRobot = Robot.getInstance();
         Context ctx = VoiceApp.getInstance();
         mVoiceHandler = new VoiceHandler(this);
-
-        mProcThread = new HandlerThread(VoiceManager.class.getSimpleName());
-        mProcThread.start();
-        mProcHandler = new Handler(mProcThread.getLooper());
 
         //DebugConfig.getInstance(ctx);
 
@@ -237,23 +234,18 @@ public class VoiceManager extends AbsController {
 
     public void startRecognize(final Context context) {
         MLog.i(TAG, "invokeRecognize");
-        mProcHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                mVoiceModeAdapter.startRecognize(context, mDuserSdk, mVoicelistener);
-                MLog.i(TAG, "voice start thread:"+Thread.currentThread().getName());
-                if (!mBound) {
-                    Intent intent = new Intent(context, SkySceneService.class);
-                    context.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-                }
-                mRobot.stopSpeak();
+        mVoiceModeAdapter.startRecognize(context, mDuserSdk, mVoicelistener);
+        MLog.i(TAG, "voice start thread:"+Thread.currentThread().getName());
+        if (!mBound) {
+            Intent intent = new Intent(context, SkySceneService.class);
+            context.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+        }
+        mRobot.stopSpeak();
 
-                //Intent intentToMedia = new Intent("com.iflytek.keyevent.keydown");//如果当前弹幕输入框是显示状态，则需要通知media去关闭
-                //sendBroadcast(intentToMedia);
-                //Intent intentscreensave = new Intent("com.android.skyworth.screensave.request.dismiss");//如果当前弹幕输入框是显示状态，则需要通知media去关闭
-                //sendBroadcast(intentscreensave);
-            }
-        });
+        //Intent intentToMedia = new Intent("com.iflytek.keyevent.keydown");//如果当前弹幕输入框是显示状态，则需要通知media去关闭
+        //sendBroadcast(intentToMedia);
+        //Intent intentscreensave = new Intent("com.android.skyworth.screensave.request.dismiss");//如果当前弹幕输入框是显示状态，则需要通知media去关闭
+        //sendBroadcast(intentscreensave);
     }
 
     public void finishRecognize() {
@@ -472,12 +464,7 @@ public class VoiceManager extends AbsController {
                     mRepeatRecoCount = 0;
                     // 识别结束
                     //VolumeUtils.getInstance(MyApplication.getInstance()).setMuteWithNoUi(false);
-                    mProcHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            onRecognizeFinish(voiceResult);
-                        }
-                    });
+                    onRecognizeFinish(voiceResult);
                 }
                 break;
                 case VOLUME: {
@@ -872,6 +859,7 @@ public class VoiceManager extends AbsController {
         private final WeakReference<VoiceManager> mWeakReference;
 
         VoiceHandler(VoiceManager dialog) {
+            super(Looper.getMainLooper());
             mWeakReference = new WeakReference<>(dialog);
         }
 
@@ -1007,7 +995,13 @@ public class VoiceManager extends AbsController {
         //Log.i("one", "onEventMainThread:" + event.getWhat());
         switch (event.mWhat) {
             case EventMsg.MSG_ADDITION_MSG:
-                if (mVoiceTriggerDialog != null && mDialogShow && event.mObj != null) {
+                if (event.mObj != null) {
+                    if(mVoiceTriggerDialog == null){
+                        showVoiceTriggerDialog(VoiceApp.getInstance());
+                    }else if(!mDialogShow){
+                        mVoiceTriggerDialog.show();
+                    }
+                    mDialogShow = true;
                     //LogUtil.log("onEventMainThread:" + event.getWhat() + " " + event.mObj);
                     //mVoiceTriggerDialog.showTextContent(ROBOT_INPUT, (String) event.mObj);
                     if (mDuerState.ordinal() > VoiceInterface.VoiceState.VOLUME.ordinal()) {

@@ -17,10 +17,14 @@ public class TxTvLiveController extends AbsTvLiveControl {
     }
 
     public static AbsTvLiveControl getInstance() {
-        if (mTvUtilInstance == null) {
-            mTvUtilInstance = new TxTvLiveController();
+        if(mTvUtilInstance[1]==null){
+            synchronized (TxTvLiveController.class) {
+                if(mTvUtilInstance[1]==null) {
+                    mTvUtilInstance[1] = new TxTvLiveController();
+                }
+            }
         }
-        return mTvUtilInstance;
+        return mTvUtilInstance[1];
     }
 
     @Override

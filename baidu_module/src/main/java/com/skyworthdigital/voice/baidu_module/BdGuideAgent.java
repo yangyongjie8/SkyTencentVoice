@@ -18,6 +18,17 @@ import java.util.List;
 public class BdGuideAgent extends AbsGuideAgent {
     private String TAG = BdGuideAgent.class.getSimpleName();
 
+    public static AbsGuideAgent getInstance(){
+        if(mInstance[0]==null){
+            synchronized (BdGuideAgent.class){
+                if(mInstance[0]==null){
+                    mInstance[0] = new BdGuideAgent();
+                }
+            }
+        }
+        return mInstance[0];
+    }
+
     @Override
     public void resetSearchGuide(ArrayList<String> tips) {
         // do nothing

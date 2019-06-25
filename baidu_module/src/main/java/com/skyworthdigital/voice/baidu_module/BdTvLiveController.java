@@ -16,14 +16,18 @@ import org.json.JSONObject;
  */
 public class BdTvLiveController extends AbsTvLiveControl {
 
-    public BdTvLiveController() {
+    private BdTvLiveController() {
     }
 
     public static AbsTvLiveControl getInstance() {
-        if (mTvUtilInstance == null) {
-            mTvUtilInstance = new BdTvLiveController();
+        if(mTvUtilInstance[0]==null){
+            synchronized (BdTvLiveController.class) {
+                if(mTvUtilInstance[0]==null) {
+                    mTvUtilInstance[0] = new BdTvLiveController();
+                }
+            }
         }
-        return mTvUtilInstance;
+        return mTvUtilInstance[0];
     }
 
     @Override

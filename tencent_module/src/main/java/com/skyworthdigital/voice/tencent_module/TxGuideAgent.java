@@ -15,6 +15,17 @@ public class TxGuideAgent extends AbsGuideAgent {
 
     private ArrayList<String> mSearchGuide = null;
 
+    public static AbsGuideAgent getInstance(){
+        if(mInstance[1]==null){
+            synchronized (TxGuideAgent.class){
+                if(mInstance[1]==null){
+                    mInstance[1] = new TxGuideAgent();
+                }
+            }
+        }
+        return mInstance[1];
+    }
+
     @Override
     public void resetSearchGuide(ArrayList<String> tips) {
         mSearchGuide = tips;

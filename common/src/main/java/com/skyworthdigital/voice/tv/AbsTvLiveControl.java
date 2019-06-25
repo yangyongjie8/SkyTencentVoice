@@ -41,7 +41,7 @@ public abstract class AbsTvLiveControl implements ISkySceneListener {
     protected String mSearchChannelId = null;
     protected String mSearchChannelName = null;
     protected String mSpeechChannelName;
-    protected static AbsTvLiveControl mTvUtilInstance = null;
+    protected static AbsTvLiveControl[] mTvUtilInstance = new AbsTvLiveControl[2];
 
     public static final String TVLIVE_PACKAGENAME = "com.fengmizhibo.live";//"com.linkin.tv";
     private static final String SWITCH_CHANNEL_ACTION = "cn.beelive.intent.action.PLAY_LIVE_CHANNEL";//"com.linkin.tv.TV_SELECT";
@@ -53,10 +53,11 @@ public abstract class AbsTvLiveControl implements ISkySceneListener {
     protected final static String DEFAULT_CHANNEL_ID="ff8080813c1ecddc013c1fd336ba1612";//cctv1
 
     public static AbsTvLiveControl getInstance() {
-        return mTvUtilInstance;
-    }
-    public static void clearInstance(){
-        mTvUtilInstance = null;
+        if(VoiceApp.isDuer){
+            return mTvUtilInstance[0];
+        }else {
+            return mTvUtilInstance[1];
+        }
     }
 
     protected void preChannel() {

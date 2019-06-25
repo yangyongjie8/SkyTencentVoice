@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -54,20 +55,20 @@ public class MainControler extends AbsController implements AbsTTS.MyTTSListener
     private ExecutorService mExecutor = Executors.newSingleThreadExecutor();
     private static final String WAKEUP_OPEN_ACTION = "com.skyworthdigital.voice.action.WAKEUP_OPEN";
     private static final String WAKEUP_CLOSE_ACTION = "com.skyworthdigital.voice.action.WAKEUP_CLOSE";
-    private Handler mHandler = new Handler();
+    private Handler mHandler = new Handler(Looper.getMainLooper());
     private boolean isKeyDown = false;//是否语音遥控器按下
     private long mKeyDownTime = 0;
     private long mKeyUpTime = 0;
 
     public static MainControler getInstance() {
-        if (mManagerInstance == null) {
+        if (mManagerInstance[1] == null) {
             synchronized (MainControler.class) {
-                if (mManagerInstance == null) {
-                    mManagerInstance = new MainControler();
+                if (mManagerInstance[1] == null) {
+                    mManagerInstance[1] = new MainControler();
                 }
             }
         }
-        return (MainControler) mManagerInstance;
+        return (MainControler) mManagerInstance[1];
     }
 
     private MainControler() {
@@ -80,10 +81,6 @@ public class MainControler extends AbsController implements AbsTTS.MyTTSListener
         mAsrDialogControler = new SkyAsrDialogControl();
         GuideTip.getInstance().setDialog(mAsrDialogControler);
         TxTvLiveController.getInstance().updateTvliveDbFromNet();
-        if (!mBound) {
-            Intent intent = new Intent(mContext, SkySceneService.class);
-            mContext.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-        }
         mBoxReceiver = new MainControler.BoxReceiver();
         final IntentFilter mScreenCheckFilter = new IntentFilter();
         mScreenCheckFilter.addAction(IStatus.ACTION_RESTART_ASR);
@@ -98,6 +95,8 @@ public class MainControler extends AbsController implements AbsTTS.MyTTSListener
 
     @Override
     public void onDestroy() {
+        mBound = false;
+        mContext.unbindService(mConnection);
         com.skyworthdigital.voice.VoiceApp.getInstance().unregisterReceiver(mBoxReceiver);
     }
 
@@ -142,6 +141,12 @@ public class MainControler extends AbsController implements AbsTTS.MyTTSListener
     public void manualRecognizeStart() {
         MLog.i(TAG, "语音键按下");
         mKeyDownTime = System.currentTimeMillis();
+
+        if (!mBound) {
+            Intent intent = new Intent(mContext, SkySceneService.class);
+            mContext.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+        }
+
 //        if (isKeyDown) {
         myRecognizer.start();
 //        }

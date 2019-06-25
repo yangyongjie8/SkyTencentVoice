@@ -19,7 +19,6 @@ public class GuideTip {
     private static GuideTip mWelcomeTips = null;
     private String mCurrentClass = null;
     private AbsDialog mSkyAsrDialogControl = null;
-    private AbsGuideAgent mGuideAgent;
     //private boolean mIsKaraoke = false;
     public static final int PAGE_HOME = 1;
     public static final int PAGE_MEDIA = 2;
@@ -51,24 +50,20 @@ public class GuideTip {
     }
 
     public boolean isDialogShowing(){
-        return mGuideAgent!=null && mGuideAgent.isDialogShowing();
+        return AbsGuideAgent.getInstance()!=null && AbsGuideAgent.getInstance().isDialogShowing();
     }
     public void dismissDialog(){
-        if(mGuideAgent==null)return;
-        mGuideAgent.isDialogShowing();
+        if(AbsGuideAgent.getInstance()==null)return;
+        AbsGuideAgent.getInstance().isDialogShowing();
     }
 
     public void resetSearchGuide(ArrayList<String> tips) {
-        if(mGuideAgent!=null){
-            mGuideAgent.resetSearchGuide(tips);
+        if(AbsGuideAgent.getInstance()!=null){
+            AbsGuideAgent.getInstance().resetSearchGuide(tips);
         }
         if (null != mSkyAsrDialogControl) {
             mSkyAsrDialogControl.dialogRefreshTips(tips);
         }
-    }
-
-    public void setGuideAgent(AbsGuideAgent mGuideAgent) {
-        this.mGuideAgent = mGuideAgent;
     }
 
     public void setmCurrentCompenent(String clsname) {
@@ -200,8 +195,8 @@ public class GuideTip {
         if(TextUtils.equals(mClassname, mCurrentClass))return null;// 类未发生改变，调用应当保持显示不变
 
         mCurrentClass = mClassname;
-        if(mGuideAgent!=null){
-            return mGuideAgent.getGuidetips(getType());
+        if(AbsGuideAgent.getInstance()!=null){
+            return AbsGuideAgent.getInstance().getGuidetips(getType());
         }
         return null;
     }

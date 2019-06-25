@@ -2,7 +2,6 @@ package com.skyworthdigital.voice;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.skyworthdigital.voice.beesearch.BeeSearchParams;
