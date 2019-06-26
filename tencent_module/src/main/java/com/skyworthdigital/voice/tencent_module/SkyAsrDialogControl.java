@@ -166,7 +166,6 @@ public class SkyAsrDialogControl extends AbsDialog {
 
                 if (mAsrDialog == null) {
                     show(ctx);
-//            mAsrDialog.animStop();
 //            return;
                 }
                 //Log.i(TAG, " " + partialresults);

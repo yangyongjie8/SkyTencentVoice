@@ -394,7 +394,6 @@ public class SkyAsrDialog extends Dialog {
                     break;
                 case MSG_ANIM_STOP:
                     Log.i(TAG, "recordAnimStop");
-//                    removeMessages(MSG_ANIM_START);
                     if (mPaiPaiAnimUtil != null) {
                         mPaiPaiAnimUtil.recordAnimStop();
                     }

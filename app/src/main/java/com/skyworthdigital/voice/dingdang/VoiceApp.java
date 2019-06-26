@@ -25,16 +25,18 @@ import com.skyworthdigital.voice.baidu_module.BdAsrTranslator;
 import com.skyworthdigital.voice.baidu_module.BdGuideAgent;
 import com.skyworthdigital.voice.baidu_module.BdTvLiveController;
 import com.skyworthdigital.voice.baidu_module.VoiceManager;
-import com.skyworthdigital.voice.baidu_module.robot.Robot;
-import com.skyworthdigital.voice.common.AbsAsrTranslator;
-import com.skyworthdigital.voice.common.AbsController;
-import com.skyworthdigital.voice.common.AbsTTS;
+import com.skyworthdigital.voice.common.utils.Utils;
 import com.skyworthdigital.voice.dingdang.service.RecognizeService;
 import com.skyworthdigital.voice.dingdang.utils.GlobalVariable;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
-import com.skyworthdigital.voice.guide.GuideTip;
 import com.skyworthdigital.voice.iot.IoTService;
-import com.skyworthdigital.voice.tv.AbsTvLiveControl;
+import com.skyworthdigital.voice.tencent_module.MainControler;
+import com.skyworthdigital.voice.tencent_module.TxAsrTranslator;
+import com.skyworthdigital.voice.tencent_module.TxGuideAgent;
+import com.skyworthdigital.voice.tencent_module.TxTvLiveController;
+import com.skyworthdigital.voice.tencent_module.record.PcmRecorder;
+import com.tencent.ai.sdk.control.SpeechManager;
+import com.tencent.ai.sdk.utils.ISSErrors;
 
 import org.json.JSONObject;
 
@@ -61,8 +63,11 @@ public class VoiceApp extends Application {
         if (sInstance.mAiType == GlobalVariable.AI_NONE) {
             System.exit(0);
         }
-//        changeTencent();
-        changeBaidu();
+        initTencentSDK();
+        initDuerSDK();
+        initBaiduInstances();
+        initTencentInstances();
+
         Fresco.initialize(this);
 
         initBigDataReport();
@@ -70,66 +75,67 @@ public class VoiceApp extends Application {
         startService(new Intent(this, IoTService.class));
     }
 
-//    private void changeTencent(){
+    private void initTencentInstances(){
+//        com.skyworthdigital.voice.VoiceApp.isDuer = false;
 //        initTencentSDK();
 //        AbsAsrTranslator.clearInstance();
-//        TxAsrTranslator.getInstance();
-//
+        TxAsrTranslator.getInstance();
+
 //        AbsTvLiveControl.clearInstance();
-//        TxTvLiveController.getInstance();
-//
+        TxTvLiveController.getInstance();
+
 //        GuideTip.getInstance().setGuideAgent(new TxGuideAgent());
-//
-//        AbsTTS.clearInstance();// TxTTS在MainController中带上listener初始化
-//
+        TxGuideAgent.getInstance();
+
 //        AbsController.clear();
-//        MainControler.getInstance();
-//    }
-//    private void initTencentSDK(){
-//        int ret = SpeechManager.getInstance().startUp(this, getAppInfo());
-//        SpeechManager.getInstance().setAsrDomain(80);
-//        //SpeechManager.getInstance().aisdkSetConfig(7002, "1");
-//        //SpeechManager.getInstance().aisdkSetConfig(6007, "1");
-//        SpeechManager.getInstance().aisdkSetConfig(6011,"2048");
-//
-//        //SpeechManager.getInstance().setDisplayLog(true);
-//        Log.i("VoiceApp", "app launch");
-//        if (ret != ISSErrors.ISS_SUCCESS) {
-//            System.exit(0);
-//        }
-//        if (sInstance.mAiType == GlobalVariable.AI_REMOTE) {
-//            SpeechManager.getInstance().setManualMode(true);
-//        } else {
-//            //SpeechManager.getInstance().setFullMode(true);
-//            SpeechManager.getInstance().setManualMode(false);
-//        }
-//        String sn = Utils.get("ro.serialno");
-//        SpeechManager.getInstance().setAiDeviceInfo(sn, "497a7402-7660-4eb6-844f-543b2c2f6777:111d7f7d4dc6460fafce8875efbe0474", null, null, null);
-//
-//        //CrashHandler.getInstance().init(this);
-//        if (Utils.isQ3031Recoder()) {
-//            PcmRecorder.copyWcompTable(this);
-//        }
-//        Log.d("VoiceApp", "guid = " + SpeechManager.getInstance().getGuidStr());
-//    }
+        MainControler.getInstance();
+    }
+    private void initTencentSDK(){
+        int ret = SpeechManager.getInstance().startUp(this, getAppInfo());
+        SpeechManager.getInstance().setAsrDomain(80);
+        //SpeechManager.getInstance().aisdkSetConfig(7002, "1");
+        //SpeechManager.getInstance().aisdkSetConfig(6007, "1");
+        SpeechManager.getInstance().aisdkSetConfig(6011,"2048");
 
-    private void changeBaidu(){
-        initDuerSDK();
-        AbsAsrTranslator.clearInstance();
-        BdAsrTranslator.getInstance();
+        //SpeechManager.getInstance().setDisplayLog(true);
+        Log.i("VoiceApp", "app launch");
+        if (ret != ISSErrors.ISS_SUCCESS) {
+            System.exit(0);
+        }
+        if (sInstance.mAiType == GlobalVariable.AI_REMOTE) {
+            SpeechManager.getInstance().setManualMode(true);
+        } else {
+            //SpeechManager.getInstance().setFullMode(true);
+            SpeechManager.getInstance().setManualMode(false);
+        }
+        String sn = Utils.get("ro.serialno");
+        SpeechManager.getInstance().setAiDeviceInfo(sn, "497a7402-7660-4eb6-844f-543b2c2f6777:111d7f7d4dc6460fafce8875efbe0474", null, null, null);
 
-        AbsTvLiveControl.clearInstance();
-        BdTvLiveController.getInstance();
-
-        GuideTip.getInstance().setGuideAgent(new BdGuideAgent());
-
-        AbsTTS.clearInstance();
-//        Robot.getInstance();
-
-        AbsController.clear();
-        VoiceManager.getInstance();
+        //CrashHandler.getInstance().init(this);
+        if (Utils.isQ3031Recoder()) {
+            PcmRecorder.copyWcompTable(this);
+        }
+        Log.d("VoiceApp", "guid = " + SpeechManager.getInstance().getGuidStr());
     }
 
+    private void initBaiduInstances(){
+//        com.skyworthdigital.voice.VoiceApp.isDuer = true;
+//        initDuerSDK();
+//        AbsAsrTranslator.clearInstance();
+        BdAsrTranslator.getInstance();
+
+//        AbsTvLiveControl.clearInstance();
+        BdTvLiveController.getInstance();
+
+//        GuideTip.getInstance().setGuideAgent(new BdGuideAgent());
+        BdGuideAgent.getInstance();
+
+//        AbsTTS.clearInstance();
+//        Robot.getInstance();
+
+//        AbsController.clear();
+        VoiceManager.getInstance();
+    }
 
     private void initDuerSDK() {
         // 设置debug开关
