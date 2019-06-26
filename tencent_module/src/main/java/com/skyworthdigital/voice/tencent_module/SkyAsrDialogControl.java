@@ -159,18 +159,24 @@ public class SkyAsrDialogControl extends AbsDialog {
         }
     }
 
-    public void dialogRefresh(Context ctx, AsrResult bean, String partialresults, int delay) {
-        if (mAsrDialog == null) {
-//            show(ctx);
+    public void dialogRefresh(final Context ctx, final AsrResult bean, final String partialresults, final int delay) {
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+
+                if (mAsrDialog == null) {
+                    show(ctx);
 //            mAsrDialog.animStop();
-            return;
-        }
-        //Log.i(TAG, " " + partialresults);
-        if (!TextUtils.isEmpty(partialresults)) {
-            mAsrDialog.dialogRefreshUI(partialresults, delay);
-        } else if (bean != null) {
-            mAsrDialog.dialogRefreshResult(bean, delay);
-        }
+//            return;
+                }
+                //Log.i(TAG, " " + partialresults);
+                if (!TextUtils.isEmpty(partialresults)) {
+                    mAsrDialog.dialogRefreshUI(partialresults, delay);
+                } else if (bean != null) {
+                    mAsrDialog.dialogRefreshResult(bean, delay);
+                }
+            }
+        });
     }
 
     public void dialogRefreshBg(String url) {
@@ -230,7 +236,7 @@ public class SkyAsrDialogControl extends AbsDialog {
         }
     }
 
-    public void show(Context ctx) {
+    public void show(final Context ctx) {
         if (mAsrDialog == null) {
             mAsrDialog = new SkyAsrDialog(ctx);
             mAsrDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);

@@ -639,6 +639,7 @@ public class ActionUtils {
      * 根据用户语音原话，特殊处理转化为播放控制命令
      */
     public static boolean specialCmdProcess(Context ctx, String speech) {
+        MLog.i(TAG,"specialCmdProcess");
         if(StringUtils.doTwoMinSwitch(speech))return true;
 
         TianmaiIntent tianmaiIntent;
@@ -653,11 +654,11 @@ public class ActionUtils {
             return true;
         }
 
-        if("切换到叮当".equalsIgnoreCase(speech)||"切换到订单".equalsIgnoreCase(speech)){
-            VoiceApp.isDuer = false;
-            AbsTTS.getInstance(null).talk("我就是叮当");
-            return true;
-        }
+//        if("切换到叮当".equalsIgnoreCase(speech)||"切换到订单".equalsIgnoreCase(speech)){
+//            VoiceApp.isDuer = false;
+//            AbsTTS.getInstance(null).talk("我就是叮当");
+//            return true;
+//        }
         if("切换到百度".equalsIgnoreCase(speech)){
             VoiceApp.isDuer = true;
             MainControler.getInstance().getAsrDialogControler().dialogDismiss(0);

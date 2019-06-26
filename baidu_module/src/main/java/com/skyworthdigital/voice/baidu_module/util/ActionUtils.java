@@ -407,13 +407,14 @@ public class ActionUtils {
             VoiceManager.getInstance().stopVoiceTriggerDialog();
             VoiceManager.getInstance().onDestroy();
             AbsTTS.getInstance(null).talk("我是叮当");
+            AbsController.getInstance().dismissDialog(3000);
             return true;
         }
-        if("切换到百度".equalsIgnoreCase(speech)){
-            VoiceApp.isDuer = true;
-            AbsTTS.getInstance(null).talk("我就是百度Duer");
-            return true;
-        }
+//        if("切换到百度".equalsIgnoreCase(speech)){
+//            VoiceApp.isDuer = true;
+//            AbsTTS.getInstance(null).talk("我就是百度Duer");
+//            return true;
+//        }
 
         try {
             GuideTip tip = GuideTip.getInstance();

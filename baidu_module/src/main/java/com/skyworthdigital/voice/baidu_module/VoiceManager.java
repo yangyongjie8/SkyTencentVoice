@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
@@ -61,6 +62,8 @@ public class VoiceManager extends AbsController {
     private boolean mDialogShow = false;
     private SkySceneService mService;
     private static Handler mVoiceHandler;
+    private HandlerThread mProcThread;
+    private Handler mProcHandler;
     private boolean mIsRecoCanStart = true;//默认必须为真。默认可以开始语音识别
     private long mRecoFinishTime = 0;//记录asr.exit状态的时间
     private long mStartRecTime = 0;//记录执行startRecognize时间，必须保证mStartRecTime>mRecoFinishTime+200ms
@@ -160,6 +163,11 @@ public class VoiceManager extends AbsController {
         return isDialogShow();
     }
 
+    @Override
+    public void dismissDialog(long delay) {
+        //TODO 百度版暂时不需要
+    }
+
     private enum VoiceStatus {
         NONE,
         WAKEUP_READY,
@@ -193,20 +201,13 @@ public class VoiceManager extends AbsController {
         Context ctx = VoiceApp.getInstance();
         mVoiceHandler = new VoiceHandler(this);
 
+        mProcThread = new HandlerThread(VoiceManager.class.getSimpleName());
+        mProcThread.start();
+        mProcHandler = new Handler(mProcThread.getLooper());
         //DebugConfig.getInstance(ctx);
 
-        mAudioboxReceiver = new AudioBoxReceiver();
-        final IntentFilter mScreenCheckFilter = new IntentFilter();
-        mScreenCheckFilter.addAction(Intent.ACTION_SCREEN_OFF);
-        mScreenCheckFilter.addAction(Intent.ACTION_SCREEN_ON);
-        mScreenCheckFilter.addAction(GlobalVariable.APPLY_AUDIO_RECORDER_ACTION);
-        mScreenCheckFilter.addAction(GlobalVariable.RELEASE_AUDIO_RECORDER_ACTION);
-        mScreenCheckFilter.addAction(GlobalVariable.ACTION_VOICE_RECO_GOON);
-        mScreenCheckFilter.addAction(WAKEUP_CLOSE_ACTION);
-        mScreenCheckFilter.addAction(WAKEUP_OPEN_ACTION);
-        mScreenCheckFilter.addAction(ANGEL_KARAOKE_ACTION);
-        mScreenCheckFilter.addAction(SPEECH_CONTENT);
-        ctx.registerReceiver(mAudioboxReceiver, mScreenCheckFilter);
+        registerReceiver();
+
         if (VoiceModeAdapter.isAudioBox()) {
             MLog.i(TAG, "唤醒词：" + WakeupMode.wakeUpWord1);
             initWakeUp(ctx);
@@ -218,6 +219,20 @@ public class VoiceManager extends AbsController {
         Led.showLedOff();
         AlarmDbOperator dbOperator = new AlarmDbOperator(VoiceApp.getInstance());
         dbOperator.resetDb();
+    }
+    private void registerReceiver(){
+        mAudioboxReceiver = new AudioBoxReceiver();
+        final IntentFilter mScreenCheckFilter = new IntentFilter();
+        mScreenCheckFilter.addAction(Intent.ACTION_SCREEN_OFF);
+        mScreenCheckFilter.addAction(Intent.ACTION_SCREEN_ON);
+        mScreenCheckFilter.addAction(GlobalVariable.APPLY_AUDIO_RECORDER_ACTION);
+        mScreenCheckFilter.addAction(GlobalVariable.RELEASE_AUDIO_RECORDER_ACTION);
+        mScreenCheckFilter.addAction(GlobalVariable.ACTION_VOICE_RECO_GOON);
+        mScreenCheckFilter.addAction(WAKEUP_CLOSE_ACTION);
+        mScreenCheckFilter.addAction(WAKEUP_OPEN_ACTION);
+        mScreenCheckFilter.addAction(ANGEL_KARAOKE_ACTION);
+        mScreenCheckFilter.addAction(SPEECH_CONTENT);
+        VoiceApp.getInstance().registerReceiver(mAudioboxReceiver, mScreenCheckFilter);
     }
 
     public void stopManager() {
@@ -234,13 +249,20 @@ public class VoiceManager extends AbsController {
 
     public void startRecognize(final Context context) {
         MLog.i(TAG, "invokeRecognize");
-        mVoiceModeAdapter.startRecognize(context, mDuserSdk, mVoicelistener);
-        MLog.i(TAG, "voice start thread:"+Thread.currentThread().getName());
-        if (!mBound) {
-            Intent intent = new Intent(context, SkySceneService.class);
-            context.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-        }
-        mRobot.stopSpeak();
+        mProcHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                mVoiceModeAdapter.startRecognize(context, mDuserSdk, mVoicelistener);
+                MLog.i(TAG, "voice start thread:"+Thread.currentThread().getName());
+                if (!mBound) {
+                    Intent intent = new Intent(context, SkySceneService.class);
+                    context.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+
+                    registerReceiver();
+                }
+                mRobot.stopSpeak();
+            }
+        });
 
         //Intent intentToMedia = new Intent("com.iflytek.keyevent.keydown");//如果当前弹幕输入框是显示状态，则需要通知media去关闭
         //sendBroadcast(intentToMedia);
@@ -292,36 +314,41 @@ public class VoiceManager extends AbsController {
         return false;
     }
 
-    public void showVoiceTriggerDialog(@NonNull Context ctx) {
-        if (mVoiceTriggerDialog == null) {
-            mVoiceTriggerDialog = new VoiceTriggerDialog(ctx);
-            mVoiceTriggerDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
-            int flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON;
-            mVoiceTriggerDialog.getWindow().setFlags(flags, flags);
-        }
-        if (mVoiceTriggerDialog != null && (!mVoiceTriggerDialog.isShowing() || !mDialogShow)) {
-            MLog.i(TAG, "dialog show");
-            mVoiceTriggerDialog.show();
-            //VolumeUtils.getInstance(ctx).setRobotVolume();
-            SkyRing skyRing = SkyRing.getInstance();
-            if (skyRing != null) {
-                if (VoiceModeAdapter.isAudioBox()) {
-                    skyRing.play(0);
+    public void showVoiceTriggerDialog(final @NonNull Context ctx) {
+        mVoiceHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (mVoiceTriggerDialog == null) {
+                    mVoiceTriggerDialog = new VoiceTriggerDialog(ctx);
+                    mVoiceTriggerDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+                    int flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON;
+                    mVoiceTriggerDialog.getWindow().setFlags(flags, flags);
+                }
+                if (mVoiceTriggerDialog != null && (!mVoiceTriggerDialog.isShowing() || !mDialogShow)) {
+                    MLog.i(TAG, "dialog show");
+                    mVoiceTriggerDialog.show();
+                    //VolumeUtils.getInstance(ctx).setRobotVolume();
+                    SkyRing skyRing = SkyRing.getInstance();
+                    if (skyRing != null) {
+                        if (VoiceModeAdapter.isAudioBox()) {
+                            skyRing.play(0);
+                        } else {
+                            skyRing.play(1);
+                        }
+                    }
                 } else {
-                    skyRing.play(1);
+                    SkyRing skyRing = SkyRing.getInstance();
+                    if (skyRing != null) {
+                        if (VoiceModeAdapter.isAudioBox() && !mVoiceModeAdapter.isRecognizeGoOn() && mVoiceTriggerDialog != null) {
+                            mVoiceTriggerDialog.setTextHint(R.string.str_audiobox_hello);
+                            mVoiceTriggerDialog.showPaiPaiByID(PaiPaiAnimUtil.ID_PAIPAI_HELLO);
+                        }
+                        skyRing.play(1);
+                    }
                 }
+                mDialogShow = true;
             }
-        } else {
-            SkyRing skyRing = SkyRing.getInstance();
-            if (skyRing != null) {
-                if (VoiceModeAdapter.isAudioBox() && !mVoiceModeAdapter.isRecognizeGoOn() && mVoiceTriggerDialog != null) {
-                    mVoiceTriggerDialog.setTextHint(R.string.str_audiobox_hello);
-                    mVoiceTriggerDialog.showPaiPaiByID(PaiPaiAnimUtil.ID_PAIPAI_HELLO);
-                }
-                skyRing.play(1);
-            }
-        }
-        mDialogShow = true;
+        });
     }
 
     public boolean isDialogShow() {
@@ -338,10 +365,15 @@ public class VoiceManager extends AbsController {
             MLog.i(TAG, "dismissDialog");
             //mVoiceHandler.removeCallbacksAndMessages(null);
             mVoiceHandler.removeMessages(MSG_DIALOG_DISMISS);
-            mVoiceTriggerDialog.dismiss();
-            mVoiceTriggerDialog.cancel();
-            mVoiceTriggerDialog = null;
-            mDialogShow = false;
+            mVoiceHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    mVoiceTriggerDialog.dismiss();
+                    mVoiceTriggerDialog.cancel();
+                    mVoiceTriggerDialog = null;
+                    mDialogShow = false;
+                }
+            });
         }
     }
 
@@ -464,7 +496,12 @@ public class VoiceManager extends AbsController {
                     mRepeatRecoCount = 0;
                     // 识别结束
                     //VolumeUtils.getInstance(MyApplication.getInstance()).setMuteWithNoUi(false);
-                    onRecognizeFinish(voiceResult);
+                    mProcHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            onRecognizeFinish(voiceResult);
+                        }
+                    });
                 }
                 break;
                 case VOLUME: {

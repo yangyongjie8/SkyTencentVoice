@@ -81,6 +81,10 @@ public class MainControler extends AbsController implements AbsTTS.MyTTSListener
         mAsrDialogControler = new SkyAsrDialogControl();
         GuideTip.getInstance().setDialog(mAsrDialogControler);
         TxTvLiveController.getInstance().updateTvliveDbFromNet();
+        registerReceiver();
+    }
+
+    private void registerReceiver(){
         mBoxReceiver = new MainControler.BoxReceiver();
         final IntentFilter mScreenCheckFilter = new IntentFilter();
         mScreenCheckFilter.addAction(IStatus.ACTION_RESTART_ASR);
@@ -145,6 +149,8 @@ public class MainControler extends AbsController implements AbsTTS.MyTTSListener
         if (!mBound) {
             Intent intent = new Intent(mContext, SkySceneService.class);
             mContext.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+
+            registerReceiver();
         }
 
 //        if (isKeyDown) {
@@ -233,6 +239,11 @@ public class MainControler extends AbsController implements AbsTTS.MyTTSListener
 
     public boolean isAsrDialogShowing(){
         return mAsrDialogControler!=null && mAsrDialogControler.mAsrDialog!=null && mAsrDialogControler.mAsrDialog.isShowing();
+    }
+
+    @Override
+    public void dismissDialog(long delay) {
+        mAsrDialogControler.dialogDismiss(delay);
     }
 
     private IWakeupResultListener mWkresultlistener = new IWakeupResultListener() {

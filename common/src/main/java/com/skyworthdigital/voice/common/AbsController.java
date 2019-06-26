@@ -35,4 +35,6 @@ public abstract class AbsController {
     public abstract void manualRecognizeCancel();
     // 正在显示识别对话框
     public abstract boolean isAsrDialogShowing();
+    // 取消对话框（目前仅叮当需要）
+    public abstract void dismissDialog(long delay);
 }

@@ -583,52 +583,42 @@ public class StringUtils {
 //            String response = "";
 //            String response_jni = SSRService.httpGet(url, response);
             Call call = VoiceApp.getVoiceApp().getOkHttpClient().newCall(new Request.Builder().url(url).build());
-            call.enqueue(new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    MLog.d(TAG, "response onFailure");
+            Response response = call.execute();
+            if(response==null || !response.isSuccessful() || response.body()==null){
+                MLog.d(TAG, "response failure");
+                return false;
+            }
+            String resText = response.body().string();
+            MLog.i(TAG, "response_jni:"+resText);
+            // SSRJXGDResultBean ssrjxgdResultBean = gson.fromJson(response_jni,SSRJXGDResultBean.class);
+            //
+            // LogUtil.log(ssrjxgdResultBean.getDomainName() + ssrjxgdResultBean.getPayLoad() +
+            // ssrjxgdResultBean.getTts() + ssrjxgdResultBean.getCode());
+            //NluResult nluResult=gson.fromJson(response_jni,NluResult.class);
+            //if(nluResult.getOperationCode().equals(DomainOpCode.IOT.getOperationCodeStr()))
+            //{
+            //todo:IOT things here
+            //  IoTParserResult rslt=IoTParser.parser(nluResult);
+            //LogUtil.log(rslt.iotCommand.toJsonStr());
+
+            //todo:call iot command here
+            Gson gson = new Gson();
+            IoTParserResult rslt=gson.fromJson(resText,IoTParserResult.class);
+            if(rslt!=null&&rslt.iotCommand!=null) {
+                if(rslt.iotCommand.isValid()) {
+                    MLog.i(TAG, "2send broadcast:" + IoTService.MSG_IOT_CMD);
+                    Intent intent_IoT = new Intent("action.IoT_CMD");
+                    intent_IoT.putExtra("nlu_data", rslt.iotCommand);
+                    VoiceApp.getInstance().sendBroadcast(intent_IoT);
                 }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    if(response==null || !response.isSuccessful() || response.body()==null){
-                        MLog.d(TAG, "response failure");
-                        return;
-                    }
-                    String resText = response.body().string();
-                    MLog.i(TAG, "response_jni:"+resText);
-                    // SSRJXGDResultBean ssrjxgdResultBean = gson.fromJson(response_jni,SSRJXGDResultBean.class);
-                    //
-                    // LogUtil.log(ssrjxgdResultBean.getDomainName() + ssrjxgdResultBean.getPayLoad() +
-                    // ssrjxgdResultBean.getTts() + ssrjxgdResultBean.getCode());
-                    //NluResult nluResult=gson.fromJson(response_jni,NluResult.class);
-                    //if(nluResult.getOperationCode().equals(DomainOpCode.IOT.getOperationCodeStr()))
-                    //{
-                    //todo:IOT things here
-                    //  IoTParserResult rslt=IoTParser.parser(nluResult);
-                    //LogUtil.log(rslt.iotCommand.toJsonStr());
-
-                    //todo:call iot command here
-                    Gson gson = new Gson();
-                    IoTParserResult rslt=gson.fromJson(resText,IoTParserResult.class);
-                    if(rslt!=null&&rslt.iotCommand!=null) {
-                        if(rslt.iotCommand.isValid()) {
-                            MLog.i(TAG, "2send broadcast:" + IoTService.MSG_IOT_CMD);
-                            Intent intent_IoT = new Intent("action.IoT_CMD");
-                            intent_IoT.putExtra("nlu_data", rslt.iotCommand);
-                            VoiceApp.getInstance().sendBroadcast(intent_IoT);
-                        }
-                        AbsTTS.getInstance(null).talk(rslt.replyWord);
-                    }
-
-                }
-            });
+                AbsTTS.getInstance(null).talk(rslt.replyWord);
+                return true;
+            }
             //}
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
 
         return false;
     }
