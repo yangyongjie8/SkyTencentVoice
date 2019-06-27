@@ -28,7 +28,7 @@
     {"cmds": ["cibn高清影视","高清影视"], "app": "cn.cibntv.ott"},
     {"cmds": ["淘宝","天猫"], "app": "rca.rc.tvtaobao"},
     {"cmds": ["消息"], "action": {"value": "com.mipt.notice.action.GET_MESSAGE"}},
-    {"cmds": ["qq音乐","腾讯音乐","扣扣音乐"], "app": "com.tencent.qqmusictv"},
+    {"cmds": ["qq音乐","QQ音乐","腾讯音乐","扣扣音乐"], "app": "com.tencent.qqmusictv"},
     {"cmds": ["我想听歌","我要听歌"], "app": "com.tencent.qqmusictv","matchType":"all"},
     {"cmds": ["微信"], "app": "com.skyworthdigital.skywechatclient"},
     {"cmds": ["蓝牙外设"], "action": {"value":"com.skyworthdigital.settings.MainSettingsActivity","para":[{"key":"levelOneTitle", "value":"蓝牙外设"}]}},
