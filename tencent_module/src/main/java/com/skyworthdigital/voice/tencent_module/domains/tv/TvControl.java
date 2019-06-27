@@ -14,7 +14,7 @@ import com.skyworthdigital.voice.dingdang.utils.IntentUtils;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
 import com.skyworthdigital.voice.dingdang.utils.VolumeUtils;
 import com.skyworthdigital.voice.tencent_module.AsrResult;
-import com.skyworthdigital.voice.tencent_module.MainControler;
+import com.skyworthdigital.voice.tencent_module.TxController;
 import com.skyworthdigital.voice.tencent_module.R;
 import com.skyworthdigital.voice.tencent_module.TxTTS;
 import com.skyworthdigital.voice.tv.AbsTvLiveControl;
@@ -28,7 +28,7 @@ public class TvControl {
 
     public static boolean main(final Context ctx, AsrResult bean) {
         try {
-            MainControler.getInstance().getAsrDialogControler().showHeadLoading();
+            TxController.getInstance().getAsrDialogControler().showHeadLoading();
             String mIntent = bean.mSemanticJson.mSemantic.mIntent;
             switch (mIntent) {
                 case "select_channel":

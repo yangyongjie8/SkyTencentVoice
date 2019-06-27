@@ -35,7 +35,7 @@ public class TxAsrTranslator extends AbsAsrTranslator<AsrResult> {
     public void translate(final AsrResult bean) {
         Context ctx = com.skyworthdigital.voice.VoiceApp.getInstance();
         try {
-            MainControler.getInstance().getAsrDialogControler().dialogDismiss(3000);
+            TxController.getInstance().getAsrDialogControler().dialogDismiss(3000);
             if (bean == null || TextUtils.isEmpty(bean.mDomain)) {
                 return;
             } else if (bean.mReturnCode != 0) {
@@ -45,14 +45,14 @@ public class TxAsrTranslator extends AbsAsrTranslator<AsrResult> {
             MLog.d(TAG, "domain:" + bean.mDomain + " intent:" + bean.mSemanticJson.mSemantic.mIntent + " scenetype:" + IStatus.mSceneType);
             //如果已经进入直播，则先进入直播流程
             if (AbsTvLiveControl.getInstance().isTvLive()) {
-                MainControler.getInstance().getAsrDialogControler().dialogTxtClear();
-                if (MainControler.getInstance().getAsrDialogControler().isTvDialog()) {
+                TxController.getInstance().getAsrDialogControler().dialogTxtClear();
+                if (TxController.getInstance().getAsrDialogControler().isTvDialog()) {
                     MLog.d(TAG, "tv dialog showing");
                     ActionUtils.hideTrailer();
                 }
                 if (TextUtils.equals(bean.mDomain, "trailer")) {//节目单
                     MLog.d(TAG, "to show tv trailer");
-                    MainControler.getInstance().getAsrDialogControler().showHeadLoading();
+                    TxController.getInstance().getAsrDialogControler().showHeadLoading();
                     ActionUtils.jumpToTrailer(ctx, bean);
                     return;
                 }
@@ -80,7 +80,7 @@ public class TxAsrTranslator extends AbsAsrTranslator<AsrResult> {
                     }
                 }
             }
-            SkyAsrDialogControl _asrDialogController = MainControler.getInstance().getAsrDialogControler();
+            SkyAsrDialogControl _asrDialogController = TxController.getInstance().getAsrDialogControler();
             if (GlobalUtil.getInstance().control(ctx, bean.mQuery, null)) {
                 MLog.d(TAG, "globalCommandExecute");//全局语音处理
             } else {
@@ -104,10 +104,10 @@ public class TxAsrTranslator extends AbsAsrTranslator<AsrResult> {
                         ActionUtils.jumpToMusic(VoiceApp.getInstance(), bean);
                         break;
                     case "joke":
-                        MainControler.getInstance().getAsrDialogControler().dialogDismiss(5000);
+                        TxController.getInstance().getAsrDialogControler().dialogDismiss(5000);
                         try {
                             if (bean.mData != null && !TextUtils.isEmpty(bean.mData.mJokeText)) {
-                                MainControler.getInstance().getAsrDialogControler().dialogRefresh(ctx, null, bean.mData.mJokeText, 0);
+                                TxController.getInstance().getAsrDialogControler().dialogRefresh(ctx, null, bean.mData.mJokeText, 0);
                                 //mAsrDialogControler.dialogRefreshDetail(mContext, bean.mData, DialogCellType.CELL_BAIKE_INFO);
                                 TxTTS.getInstance(null).talkWithoutDisplay(bean.mData.mJokeText);
                             }
@@ -149,7 +149,7 @@ public class TxAsrTranslator extends AbsAsrTranslator<AsrResult> {
                         //myTTS.parseSemanticToTTS(result);
                         break;
                     case "trailer":
-                        if (MainControler.getInstance().getAsrDialogControler().isTvDialog()) {
+                        if (TxController.getInstance().getAsrDialogControler().isTvDialog()) {
                             ActionUtils.hideTrailer();
                         }
                         ActionUtils.jumpToTrailer(ctx, bean);
@@ -211,7 +211,7 @@ public class TxAsrTranslator extends AbsAsrTranslator<AsrResult> {
             if (com.skyworthdigital.voice.VoiceApp.getVoiceApp().mAiType == GlobalVariable.AI_VOICE) {
                 if (IStatus.mSceneType != IStatus.SCENE_GIVEN && IStatus.mSceneType != IStatus.SCENE_SEARCHPAGE && !bean.mSession) {
                     MLog.d(TAG, "RESTART_ASR 222");
-                    _asrDialogController.dialogDismiss(MainControler.DEFAULT_DISMISS_TIME);
+                    _asrDialogController.dialogDismiss(TxController.DEFAULT_DISMISS_TIME);
                 }
             }
             if (_asrDialogController.isTvDialog()) {

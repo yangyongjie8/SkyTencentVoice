@@ -77,12 +77,12 @@ public class TxGuideAgent extends AbsGuideAgent {
 
     @Override
     public boolean isDialogShowing() {
-        return MainControler.getInstance().isAsrDialogShowing();
+        return TxController.getInstance().isAsrDialogShowing();
     }
 
     @Override
     public void dismissDialog() {
-        MainControler.getInstance().getAsrDialogControler().dialogDismiss(0);
+        TxController.getInstance().getAsrDialogControler().dialogDismiss(0);
     }
 
     private String flatTipsArray(List<String> guide){

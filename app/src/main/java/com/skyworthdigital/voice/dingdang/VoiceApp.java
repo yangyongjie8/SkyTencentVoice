@@ -30,7 +30,7 @@ import com.skyworthdigital.voice.dingdang.service.RecognizeService;
 import com.skyworthdigital.voice.dingdang.utils.GlobalVariable;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
 import com.skyworthdigital.voice.iot.IoTService;
-import com.skyworthdigital.voice.tencent_module.MainControler;
+import com.skyworthdigital.voice.tencent_module.TxController;
 import com.skyworthdigital.voice.tencent_module.TxAsrTranslator;
 import com.skyworthdigital.voice.tencent_module.TxGuideAgent;
 import com.skyworthdigital.voice.tencent_module.TxTvLiveController;
@@ -88,7 +88,7 @@ public class VoiceApp extends Application {
         TxGuideAgent.getInstance();
 
 //        AbsController.clear();
-        MainControler.getInstance();
+        TxController.getInstance();
     }
     private void initTencentSDK(){
         int ret = SpeechManager.getInstance().startUp(this, getAppInfo());

@@ -46,12 +46,12 @@ public class ActionUtils {
         String mIntent = bean.mSemanticJson.mSemantic.mIntent;
         switch (mIntent) {
             case "search_relation_person_kg":
-                MainControler.getInstance().getAsrDialogControler().dialogRefresh(ctx, bean, null, 0);
-                MainControler.getInstance().getAsrDialogControler().dialogDismiss(3000);
+                TxController.getInstance().getAsrDialogControler().dialogRefresh(ctx, bean, null, 0);
+                TxController.getInstance().getAsrDialogControler().dialogDismiss(3000);
                 TxTTS.getInstance(null).parseSemanticToTTS(TextUtils.isEmpty(bean.mAnswer)?bean.mTips:bean.mAnswer);
                 break;
             default:
-                MainControler.getInstance().getAsrDialogControler().dialogDismiss(15000);
+                TxController.getInstance().getAsrDialogControler().dialogDismiss(15000);
                 BeeSearchUtils.doBeeSearch(ctx, bean.mQuery, bean.mDomain);
                 break;
         }
@@ -60,7 +60,7 @@ public class ActionUtils {
     public static void jumpToMusic(Context ctx, AsrResult bean) {
         String mIntent = bean.mSemanticJson.mSemantic.mIntent;
         if (mIntent.contains("play")) {
-            MainControler.getInstance().getAsrDialogControler().dialogDismiss(3000);
+            TxController.getInstance().getAsrDialogControler().dialogDismiss(3000);
             if (bean.mSemanticJson != null && bean.mSemanticJson.mSemantic != null) {
                 MusicControl.actionExecute(ctx, bean.mSemanticJson.mSemantic.getMusicSlots(), bean.mQuery);
             }
@@ -74,7 +74,7 @@ public class ActionUtils {
             if ((BeeSearchParams.getInstance().isInSearchPage()
                     && (TextUtils.equals(bean.mDomain, "chat") || bean.mQuery.contains("剧情")))
                     || (bean.mSemanticJson.mStatus != null && bean.mSemanticJson.mStatus.mCode < 0)) {
-                MainControler.getInstance().getAsrDialogControler().dialogDismiss(15000);
+                TxController.getInstance().getAsrDialogControler().dialogDismiss(15000);
                 BeeSearchUtils.doBeeSearch(ctx, bean.mQuery, bean.mDomain);
                 return;
             }
@@ -96,18 +96,18 @@ public class ActionUtils {
                         intent.putExtra("note", bean.mData.getIntroduction());
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         ctx.startActivity(intent);
-                        MainControler.getInstance().getAsrDialogControler().dialogDismiss(0);
+                        TxController.getInstance().getAsrDialogControler().dialogDismiss(0);
                         return;
                     }
                 } else {
                     if (bean.mData != null && !TextUtils.isEmpty(bean.mData.mBaikeInfo)) {
-                        MainControler.getInstance().getAsrDialogControler().dialogRefreshDetail(ctx, bean.mData, DialogCellType.CELL_BAIKE_INFO);
+                        TxController.getInstance().getAsrDialogControler().dialogRefreshDetail(ctx, bean.mData, DialogCellType.CELL_BAIKE_INFO);
                         if (!TextUtils.isEmpty(bean.mTips)) {
-                            MainControler.getInstance().getAsrDialogControler().dialogRefresh(ctx, null, bean.mTips, 0);
+                            TxController.getInstance().getAsrDialogControler().dialogRefresh(ctx, null, bean.mTips, 0);
                         } else if (!TextUtils.isEmpty(bean.mAnswer)) {
-                            MainControler.getInstance().getAsrDialogControler().dialogRefresh(ctx, null, bean.mAnswer, 0);
+                            TxController.getInstance().getAsrDialogControler().dialogRefresh(ctx, null, bean.mAnswer, 0);
                         }
-                        MainControler.getInstance().getAsrDialogControler().dialogDismiss(35000);
+                        TxController.getInstance().getAsrDialogControler().dialogDismiss(35000);
                         TxTTS.getInstance(null).parseSemanticToTTS(TextUtils.isEmpty(bean.mAnswer)?bean.mTips:bean.mAnswer);
                         return;
                     }
@@ -119,12 +119,12 @@ public class ActionUtils {
 
         if (StringUtils.isDingdangInvalidBack(bean.mAnswer)) {
             MLog.d(TAG, "dingdang invalid,go search");
-            MainControler.getInstance().getAsrDialogControler().dialogDismiss(15000);
+            TxController.getInstance().getAsrDialogControler().dialogDismiss(15000);
             BeeSearchUtils.doBeeSearch(ctx, bean.mQuery, bean.mDomain);
             return;
         }
-        MainControler.getInstance().getAsrDialogControler().dialogRefresh(ctx, bean, null, 0);
-        MainControler.getInstance().getAsrDialogControler().dialogDismiss(5000);
+        TxController.getInstance().getAsrDialogControler().dialogRefresh(ctx, bean, null, 0);
+        TxController.getInstance().getAsrDialogControler().dialogDismiss(5000);
         TxTTS.getInstance(null).parseSemanticToTTS(TextUtils.isEmpty(bean.mAnswer)?bean.mTips:bean.mAnswer);
     }
 
@@ -150,16 +150,16 @@ public class ActionUtils {
         }
         if (StringUtils.isDingdangInvalidBack(bean.mAnswer)) {
             MLog.d(TAG, "dingdang invalid,go search");
-            MainControler.getInstance().getAsrDialogControler().dialogDismiss(15000);
+            TxController.getInstance().getAsrDialogControler().dialogDismiss(15000);
             BeeSearchUtils.doBeeSearch(ctx, bean.mQuery, bean.mDomain);
             return;
         }
         if (!TextUtils.isEmpty(bean.mTips)) {
-            MainControler.getInstance().getAsrDialogControler().dialogRefresh(ctx, null, bean.mTips, 0);
+            TxController.getInstance().getAsrDialogControler().dialogRefresh(ctx, null, bean.mTips, 0);
         } else if (!TextUtils.isEmpty(bean.mAnswer)) {
-            MainControler.getInstance().getAsrDialogControler().dialogRefresh(ctx, null, bean.mAnswer, 0);
+            TxController.getInstance().getAsrDialogControler().dialogRefresh(ctx, null, bean.mAnswer, 0);
         }
-        MainControler.getInstance().getAsrDialogControler().dialogDismiss(2000);
+        TxController.getInstance().getAsrDialogControler().dialogDismiss(2000);
         TxTTS.getInstance(null).parseSemanticToTTS(TextUtils.isEmpty(bean.mAnswer)?bean.mTips:bean.mAnswer);
     }
 
@@ -184,17 +184,17 @@ public class ActionUtils {
             e.printStackTrace();
         }
         if (!TextUtils.isEmpty(bean.mTips)) {
-            MainControler.getInstance().getAsrDialogControler().dialogRefresh(ctx, null, bean.mTips, 0);
+            TxController.getInstance().getAsrDialogControler().dialogRefresh(ctx, null, bean.mTips, 0);
         } else if (!TextUtils.isEmpty(bean.mAnswer)) {
-            MainControler.getInstance().getAsrDialogControler().dialogRefresh(ctx, null, bean.mAnswer, 0);
+            TxController.getInstance().getAsrDialogControler().dialogRefresh(ctx, null, bean.mAnswer, 0);
         }
-        MainControler.getInstance().getAsrDialogControler().dialogDismiss(2000);
+        TxController.getInstance().getAsrDialogControler().dialogDismiss(2000);
         return false;
     }
 
     public static void jumpToSports(Context ctx, AsrResult bean) {
         try {
-            MainControler.getInstance().getAsrDialogControler().dialogDismiss(3000);
+            TxController.getInstance().getAsrDialogControler().dialogDismiss(3000);
             String mIntent = bean.mSemanticJson.mSemantic.mIntent;
             switch (mIntent) {
                 case "search_record":
@@ -226,15 +226,15 @@ public class ActionUtils {
                     break;
                 case "search_score":
                     if (bean.mData != null && bean.mData.mSportsScores != null && bean.mData.mSportsScores.size() > 0) {
-                        MainControler.getInstance().getAsrDialogControler().dialogDismiss(8000);
-                        MainControler.getInstance().getAsrDialogControler().dialogRefreshDetail(ctx, bean.mData.mSportsScores, DialogCellType.CELL_SPORT_SCORE);
+                        TxController.getInstance().getAsrDialogControler().dialogDismiss(8000);
+                        TxController.getInstance().getAsrDialogControler().dialogRefreshDetail(ctx, bean.mData.mSportsScores, DialogCellType.CELL_SPORT_SCORE);
                     }
                     break;
                 case "search_statistics":
                 case "search_information":
                     if (bean.mData != null && bean.mData.mVStatistics != null && bean.mData.mVStatistics.size() > 2) {
-                        MainControler.getInstance().getAsrDialogControler().dialogDismiss(20000);
-                        MainControler.getInstance().getAsrDialogControler().dialogRefreshDetail(ctx, bean.mData.mVStatistics, DialogCellType.CELL_SPORT_INFO);
+                        TxController.getInstance().getAsrDialogControler().dialogDismiss(20000);
+                        TxController.getInstance().getAsrDialogControler().dialogRefreshDetail(ctx, bean.mData.mVStatistics, DialogCellType.CELL_SPORT_INFO);
                     }
                     break;
                 default:
@@ -246,15 +246,15 @@ public class ActionUtils {
         }
 
         if (!TextUtils.isEmpty(bean.mTips)) {
-            MainControler.getInstance().getAsrDialogControler().dialogRefresh(ctx, null, bean.mTips, 0);
+            TxController.getInstance().getAsrDialogControler().dialogRefresh(ctx, null, bean.mTips, 0);
         } else if (!TextUtils.isEmpty(bean.mAnswer)) {
-            MainControler.getInstance().getAsrDialogControler().dialogRefresh(ctx, null, bean.mAnswer, 0);
+            TxController.getInstance().getAsrDialogControler().dialogRefresh(ctx, null, bean.mAnswer, 0);
         }
         TxTTS.getInstance(null).talkWithoutDisplay(bean.mAnswer);
     }
 
     public static void hideTrailer() {
-        MainControler.getInstance().getAsrDialogControler().hideTvDialog();
+        TxController.getInstance().getAsrDialogControler().hideTvDialog();
     }
 
     public static boolean jumpToTrailer(Context ctx, AsrResult bean) {
@@ -265,8 +265,8 @@ public class ActionUtils {
                 case "search_channel":
                 case "search_time":
                     if (bean.mData != null && bean.mData.mTvProgramsList != null && bean.mData.mTvProgramsList.size() > 0) {
-                        MainControler.getInstance().getAsrDialogControler().showTvDialog(bean.mData.mTvProgramsList);
-                        MainControler.getInstance().getAsrDialogControler().setTvDialog(true);
+                        TxController.getInstance().getAsrDialogControler().showTvDialog(bean.mData.mTvProgramsList);
+                        TxController.getInstance().getAsrDialogControler().setTvDialog(true);
                         return true;
                         //return tvdialog;
                     }
@@ -278,25 +278,25 @@ public class ActionUtils {
             e.printStackTrace();
         }
         if (!TextUtils.isEmpty(bean.mTips)) {
-            MainControler.getInstance().getAsrDialogControler().dialogRefresh(ctx, null, bean.mTips, 0);
+            TxController.getInstance().getAsrDialogControler().dialogRefresh(ctx, null, bean.mTips, 0);
             TxTTS.getInstance(null).talkWithoutDisplay(bean.mTips);
         } else if (!TextUtils.isEmpty(bean.mAnswer)) {
-            MainControler.getInstance().getAsrDialogControler().dialogRefresh(ctx, null, bean.mAnswer, 0);
+            TxController.getInstance().getAsrDialogControler().dialogRefresh(ctx, null, bean.mAnswer, 0);
             TxTTS.getInstance(null).talkWithoutDisplay(bean.mAnswer);
         }
-        MainControler.getInstance().getAsrDialogControler().setTvDialog(false);
+        TxController.getInstance().getAsrDialogControler().setTvDialog(false);
         return false;
     }
 
     public static void jumpToFlight(Context ctx, AsrResult bean) {
         try {
-            MainControler.getInstance().getAsrDialogControler().dialogDismiss(3000);
+            TxController.getInstance().getAsrDialogControler().dialogDismiss(3000);
             String mIntent = bean.mSemanticJson.mSemantic.mIntent;
             //MLog.d(TAG, "intent:" + mIntent);
             switch (mIntent) {
                 case "search_ticket":
                     if (bean.mData != null && bean.mData.mFlightList != null && bean.mData.mFlightList.size() > 0) {
-                        MainControler.getInstance().getAsrDialogControler().dialogDismiss(3000);
+                        TxController.getInstance().getAsrDialogControler().dialogDismiss(3000);
                         Intent intent = new Intent("com.skyworthdigital.voice.dingdang.flightticket");
                         intent.setPackage(GlobalVariable.VOICE_PACKAGE_NAME);
                         intent.putExtra("data", (Serializable) bean.mData);
@@ -312,10 +312,10 @@ public class ActionUtils {
             e.printStackTrace();
         }
         if (!TextUtils.isEmpty(bean.mTips)) {
-            MainControler.getInstance().getAsrDialogControler().dialogRefresh(ctx, null, bean.mTips, 0);
+            TxController.getInstance().getAsrDialogControler().dialogRefresh(ctx, null, bean.mTips, 0);
             TxTTS.getInstance(null).talkWithoutDisplay(bean.mTips);
         } else if (!TextUtils.isEmpty(bean.mAnswer)) {
-            MainControler.getInstance().getAsrDialogControler().dialogRefresh(ctx, null, bean.mAnswer, 0);
+            TxController.getInstance().getAsrDialogControler().dialogRefresh(ctx, null, bean.mAnswer, 0);
             TxTTS.getInstance(null).talkWithoutDisplay(bean.mAnswer);
         }
     }
@@ -323,9 +323,9 @@ public class ActionUtils {
     public static void jumpToTrain(Context ctx, AsrResult bean) {
         try {
             if (!bean.mSession) {
-                MainControler.getInstance().getAsrDialogControler().dialogDismiss(60000);
+                TxController.getInstance().getAsrDialogControler().dialogDismiss(60000);
             } else {
-                MainControler.getInstance().getAsrDialogControler().dialogDismiss(3000);
+                TxController.getInstance().getAsrDialogControler().dialogDismiss(3000);
             }
             String mIntent = bean.mSemanticJson.mSemantic.mIntent;
             //MLog.d(TAG, "intent:" + mIntent);
@@ -347,10 +347,10 @@ public class ActionUtils {
             e.printStackTrace();
         }
         if (!TextUtils.isEmpty(bean.mTips)) {
-            MainControler.getInstance().getAsrDialogControler().dialogRefresh(ctx, null, bean.mTips, 0);
+            TxController.getInstance().getAsrDialogControler().dialogRefresh(ctx, null, bean.mTips, 0);
             TxTTS.getInstance(null).talkWithoutDisplay(bean.mTips);
         } else if (!TextUtils.isEmpty(bean.mAnswer)) {
-            MainControler.getInstance().getAsrDialogControler().dialogRefresh(ctx, null, bean.mAnswer, 0);
+            TxController.getInstance().getAsrDialogControler().dialogRefresh(ctx, null, bean.mAnswer, 0);
             TxTTS.getInstance(null).talkWithoutDisplay(bean.mAnswer);
         }
     }
@@ -418,9 +418,9 @@ public class ActionUtils {
                             tts = VoiceApp.getInstance().getString(R.string.str_alarm_empty);
                             TxTTS.getInstance(null).talk(tts);
                         } else {
-                            MainControler.getInstance().getAsrDialogControler().dialogDismiss(40000);
+                            TxController.getInstance().getAsrDialogControler().dialogDismiss(40000);
                             tts = tts + "\n" + ctx.getString(R.string.str_alarm_delete);
-                            MainControler.getInstance().getAsrDialogControler().dialogRefresh(ctx, null, tts, 0);
+                            TxController.getInstance().getAsrDialogControler().dialogRefresh(ctx, null, tts, 0);
                             TxTTS.getInstance(null).talkWithoutDisplay(ctx.getString(R.string.str_alarm_delete));
                         }
                     }
@@ -432,7 +432,7 @@ public class ActionUtils {
                         tts = VoiceApp.getInstance().getString(R.string.str_alarm_empty);
                         TxTTS.getInstance(null).talk(tts);
                     } else {
-                        MainControler.getInstance().getAsrDialogControler().dialogDismiss(40000);
+                        TxController.getInstance().getAsrDialogControler().dialogDismiss(40000);
                         TxTTS.getInstance(null).talk(tts);
                     }
                     break;
@@ -476,17 +476,17 @@ public class ActionUtils {
             e.printStackTrace();
         }
         if (!TextUtils.isEmpty(bean.mTips)) {
-            MainControler.getInstance().getAsrDialogControler().dialogRefresh(ctx, null, bean.mTips, 0);
+            TxController.getInstance().getAsrDialogControler().dialogRefresh(ctx, null, bean.mTips, 0);
         } else if (!TextUtils.isEmpty(bean.mAnswer)) {
-            MainControler.getInstance().getAsrDialogControler().dialogRefresh(ctx, null, bean.mAnswer, 0);
+            TxController.getInstance().getAsrDialogControler().dialogRefresh(ctx, null, bean.mAnswer, 0);
         }
-        MainControler.getInstance().getAsrDialogControler().dialogDismiss(2000);
+        TxController.getInstance().getAsrDialogControler().dialogDismiss(2000);
         TxTTS.getInstance(null).parseSemanticToTTS(TextUtils.isEmpty(bean.mAnswer)?bean.mTips:bean.mAnswer);
     }
 
     public static void jumpToHelp(Context ctx, AsrResult bean) {
         try {
-            MainControler.getInstance().getAsrDialogControler().dialogDismiss(5000);
+            TxController.getInstance().getAsrDialogControler().dialogDismiss(5000);
             String mIntent = bean.mSemanticJson.mSemantic.mIntent;
             switch (mIntent) {
                 case "cando":
@@ -497,8 +497,8 @@ public class ActionUtils {
                             || GuideTip.getInstance().isMusicPlay()
                             || GuideTip.getInstance().isTvlive()
                             || GuideTip.getInstance().isPoem()) {
-                        if (MainControler.getInstance().getAsrDialogControler() != null && MainControler.getInstance().getAsrDialogControler().mAsrDialog != null) {
-                            MainControler.getInstance().getAsrDialogControler().mAsrDialog.showGuideDialog(null);
+                        if (TxController.getInstance().getAsrDialogControler() != null && TxController.getInstance().getAsrDialogControler().mAsrDialog != null) {
+                            TxController.getInstance().getAsrDialogControler().mAsrDialog.showGuideDialog(null);
                             TxTTS.getInstance(null).talk(ctx.getString(R.string.str_cando_note));
                         }
                     } else {
@@ -514,7 +514,7 @@ public class ActionUtils {
     }
 
     public static void jumpToChengyu(Context ctx, AsrResult bean) {
-        MainControler.getInstance().getAsrDialogControler().dialogDismiss(5000);
+        TxController.getInstance().getAsrDialogControler().dialogDismiss(5000);
         try {
             String mIntent = bean.mSemanticJson.mSemantic.mIntent;
             switch (mIntent) {
@@ -544,22 +544,22 @@ public class ActionUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        MainControler.getInstance().getAsrDialogControler().dialogRefresh(ctx, bean, null, 0);
-        MainControler.getInstance().getAsrDialogControler().dialogDismiss(3000);
+        TxController.getInstance().getAsrDialogControler().dialogRefresh(ctx, bean, null, 0);
+        TxController.getInstance().getAsrDialogControler().dialogDismiss(3000);
         TxTTS.getInstance(null).parseSemanticToTTS(TextUtils.isEmpty(bean.mAnswer)?bean.mTips:bean.mAnswer);
     }
 
     public static void jumpToTvControl(Context ctx, AsrResult bean) {
         if (BeeSearchUtils.mSpeakSameInfo != null && BeeSearchParams.getInstance().isInSearchPage()) {
             //处于纠正逻辑
-            MainControler.getInstance().getAsrDialogControler().dialogDismiss(15000);
+            TxController.getInstance().getAsrDialogControler().dialogDismiss(15000);
             BeeSearchUtils.doBeeSearch(ctx, bean.mQuery, bean.mDomain);
             return;
         }
-        MainControler.getInstance().getAsrDialogControler().dialogDismiss(3000);
+        TxController.getInstance().getAsrDialogControler().dialogDismiss(3000);
         try {
             if (!TvControl.main(ctx, bean)) {
-                MainControler.getInstance().getAsrDialogControler().dialogRefresh(ctx, bean, null, 0);
+                TxController.getInstance().getAsrDialogControler().dialogRefresh(ctx, bean, null, 0);
                 TxTTS.getInstance(null).parseSemanticToTTS(TextUtils.isEmpty(bean.mAnswer)?bean.mTips:bean.mAnswer);
             }
         } catch (Exception e) {
@@ -583,10 +583,10 @@ public class ActionUtils {
             e.printStackTrace();
         }
         if (!TextUtils.isEmpty(bean.mTips)) {
-            MainControler.getInstance().getAsrDialogControler().dialogRefresh(ctx, null, bean.mTips, 0);
+            TxController.getInstance().getAsrDialogControler().dialogRefresh(ctx, null, bean.mTips, 0);
             TxTTS.getInstance(null).talkWithoutDisplay(bean.mTips);
         } else if (!TextUtils.isEmpty(bean.mAnswer)) {
-            MainControler.getInstance().getAsrDialogControler().dialogRefresh(ctx, null, bean.mAnswer, 0);
+            TxController.getInstance().getAsrDialogControler().dialogRefresh(ctx, null, bean.mAnswer, 0);
             TxTTS.getInstance(null).talkWithoutDisplay(bean.mAnswer);
         }
     }
@@ -596,7 +596,7 @@ public class ActionUtils {
                 || TextUtils.equals(bean.mDomain, "help")
                 || (TextUtils.equals(bean.mDomain, "tv") && (!TextUtils.equals("select_channel", bean.mSemanticJson.mSemantic.mIntent)))) {
             if (TextUtils.equals(bean.mQuery, "关闭")) {
-                MainControler.getInstance().getAsrDialogControler().dialogTxtClear();
+                TxController.getInstance().getAsrDialogControler().dialogTxtClear();
                 return true;
             }
             IStatus.resetDismissTime();
@@ -623,7 +623,7 @@ public class ActionUtils {
         } else if (GuideTip.getInstance().mIsQQmusic) {
             if (bean.mDomain.equals("music") && bean.mSemanticJson != null && bean.mSemanticJson.mSemantic != null
                     && bean.mQuery.contains("听") || bean.mQuery.contains("歌") || bean.mQuery.contains("专辑") || bean.mQuery.contains("音乐") || bean.mQuery.contains("曲") || bean.mQuery.contains("唱")) {
-                MainControler.getInstance().getAsrDialogControler().showHeadLoading();
+                TxController.getInstance().getAsrDialogControler().showHeadLoading();
                 MusicControl.actionExecute(ctx, bean.mSemanticJson.mSemantic.getMusicSlots(), bean.mQuery);
             }
         } else if (GuideTip.getInstance().isAudioPlay()) {
@@ -661,8 +661,8 @@ public class ActionUtils {
 //        }
         if("切换到百度".equalsIgnoreCase(speech)){
             VoiceApp.isDuer = true;
-            MainControler.getInstance().getAsrDialogControler().dialogDismiss(0);
-            MainControler.getInstance().onDestroy();
+            TxController.getInstance().getAsrDialogControler().dialogDismiss(0);
+            TxController.getInstance().onDestroy();
             AbsTTS.getInstance(null).talk("我是百度");
             return true;
         }

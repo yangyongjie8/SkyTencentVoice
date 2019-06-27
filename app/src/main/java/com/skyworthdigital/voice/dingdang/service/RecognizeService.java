@@ -45,22 +45,22 @@ public class RecognizeService extends AccessibilityService {
             case 2054://TA412修改的语音键值
                 if (action == KeyEvent.ACTION_DOWN) {
                     //mRecordStart = System.currentTimeMillis();
-                    //if (MainControler.getInstance().isStartValid()) {
+                    //if (TxController.getInstance().isStartValid()) {
                     AbsController.getInstance().isControllerVoice = true;
                     AbsController.getInstance().manualRecognizeStart();
                 } else if (action == KeyEvent.ACTION_UP) {
                     //if (System.currentTimeMillis() - mRecordStart > 1000) {
                     AbsController.getInstance().manualRecognizeStop();
                     //} else {
-                    //    MainControler.getInstance().manualRecognizeCancel();
+                    //    TxController.getInstance().manualRecognizeCancel();
                     //}
                 }
                 break;
 //            case KeyEvent.KEYCODE_MENU:
 //                if(action == KeyEvent.ACTION_DOWN) {
-//                    MainControler.getInstance().manualRecognizeStart();
+//                    TxController.getInstance().manualRecognizeStart();
 //                } else if(action == KeyEvent.ACTION_UP){
-//                    MainControler.getInstance().testYuyiParse("我要看刘德华的电影");
+//                    TxController.getInstance().testYuyiParse("我要看刘德华的电影");
 //                }
 
             case KeyEvent.KEYCODE_VOLUME_DOWN:
@@ -101,7 +101,7 @@ public class RecognizeService extends AccessibilityService {
     public void onCreate() {
         super.onCreate();
         MLog.i(TAG, "onCreate");
-//        mControler = new MainControler();
+//        mControler = new TxController();
     }
 
     @Override

@@ -210,7 +210,7 @@ public class TxRecognizer extends AbsRecognizer implements IAsrDataListener {
             }
         } else {
             mRecognizing = true;
-            if(MainControler.getInstance().isControllerVoice) {
+            if(TxController.getInstance().isControllerVoice) {
                 mMyRecoder.startRecord();
             }
             // 开始录音

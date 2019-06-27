@@ -38,8 +38,8 @@ import com.tencent.ai.sdk.utils.ISSErrors;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class MainControler extends AbsController implements AbsTTS.MyTTSListener {
-    private static final String TAG = MainControler.class.getSimpleName();
+public class TxController extends AbsController implements AbsTTS.MyTTSListener {
+    private static final String TAG = TxController.class.getSimpleName();
     private AbsRecognizer myRecognizer;
     private AbsWakeup myWakeup;
     private AbsTTS myTTS = TxTTS.getInstance(this);
@@ -51,7 +51,7 @@ public class MainControler extends AbsController implements AbsTTS.MyTTSListener
     private SkySceneService mSceneService;
     private boolean mBound = false;
     private String mRecoResult;
-    private MainControler.BoxReceiver mBoxReceiver;
+    private TxController.BoxReceiver mBoxReceiver;
     private ExecutorService mExecutor = Executors.newSingleThreadExecutor();
     private static final String WAKEUP_OPEN_ACTION = "com.skyworthdigital.voice.action.WAKEUP_OPEN";
     private static final String WAKEUP_CLOSE_ACTION = "com.skyworthdigital.voice.action.WAKEUP_CLOSE";
@@ -60,18 +60,18 @@ public class MainControler extends AbsController implements AbsTTS.MyTTSListener
     private long mKeyDownTime = 0;
     private long mKeyUpTime = 0;
 
-    public static MainControler getInstance() {
+    public static TxController getInstance() {
         if (mManagerInstance[1] == null) {
-            synchronized (MainControler.class) {
+            synchronized (TxController.class) {
                 if (mManagerInstance[1] == null) {
-                    mManagerInstance[1] = new MainControler();
+                    mManagerInstance[1] = new TxController();
                 }
             }
         }
-        return (MainControler) mManagerInstance[1];
+        return (TxController) mManagerInstance[1];
     }
 
-    private MainControler() {
+    private TxController() {
         mContext = com.skyworthdigital.voice.VoiceApp.getInstance();
         if (com.skyworthdigital.voice.VoiceApp.getVoiceApp().mAiType == GlobalVariable.AI_VOICE) {
             myWakeup = TxWakeup.getInstance(mWkresultlistener);
@@ -85,7 +85,7 @@ public class MainControler extends AbsController implements AbsTTS.MyTTSListener
     }
 
     private void registerReceiver(){
-        mBoxReceiver = new MainControler.BoxReceiver();
+        mBoxReceiver = new TxController.BoxReceiver();
         final IntentFilter mScreenCheckFilter = new IntentFilter();
         mScreenCheckFilter.addAction(IStatus.ACTION_RESTART_ASR);
         mScreenCheckFilter.addAction(IStatus.ACTION_TTS);
