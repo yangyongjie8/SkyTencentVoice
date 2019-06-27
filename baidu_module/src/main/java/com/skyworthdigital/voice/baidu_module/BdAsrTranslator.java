@@ -11,7 +11,7 @@ import com.skyworthdigital.voice.baidu_module.duerbean.DuerBean;
 import com.skyworthdigital.voice.baidu_module.duerbean.Nlu;
 import com.skyworthdigital.voice.baidu_module.duerbean.Result;
 import com.skyworthdigital.voice.baidu_module.duerbean.Slots;
-import com.skyworthdigital.voice.baidu_module.robot.Robot;
+import com.skyworthdigital.voice.baidu_module.robot.BdTTS;
 import com.skyworthdigital.voice.baidu_module.util.ActionUtils;
 import com.skyworthdigital.voice.baidu_module.util.GsonUtils;
 import com.skyworthdigital.voice.baidu_module.voicemode.VoiceModeAdapter;
@@ -91,7 +91,7 @@ public class BdAsrTranslator extends AbsAsrTranslator<String> {
                         switch (nlu.getDomain()) {
                             case DOMAIN_FILM:
                                 if (TextUtils.equals("H4S06", VoiceApp.getModel())) {
-                                    Robot.getInstance().talk(context.getString(R.string.str_unknown_note));
+                                    BdTTS.getInstance().talk(context.getString(R.string.str_unknown_note));
                                     break;
                                 }
                                 if (TextUtils.equals(nlu.getIntent(), GlobalVariable.INTENT_FILM_SEARCH)) {
@@ -115,14 +115,14 @@ public class BdAsrTranslator extends AbsAsrTranslator<String> {
                                     DefaultCmds.startPauseIntent(context, false, originSpeech);
                                 }
                                 if (!result.getSpeech().getContent().isEmpty() && TextUtils.equals(GlobalVariable.TYPE_TEXT, result.getSpeech().getType())) {
-                                    Robot.getInstance().talk(result.getSpeech().getContent());
+                                    BdTTS.getInstance().talk(result.getSpeech().getContent());
                                 }
                                 break;
                             case DOMAIN_MUSIC:
                                 if (TextUtils.equals(nlu.getIntent(), GlobalVariable.INTENT_MUSIC_PLAY)
                                         || TextUtils.equals(nlu.getIntent(), GlobalVariable.INTENT_MUSIC_GOTO)) {
                                     if (!ActionUtils.musicExecute(context, asrResult, originSpeech)) {
-                                        Robot.getInstance().talk(context.getString(R.string.str_music_note));
+                                        BdTTS.getInstance().talk(context.getString(R.string.str_music_note));
                                     }
                                 }
                                 break;
@@ -141,21 +141,21 @@ public class BdAsrTranslator extends AbsAsrTranslator<String> {
                                     Alarm alarm = new Alarm();
                                     int ret = alarm.addClock(asrResult);
                                     if (ret == Alarm.ERROR_NOT_SUPPORT_REPEAT) {
-                                        Robot.getInstance().talk(context.getString(R.string.str_alarm_notsupport_repeat));
+                                        BdTTS.getInstance().talk(context.getString(R.string.str_alarm_notsupport_repeat));
                                         break;
                                     } else if (ret == Alarm.ERROR_OTHER) {
-                                        Robot.getInstance().talk(context.getString(R.string.str_alarm_example));
+                                        BdTTS.getInstance().talk(context.getString(R.string.str_alarm_example));
                                         break;
                                     }
                                     if (!result.getSpeech().getContent().isEmpty() && TextUtils.equals(GlobalVariable.TYPE_TEXT, result.getSpeech().getType())) {
-                                        Robot.getInstance().talk(result.getSpeech().getContent());
+                                        BdTTS.getInstance().talk(result.getSpeech().getContent());
                                     }
                                 } else {
-                                    Robot.getInstance().talk(context.getString(R.string.str_audiolive_note));
+                                    BdTTS.getInstance().talk(context.getString(R.string.str_audiolive_note));
                                 }
                                 break;
                             case "audio.live":
-                                Robot.getInstance().talk(context.getString(R.string.str_audiolive_note));
+                                BdTTS.getInstance().talk(context.getString(R.string.str_audiolive_note));
                                 break;
                             case "audio.news":
                                 try {
@@ -164,7 +164,7 @@ public class BdAsrTranslator extends AbsAsrTranslator<String> {
                                     //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     context.startActivity(intent);
-                                    Robot.getInstance().talk(context.getString(R.string.str_news));
+                                    BdTTS.getInstance().talk(context.getString(R.string.str_news));
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
@@ -173,12 +173,12 @@ public class BdAsrTranslator extends AbsAsrTranslator<String> {
                                 try {
                                     if (TextUtils.equals(nlu.getIntent(), "baike")) {
                                         if (ActionUtils.baikeVideoExecute(context, asrResult)) {
-                                            Robot.getInstance().talk(context.getString(R.string.str_ok));
+                                            BdTTS.getInstance().talk(context.getString(R.string.str_ok));
                                             break;
                                         }
                                     }
                                     if (!result.getSpeech().getContent().isEmpty() && TextUtils.equals(GlobalVariable.TYPE_TEXT, result.getSpeech().getType())) {
-                                        Robot.getInstance().talk(result.getSpeech().getContent());
+                                        BdTTS.getInstance().talk(result.getSpeech().getContent());
                                     }
                                 } catch (Exception e) {
                                     e.printStackTrace();
@@ -190,7 +190,7 @@ public class BdAsrTranslator extends AbsAsrTranslator<String> {
                                 } else if (!result.getSpeech().getContent().isEmpty() &&
                                         (TextUtils.equals(GlobalVariable.TYPE_TEXT, result.getSpeech().getType())
                                                 || TextUtils.equals("txt", result.getSpeech().getType()))) {
-                                    Robot.getInstance().talk(result.getSpeech().getContent());
+                                    BdTTS.getInstance().talk(result.getSpeech().getContent());
                                 }
                                 break;
                         }

@@ -29,21 +29,21 @@ import java.util.concurrent.locks.ReentrantLock;
  * Created by SDT03046 on 2017/6/20.
  */
 
-public class Robot extends AbsTTS {
-    private String TAG = Robot.class.getSimpleName();
+public class BdTTS extends AbsTTS {
+    private String TAG = BdTTS.class.getSimpleName();
 
-    private Robot(){
+    private BdTTS(){
         initTTS();
-        HandlerThread handlerThread = new HandlerThread(Robot.class.getSimpleName());
+        HandlerThread handlerThread = new HandlerThread(BdTTS.class.getSimpleName());
         handlerThread.start();
         mHandler = new Handler(handlerThread.getLooper(), mProcCallback);
     }
 
     public static AbsTTS getInstance(){
         if(mInstance[0]==null){
-            synchronized (Robot.class){
+            synchronized (BdTTS.class){
                 if (mInstance[0]==null){
-                    mInstance[0] = new Robot();
+                    mInstance[0] = new BdTTS();
                 }
             }
         }
@@ -123,7 +123,7 @@ public class Robot extends AbsTTS {
                     }
                     break;
                 default:
-                    Log.e("Robot", "invalid msg what:"+msg.what);
+                    Log.e("BdTTS", "invalid msg what:"+msg.what);
                     break;
             }
             return true;
@@ -285,7 +285,7 @@ public class Robot extends AbsTTS {
     private void talkNext(){
         if(!mContentList.isEmpty() && !mIsTalking) {
             mIsTalking = true;
-            Robot.Content content = mContentList.getFirst();
+            BdTTS.Content content = mContentList.getFirst();
             // todo 是否需要判断状态
             DuerSDKFactory.getDuerSDK().getSpeech().closeTTS();
             DuerSDKFactory.getDuerSDK().getSpeech().openTTS();
@@ -296,7 +296,7 @@ public class Robot extends AbsTTS {
         }
     }
 
-    private void playVoice(Robot.Content content){
+    private void playVoice(BdTTS.Content content){
         // todo 是否需要判断状态
         String uuid = UUID.randomUUID().toString();
         DuerSDKFactory.getDuerSDK().getSpeech().play(content.text, uuid);
@@ -309,7 +309,7 @@ public class Robot extends AbsTTS {
      */
     @Override
     public void talk(@NonNull String text){//setWords
-        mHandler.sendMessage(mHandler.obtainMessage(MSG_TALK_NOW, new Robot.Content(text, true, null)));
+        mHandler.sendMessage(mHandler.obtainMessage(MSG_TALK_NOW, new BdTTS.Content(text, true, null)));
     }
 
     /**
@@ -318,7 +318,7 @@ public class Robot extends AbsTTS {
      */
     @Override
     public void talkWithoutDisplay(String text){
-        mHandler.sendMessage(mHandler.obtainMessage(MSG_TALK_NOW_WITHOUT_DISPLAY, new Robot.Content(text, false, null)));
+        mHandler.sendMessage(mHandler.obtainMessage(MSG_TALK_NOW_WITHOUT_DISPLAY, new BdTTS.Content(text, false, null)));
     }
 
     @Override
@@ -329,7 +329,7 @@ public class Robot extends AbsTTS {
     @Override
     public void talkDelay(String tts, String output, int delay) {
         //todo
-        mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_TALK_NOW, new Robot.Content(tts, true, null)), delay);
+        mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_TALK_NOW, new BdTTS.Content(tts, true, null)), delay);
     }
 
     /**
@@ -338,7 +338,7 @@ public class Robot extends AbsTTS {
      */
     @Override
     public void talkSerial(String text){
-        mHandler.sendMessage(mHandler.obtainMessage(MSG_TALK_SERIAL, new Robot.Content(text, true, null)));
+        mHandler.sendMessage(mHandler.obtainMessage(MSG_TALK_SERIAL, new BdTTS.Content(text, true, null)));
     }
 
     /**
@@ -347,7 +347,7 @@ public class Robot extends AbsTTS {
      * @param tag 本次语音标签，由{@link VoiceTagger}类创建
      */
     public void talkThirdApp(String text, String tag){
-        mHandler.sendMessage(mHandler.obtainMessage(MSG_TALK_THIRD_APP, new Robot.Content(text, true, tag)));
+        mHandler.sendMessage(mHandler.obtainMessage(MSG_TALK_THIRD_APP, new BdTTS.Content(text, true, tag)));
     }
 
     /**
@@ -355,7 +355,7 @@ public class Robot extends AbsTTS {
      * @param tag 本次语音标签，由{@link VoiceTagger}类创建
      */
     public void talkThirdAppWithoutDisplay(String text, String tag){
-        mHandler.sendMessage(mHandler.obtainMessage(MSG_TALK_THIRD_APP_WITHOUT_DISPLAY, new Robot.Content(text, false, tag)));
+        mHandler.sendMessage(mHandler.obtainMessage(MSG_TALK_THIRD_APP_WITHOUT_DISPLAY, new BdTTS.Content(text, false, tag)));
     }
 
     @Override
@@ -363,11 +363,11 @@ public class Robot extends AbsTTS {
 
     }
 
-    private void pushSplots(@NonNull final Robot.Content newContent){
+    private void pushSplots(@NonNull final BdTTS.Content newContent){
         if(newContent==null || TextUtils.isEmpty(newContent.text))return;
 
         if(newContent.text.length() <= SPEECH_MAX_LENGTH){//正常入队
-            Robot.Content lastContent;
+            BdTTS.Content lastContent;
             if((lastContent = mContentList.peekLast())!=null && lastContent.equals(newContent))return;//忽略同一个播放来源的同一段文字
 
             addContent2List(newContent);
@@ -377,16 +377,16 @@ public class Robot extends AbsTTS {
             int sliceNo = 0;
             while (sliceNo<sliceTotal) {
                 if(sliceNo+1==sliceTotal){// 最后一截
-                    addContent2List(new Robot.Content(newContent.text.substring(SPEECH_MAX_LENGTH * sliceNo), newContent.needDisplay, newContent.tag));
+                    addContent2List(new BdTTS.Content(newContent.text.substring(SPEECH_MAX_LENGTH * sliceNo), newContent.needDisplay, newContent.tag));
                 }else {
-                    addContent2List(new Robot.Content(newContent.text.substring(SPEECH_MAX_LENGTH * sliceNo, SPEECH_MAX_LENGTH * (sliceNo + 1)), newContent.needDisplay, newContent.tag));
+                    addContent2List(new BdTTS.Content(newContent.text.substring(SPEECH_MAX_LENGTH * sliceNo, SPEECH_MAX_LENGTH * (sliceNo + 1)), newContent.needDisplay, newContent.tag));
                 }
                 sliceNo++;
             }
         }
     }
     // 将内容按照助手消息优先的原则入队，助手消息可插非助手消息的队
-    private void addContent2List(Robot.Content content){
+    private void addContent2List(BdTTS.Content content){
         if(TextUtils.isEmpty(content.tag)){//来自助手的消息，放在前面排队。
             int size = mContentList.size();
             Content temp;

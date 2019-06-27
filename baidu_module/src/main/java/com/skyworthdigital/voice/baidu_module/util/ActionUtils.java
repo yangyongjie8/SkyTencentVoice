@@ -22,7 +22,7 @@ import com.skyworthdigital.voice.baidu_module.duerbean.Slots;
 import com.skyworthdigital.voice.baidu_module.fm.AudioInfo;
 import com.skyworthdigital.voice.baidu_module.music.MusicControl;
 import com.skyworthdigital.voice.baidu_module.music.MusicInfo;
-import com.skyworthdigital.voice.baidu_module.robot.Robot;
+import com.skyworthdigital.voice.baidu_module.robot.BdTTS;
 import com.skyworthdigital.voice.baidu_module.video.VideoInfo;
 import com.skyworthdigital.voice.baidu_module.voicemode.VoiceModeAdapter;
 import com.skyworthdigital.voice.common.AbsController;
@@ -109,14 +109,14 @@ public class ActionUtils {
                     break;
                 }
                 VolumeUtils.getInstance(context).setVolumePlus((double) slots.getValue());
-                Robot.getInstance().talk(context.getString(R.string.str_volume_note));
+                BdTTS.getInstance().talk(context.getString(R.string.str_volume_note));
                 break;
             case DefaultCmds.COMMAND_VOL_DOWN:
                 if (slots == null) {
                     break;
                 }
                 VolumeUtils.getInstance(context).setVolumeMinus((int) slots.getValue());
-                Robot.getInstance().talk(context.getString(R.string.str_volume_note));
+                BdTTS.getInstance().talk(context.getString(R.string.str_volume_note));
                 break;
             case DefaultCmds.COMMAND_VOL_SET:
                 if (slots == null) {
@@ -128,7 +128,7 @@ public class ActionUtils {
                 } else {
                     VolumeUtils.getInstance(context).setVolume((double) slots.getValue());
                 }
-                Robot.getInstance().talk(context.getString(R.string.str_volume_note));
+                BdTTS.getInstance().talk(context.getString(R.string.str_volume_note));
                 break;
             case DefaultCmds.COMMAND_MUTE:
                 if (slots == null) {
@@ -139,23 +139,23 @@ public class ActionUtils {
                     double abs = Math.abs(1.0 - (double) slots.getValue());
                     if (abs < EPSILON) {
                         VolumeUtils.getInstance(context).setMute();
-                        Robot.getInstance().talk(context.getString(R.string.str_volume_note));
+                        BdTTS.getInstance().talk(context.getString(R.string.str_volume_note));
                     } else {
                         VolumeUtils.getInstance(context).cancelMute();
-                        Robot.getInstance().talk(context.getString(R.string.str_volume_note));
+                        BdTTS.getInstance().talk(context.getString(R.string.str_volume_note));
                     }
                 } catch (Exception e) {
-                    Robot.getInstance().talk(context.getString(R.string.str_unknown_note));
+                    BdTTS.getInstance().talk(context.getString(R.string.str_unknown_note));
                     e.printStackTrace();
                 }
                 break;
             case DefaultCmds.COMMAND_SLEEP:
             case DefaultCmds.COMMAND_TV_OFF:
                 Utils.simulateKeystroke(KeyEvent.KEYCODE_POWER);
-                Robot.getInstance().talk(context.getString(R.string.str_ok));
+                BdTTS.getInstance().talk(context.getString(R.string.str_ok));
                 break;
             case DefaultCmds.COMMAND_BACK:
-                Robot.getInstance().talk(context.getString(R.string.str_back));
+                BdTTS.getInstance().talk(context.getString(R.string.str_back));
                 new Thread(new Runnable() {
                     public void run() {
                         // TODO Auto-generated method stub
@@ -179,7 +179,7 @@ public class ActionUtils {
                 break;
             case DefaultCmds.COMMAND_EXIT:
                 AppUtil.killTopApp();
-                Robot.getInstance().talk(context.getString(R.string.str_exit));
+                BdTTS.getInstance().talk(context.getString(R.string.str_exit));
                 break;
             case DefaultCmds.COMMAND_GO:
                 if (slots == null) {
@@ -190,14 +190,14 @@ public class ActionUtils {
                         case "主页":
                             AppUtil.killTopApp();
                             Utils.simulateKeystroke(KeyEvent.KEYCODE_HOME);
-                            Robot.getInstance().talk(context.getString(R.string.str_ok));
+                            BdTTS.getInstance().talk(context.getString(R.string.str_ok));
                             break;
                         case "分辨率":
                             Intent intent = new Intent();
                             intent.setAction("com.skyworthdigital.settings.DisplaySetting");
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(intent);
-                            Robot.getInstance().talk(context.getString(R.string.str_ok));
+                            BdTTS.getInstance().talk(context.getString(R.string.str_ok));
                             break;
                         default:
                             GlobalUtil.getInstance().control(context, slots.getName(), speech);
@@ -218,7 +218,7 @@ public class ActionUtils {
                 break;
 
             case DefaultCmds.COMMAND_APP_CLOSE:
-                Robot.getInstance().talk(context.getString(R.string.str_ok));
+                BdTTS.getInstance().talk(context.getString(R.string.str_ok));
                 AppUtil.killTopApp();
                 break;
 
@@ -247,10 +247,10 @@ public class ActionUtils {
                 //Utils.simulateKeystroke(KeyEvent.KEYCODE_DPAD_UP);
                 break;
             case DefaultCmds.COMMAND_LOCATION:
-                //Robot.getInstance().talk("好的。" + speech);
+                //BdTTS.getInstance().talk("好的。" + speech);
                 break;
             default:
-                Robot.getInstance().talk(context.getString(R.string.str_unknown_note));
+                BdTTS.getInstance().talk(context.getString(R.string.str_unknown_note));
                 MLog.i(TAG, "command no execute:" + name);
                 break;
         }
@@ -310,7 +310,7 @@ public class ActionUtils {
                 }
                 if ((name != null && label.equalsIgnoreCase(name)) || label.equalsIgnoreCase(speech)) {
                     MLog.i(TAG, "appLaunchInstalledPkg:" + label);
-                    Robot.getInstance().talk(context.getString(R.string.str_ok));//R.string.str_opensomthing) + label);
+                    BdTTS.getInstance().talk(context.getString(R.string.str_ok));//R.string.str_opensomthing) + label);
                     IntentUtils.startPackageAction(context, packageName);
                     return true;
                 }

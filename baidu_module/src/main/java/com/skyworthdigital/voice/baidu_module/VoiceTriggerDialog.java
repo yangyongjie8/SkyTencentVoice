@@ -19,7 +19,7 @@ import com.skyworthdigital.voice.baidu_module.duerbean.DuerBean;
 import com.skyworthdigital.voice.baidu_module.duerbean.Resource;
 import com.skyworthdigital.voice.baidu_module.duerbean.Speech;
 import com.skyworthdigital.voice.baidu_module.paipaiAnim.PaiPaiAnimUtil;
-import com.skyworthdigital.voice.baidu_module.robot.Robot;
+import com.skyworthdigital.voice.baidu_module.robot.BdTTS;
 import com.skyworthdigital.voice.baidu_module.stock.Stock;
 import com.skyworthdigital.voice.baidu_module.util.ActivityManager;
 import com.skyworthdigital.voice.baidu_module.util.GsonUtils;
@@ -95,7 +95,7 @@ public class VoiceTriggerDialog extends Dialog {
             setTextHint(R.string.str_audiobox_hello);
         } else {
             setTextHint(R.string.str_input_note_hint);
-            //Robot.getInstance().talk(getContext().getString(R.string.str_input_note));
+            //BdTTS.getInstance().talk(getContext().getString(R.string.str_input_note));
         }
     }
 
@@ -115,8 +115,8 @@ public class VoiceTriggerDialog extends Dialog {
 
     @Override
     public void dismiss() {
-        Robot.getInstance().stopSpeak();
-//        Robot.getInstance().talk(null);
+        BdTTS.getInstance().stopSpeak();
+//        BdTTS.getInstance().talk(null);
         mHeadAnimator.setVisibility(View.VISIBLE);
         mRecordImg.setVisibility(View.GONE);
         PaiPaiAnimUtil.getInstance().release();
@@ -289,8 +289,8 @@ public class VoiceTriggerDialog extends Dialog {
 
     public void robotSpeechFinish() {
         showPaiPaiByID(PaiPaiAnimUtil.ID_PAIPAI_DEFAULT);
-//        String words = Robot.getInstance().getWords();
-//        Robot.getInstance().talk(null);
+//        String words = BdTTS.getInstance().getWords();
+//        BdTTS.getInstance().talk(null);
         isRobotTalkError = false;
 //        if (words != null) {
             if (VoiceModeAdapter.isAudioBox()) {
@@ -316,7 +316,7 @@ public class VoiceTriggerDialog extends Dialog {
         isRobotTalkError = true;
         mTextViewOne.setReadError();
 
-        Robot.getInstance().stopSpeak();
+        BdTTS.getInstance().stopSpeak();
         if ((mJokeUrl != null) || (mWeather != null)) {
             VoiceManager.getInstance().postEvent(new EventMsg(EventMsg.MSG_DISMISS_DIALOG, SPEECH_FINISH_DEALY_LONG));
         } else if (mTextViewOne.isRobotTextMarquee() && !mTextViewOne.isRobotTextMarqueeOver()) {//语音播放出错了，textview内容很长并且滚动没有结束

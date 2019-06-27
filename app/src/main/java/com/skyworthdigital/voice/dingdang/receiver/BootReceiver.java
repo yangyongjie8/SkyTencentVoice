@@ -41,7 +41,7 @@ public class BootReceiver extends BroadcastReceiver {
                     code = intent.getIntExtra("k1", 0);
 
                     if (code == -1) {
-                        //Robot.getInstance().setWords(context.getString(R.string.str_music_play_error));
+                        //BdTTS.getInstance().setWords(context.getString(R.string.str_music_play_error));
                         //QQMusicUtils.musicSearchAction(context, "陈奕迅");
                     }
                 }

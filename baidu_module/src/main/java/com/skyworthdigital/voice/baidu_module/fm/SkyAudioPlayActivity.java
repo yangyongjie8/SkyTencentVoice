@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import com.skyworthdigital.voice.DefaultCmds;
 import com.skyworthdigital.voice.baidu_module.R;
-import com.skyworthdigital.voice.baidu_module.robot.Robot;
+import com.skyworthdigital.voice.baidu_module.robot.BdTTS;
 import com.skyworthdigital.voice.dingdang.utils.GlobalVariable;
 import com.skyworthdigital.voice.scene.ISkySceneListener;
 import com.skyworthdigital.voice.scene.SceneJsonUtil;
@@ -299,37 +299,37 @@ public class SkyAudioPlayActivity extends Activity implements ISkySceneListener 
                         if (VALUE_PLAY == value) {
                             isPlay = true;
                             if (mAudioPlayer != null) {
-                                Robot.getInstance().talk(this.getString(R.string.str_ok));
+                                BdTTS.getInstance().talk(this.getString(R.string.str_ok));
                                 mAudioPlayer.play();
                             }
                             mImagePlay.setBackground(getResources().getDrawable(R.drawable.play));
                         } else if (VALUE_PAUSE == value) {
                             isPlay = false;
                             if (mAudioPlayer != null) {
-                                Robot.getInstance().talk(this.getString(R.string.str_ok));
+                                BdTTS.getInstance().talk(this.getString(R.string.str_ok));
                                 mAudioPlayer.pause();
                             }
                             mImagePlay.setBackground(getResources().getDrawable(R.drawable.pause));
                         }
                     } else if (DefaultCmds.PLAYER_CMD_FASTFORWARD.equals(action)) {
                         if (mAudioPlayer != null) {
-                            Robot.getInstance().talk(this.getString(R.string.str_ok));
+                            BdTTS.getInstance().talk(this.getString(R.string.str_ok));
                             mAudioPlayer.seek(value * SECONDS);
                         }
                     } else if (DefaultCmds.PLAYER_CMD_BACKFORWARD.equals(action)) {
                         if (mAudioPlayer != null) {
-                            Robot.getInstance().talk(this.getString(R.string.str_ok));
+                            BdTTS.getInstance().talk(this.getString(R.string.str_ok));
                             mAudioPlayer.seek((-SECONDS) * value);
                         }
                     } else if (DefaultCmds.PLAYER_CMD_GOTO.equals(action)) {
                         if (mAudioPlayer != null) {
-                            Robot.getInstance().talk(this.getString(R.string.str_ok));
+                            BdTTS.getInstance().talk(this.getString(R.string.str_ok));
                             mAudioPlayer.seekTo(value * SECONDS);
                         }
                     }
                     break;
                 case "stop":
-                    Robot.getInstance().talk(this.getString(R.string.str_ok));
+                    BdTTS.getInstance().talk(this.getString(R.string.str_ok));
                     playerStop();
                     break;
                 default:

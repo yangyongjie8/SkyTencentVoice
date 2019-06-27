@@ -26,7 +26,7 @@ import com.skyworthdigital.voice.alarm.database.AlarmDbOperator;
 import com.skyworthdigital.voice.baidu_module.duerbean.DuerBean;
 import com.skyworthdigital.voice.baidu_module.led.Led;
 import com.skyworthdigital.voice.baidu_module.paipaiAnim.PaiPaiAnimUtil;
-import com.skyworthdigital.voice.baidu_module.robot.Robot;
+import com.skyworthdigital.voice.baidu_module.robot.BdTTS;
 import com.skyworthdigital.voice.baidu_module.util.ActionUtils;
 import com.skyworthdigital.voice.baidu_module.util.ActivityManager;
 import com.skyworthdigital.voice.baidu_module.util.GsonUtils;
@@ -105,7 +105,7 @@ public class VoiceManager extends AbsController {
         if (isDialogShow()) {
             stopVoiceTriggerDialog();
             cancelRecognize();
-            Robot.getInstance().stopSpeak();//需要stop掉sdk，否则会在下次调用sd时会继续播放当前实例留下的缓存
+            BdTTS.getInstance().stopSpeak();//需要stop掉sdk，否则会在下次调用sd时会继续播放当前实例留下的缓存
             return true;
         }
         return false;
@@ -121,7 +121,7 @@ public class VoiceManager extends AbsController {
     public void manualRecognizeStart() {
         //TODO done
         if (isStartValid()) {
-//          Robot.getInstance().stopTalk();
+//          BdTTS.getInstance().stopTalk();
             //开始识别
 //          Utils.set("audio.in.device.vaudio", "enable");
             showVoiceTriggerDialog(VoiceApp.getInstance());
@@ -197,7 +197,7 @@ public class VoiceManager extends AbsController {
     private void initManager() {
         mDuserSdk = DuerSDKFactory.getDuerSDK();
         mVoiceModeAdapter = new VoiceModeAdapter();
-        mRobot = Robot.getInstance();
+        mRobot = BdTTS.getInstance();
         Context ctx = VoiceApp.getInstance();
         mVoiceHandler = new VoiceHandler(this);
 
@@ -844,9 +844,9 @@ public class VoiceManager extends AbsController {
                         int result = intent.getIntExtra("voice_result", 1);
                         if (result == 0) {
                             if (mVoiceTriggerDialog != null && mDialogShow) {
-                                Robot.getInstance().talk(context.getString(R.string.str_music_unfound));
+                                BdTTS.getInstance().talk(context.getString(R.string.str_music_unfound));
                             } else {
-                                Robot.getInstance().talkWithoutDisplay(context.getString(R.string.str_music_unfound));
+                                BdTTS.getInstance().talkWithoutDisplay(context.getString(R.string.str_music_unfound));
                             }
                         }
                         MLog.i(TAG, "KARAOKE search result:" + result);
@@ -858,9 +858,9 @@ public class VoiceManager extends AbsController {
                         String content = intent.getStringExtra("content");
                         MLog.i(TAG, "receiveMsg:" + content);
                         if (mVoiceTriggerDialog != null && mDialogShow) {
-                            Robot.getInstance().talk(content);
+                            BdTTS.getInstance().talk(content);
                         } else {
-                            Robot.getInstance().talkWithoutDisplay(content);
+                            BdTTS.getInstance().talkWithoutDisplay(content);
                         }
                     }
                     break;
@@ -944,7 +944,7 @@ public class VoiceManager extends AbsController {
                             dialog.setRecordAnimStatus(false);
                             dialog.recordAnimStop();
                             dialog.mVoiceLine.stop();
-                            Robot.getInstance().talk(dialog.getContext().getString((int) msg.obj));
+                            BdTTS.getInstance().talk(dialog.getContext().getString((int) msg.obj));
                         } else if (manager.mRepeatRecoCount == 1) {
                             dialog.setTextHint(dialog.getContext().getString((int) msg.obj) + dialog.getContext().getString(R.string.str_again));
                         } else if (manager.mRepeatRecoCount == 2) {
@@ -959,8 +959,8 @@ public class VoiceManager extends AbsController {
                     case MSG_DIALOG_DISMISS:
                         MLog.i(TAG, "MSG_DIALOG_DISMISS");
                         mVoiceHandler.removeMessages(MSG_DIALOG_DISMISS);
-//                        String content = Robot.getInstance().getWords();
-                        if (manager.mAudioboxReceiver.getScreenStatus() && Robot.getInstance().isSpeak()) {
+//                        String content = BdTTS.getInstance().getWords();
+                        if (manager.mAudioboxReceiver.getScreenStatus() && BdTTS.getInstance().isSpeak()) {
 //                            LogUtil.log("not dismiss: " + content);
                             break;
                         }

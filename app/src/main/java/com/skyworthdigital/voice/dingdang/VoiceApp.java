@@ -131,7 +131,7 @@ public class VoiceApp extends Application {
         BdGuideAgent.getInstance();
 
 //        AbsTTS.clearInstance();
-//        Robot.getInstance();
+//        BdTTS.getInstance();
 
 //        AbsController.clear();
         VoiceManager.getInstance();
