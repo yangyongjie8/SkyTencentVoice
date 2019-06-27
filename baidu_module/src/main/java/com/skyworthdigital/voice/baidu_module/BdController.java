@@ -50,8 +50,8 @@ import java.lang.ref.WeakReference;
 //import com.skyworthdigital.voiceassistant.utils.DebugConfig;
 
 
-public class VoiceManager extends AbsController {
-    private static final String TAG = "VoiceManager";
+public class BdController extends AbsController {
+    private static final String TAG = "BdController";
     private VoiceModeAdapter mVoiceModeAdapter;
     public VoiceTriggerDialog mVoiceTriggerDialog;
     private AudioBoxReceiver mAudioboxReceiver;
@@ -179,18 +179,18 @@ public class VoiceManager extends AbsController {
     /**
      * 获取实例
      */
-    public static VoiceManager getInstance() {
+    public static BdController getInstance() {
         if (mManagerInstance[0] == null) {
-            synchronized (VoiceManager.class) {
+            synchronized (BdController.class) {
                 if(mManagerInstance[0]==null) {
-                    mManagerInstance[0] = new VoiceManager();
+                    mManagerInstance[0] = new BdController();
                 }
             }
         }
-        return (VoiceManager) mManagerInstance[0];
+        return (BdController) mManagerInstance[0];
     }
 
-    private VoiceManager() {
+    private BdController() {
         initManager();
     }
 
@@ -201,7 +201,7 @@ public class VoiceManager extends AbsController {
         Context ctx = VoiceApp.getInstance();
         mVoiceHandler = new VoiceHandler(this);
 
-        mProcThread = new HandlerThread(VoiceManager.class.getSimpleName());
+        mProcThread = new HandlerThread(BdController.class.getSimpleName());
         mProcThread.start();
         mProcHandler = new Handler(mProcThread.getLooper());
         //DebugConfig.getInstance(ctx);
@@ -893,16 +893,16 @@ public class VoiceManager extends AbsController {
     private static final int MSG_ROBOT_SPEECH_ERROR = 32;
 
     private static class VoiceHandler extends Handler {
-        private final WeakReference<VoiceManager> mWeakReference;
+        private final WeakReference<BdController> mWeakReference;
 
-        VoiceHandler(VoiceManager dialog) {
+        VoiceHandler(BdController dialog) {
             super(Looper.getMainLooper());
             mWeakReference = new WeakReference<>(dialog);
         }
 
         @Override
         public void handleMessage(Message msg) {
-            final VoiceManager manager = mWeakReference.get();
+            final BdController manager = mWeakReference.get();
             VoiceTriggerDialog dialog = manager.mVoiceTriggerDialog;
             if (dialog != null) {
                 switch (msg.what) {

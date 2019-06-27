@@ -24,7 +24,7 @@ import com.skyworthdigital.voice.baidu_module.AppConfig;
 import com.skyworthdigital.voice.baidu_module.BdAsrTranslator;
 import com.skyworthdigital.voice.baidu_module.BdGuideAgent;
 import com.skyworthdigital.voice.baidu_module.BdTvLiveController;
-import com.skyworthdigital.voice.baidu_module.VoiceManager;
+import com.skyworthdigital.voice.baidu_module.BdController;
 import com.skyworthdigital.voice.common.utils.Utils;
 import com.skyworthdigital.voice.dingdang.service.RecognizeService;
 import com.skyworthdigital.voice.dingdang.utils.GlobalVariable;
@@ -134,7 +134,7 @@ public class VoiceApp extends Application {
 //        BdTTS.getInstance();
 
 //        AbsController.clear();
-        VoiceManager.getInstance();
+        BdController.getInstance();
     }
 
     private void initDuerSDK() {

@@ -98,11 +98,11 @@ public class BdGuideAgent extends AbsGuideAgent {
 
     @Override
     public boolean isDialogShowing() {
-        return VoiceManager.getInstance().isDialogShow();
+        return BdController.getInstance().isDialogShow();
     }
 
     @Override
     public void dismissDialog() {
-        VoiceManager.getInstance().dismissDialog();
+        BdController.getInstance().dismissDialog();
     }
 }

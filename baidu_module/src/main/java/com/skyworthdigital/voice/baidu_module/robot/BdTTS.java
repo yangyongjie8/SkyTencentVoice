@@ -11,8 +11,8 @@ import android.util.Log;
 import com.baidu.duersdk.DuerSDKFactory;
 import com.baidu.duersdk.tts.TTSInterface;
 import com.skyworthdigital.voice.VoiceApp;
+import com.skyworthdigital.voice.baidu_module.BdController;
 import com.skyworthdigital.voice.baidu_module.EventMsg;
-import com.skyworthdigital.voice.baidu_module.VoiceManager;
 import com.skyworthdigital.voice.common.AbsTTS;
 import com.skyworthdigital.voice.common.VoiceTagger;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
@@ -199,7 +199,7 @@ public class BdTTS extends AbsTTS {
                 checkSendThirthAppListener(content, VoiceService.STATUS_CHANGED_VALUE_FINISH);
 
                 if(mContentList.isEmpty() || !mContentList.getFirst().needDisplay){
-                    VoiceManager.getInstance().postEvent(new EventMsg(EventMsg.MSG_ROBOT_SPEECH_OVER));
+                    BdController.getInstance().postEvent(new EventMsg(EventMsg.MSG_ROBOT_SPEECH_OVER));
                 }else {
                     mHandler.sendEmptyMessage(MSG_TALK_NEXT);
                 }
@@ -291,7 +291,7 @@ public class BdTTS extends AbsTTS {
             DuerSDKFactory.getDuerSDK().getSpeech().openTTS();
             playVoice(content);
             if(content.needDisplay){
-                VoiceManager.getInstance().postEvent(new EventMsg(EventMsg.MSG_ADDITION_MSG, 0, content.text));
+                BdController.getInstance().postEvent(new EventMsg(EventMsg.MSG_ADDITION_MSG, 0, content.text));
             }
         }
     }

@@ -298,14 +298,14 @@ public class VoiceTriggerDialog extends Dialog {
                     Intent intent = new Intent(GlobalVariable.ACTION_VOICE_RECO_GOON);
                     mContext.sendBroadcast(intent);
                 } else {
-                    VoiceManager.getInstance().postEvent(new EventMsg(EventMsg.MSG_DISMISS_DIALOG, 0));
+                    BdController.getInstance().postEvent(new EventMsg(EventMsg.MSG_DISMISS_DIALOG, 0));
                 }
             } else {
                 boolean isInSearch = ActivityManager.isSeachActivityOn();//WelcomeTip.getInstance().isSearchPage();
                 if (isInSearch) {
-                    VoiceManager.getInstance().postEvent(new EventMsg(EventMsg.MSG_DISMISS_DIALOG, SEARCH_DISMISS_DEALY));
+                    BdController.getInstance().postEvent(new EventMsg(EventMsg.MSG_DISMISS_DIALOG, SEARCH_DISMISS_DEALY));
                 } else {
-                    VoiceManager.getInstance().postEvent(new EventMsg(EventMsg.MSG_DISMISS_DIALOG, 0));
+                    BdController.getInstance().postEvent(new EventMsg(EventMsg.MSG_DISMISS_DIALOG, 0));
                 }
             }
 //        }
@@ -318,7 +318,7 @@ public class VoiceTriggerDialog extends Dialog {
 
         BdTTS.getInstance().stopSpeak();
         if ((mJokeUrl != null) || (mWeather != null)) {
-            VoiceManager.getInstance().postEvent(new EventMsg(EventMsg.MSG_DISMISS_DIALOG, SPEECH_FINISH_DEALY_LONG));
+            BdController.getInstance().postEvent(new EventMsg(EventMsg.MSG_DISMISS_DIALOG, SPEECH_FINISH_DEALY_LONG));
         } else if (mTextViewOne.isRobotTextMarquee() && !mTextViewOne.isRobotTextMarqueeOver()) {//语音播放出错了，textview内容很长并且滚动没有结束
             MLog.i(TAG, "等待滚动结束再消失");
         } else if (VoiceModeAdapter.isAudioBox()) {
@@ -326,14 +326,14 @@ public class VoiceTriggerDialog extends Dialog {
                 Intent intent = new Intent(GlobalVariable.ACTION_VOICE_RECO_GOON);
                 mContext.sendBroadcast(intent);
             } else {
-                VoiceManager.getInstance().postEvent(new EventMsg(EventMsg.MSG_DISMISS_DIALOG, SPEECH_FINISH_DEALY));
+                BdController.getInstance().postEvent(new EventMsg(EventMsg.MSG_DISMISS_DIALOG, SPEECH_FINISH_DEALY));
             }
         } else {
             boolean isInSearch = ActivityManager.isSeachActivityOn();//WelcomeTip.getInstance().isSearchPage();
-            if (isInSearch || mRecognizeStatus <= VoiceManager.MSG_REC_PARTIAL) {
-                VoiceManager.getInstance().postEvent(new EventMsg(EventMsg.MSG_DISMISS_DIALOG, SEARCH_DISMISS_DEALY));
+            if (isInSearch || mRecognizeStatus <= BdController.MSG_REC_PARTIAL) {
+                BdController.getInstance().postEvent(new EventMsg(EventMsg.MSG_DISMISS_DIALOG, SEARCH_DISMISS_DEALY));
             } else {
-                VoiceManager.getInstance().postEvent(new EventMsg(EventMsg.MSG_DISMISS_DIALOG, SPEECH_FINISH_DEALY));
+                BdController.getInstance().postEvent(new EventMsg(EventMsg.MSG_DISMISS_DIALOG, SPEECH_FINISH_DEALY));
             }
         }
     }
@@ -366,10 +366,10 @@ public class VoiceTriggerDialog extends Dialog {
     }
 
     public void recordAnimStart() {
-        MLog.i(TAG, "recordAnimStart:" + VoiceManager.getInstance().mDuerState.ordinal());
+        MLog.i(TAG, "recordAnimStart:" + BdController.getInstance().mDuerState.ordinal());
 
-        if (VoiceManager.getInstance().mDuerState.ordinal() >= VoiceInterface.VoiceState.DUER_RESULT.ordinal()) {
-            if (VoiceManager.getInstance().mDuerState == VoiceInterface.VoiceState.EXIT) {
+        if (BdController.getInstance().mDuerState.ordinal() >= VoiceInterface.VoiceState.DUER_RESULT.ordinal()) {
+            if (BdController.getInstance().mDuerState == VoiceInterface.VoiceState.EXIT) {
                 showPaiPaiByID(PaiPaiAnimUtil.ID_PAIPAI_DEFAULT);
                 MLog.i(TAG, "PaiPai:default");
             }
@@ -394,7 +394,7 @@ public class VoiceTriggerDialog extends Dialog {
             @Override
             public void onAnimationEnd(Animation animation) {
                 //LogUtil.log("onAnimationEnd");
-                if (VoiceManager.getInstance().mDuerState == VoiceInterface.VoiceState.EXIT) {
+                if (BdController.getInstance().mDuerState == VoiceInterface.VoiceState.EXIT) {
                     mRecordImg.setVisibility(View.GONE);
                     mHeadAnimator.setVisibility(View.VISIBLE);
                     PaiPaiAnimUtil.getInstance().restart();

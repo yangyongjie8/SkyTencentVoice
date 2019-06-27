@@ -12,8 +12,8 @@ import android.view.KeyEvent;
 import com.google.gson.Gson;
 import com.skyworthdigital.voice.DefaultCmds;
 import com.skyworthdigital.voice.VoiceApp;
+import com.skyworthdigital.voice.baidu_module.BdController;
 import com.skyworthdigital.voice.baidu_module.R;
-import com.skyworthdigital.voice.baidu_module.VoiceManager;
 import com.skyworthdigital.voice.baidu_module.duerbean.DuerBean;
 import com.skyworthdigital.voice.baidu_module.duerbean.FilmSlots;
 import com.skyworthdigital.voice.baidu_module.duerbean.Nlu;
@@ -404,8 +404,8 @@ public class ActionUtils {
 
         if("切换到叮当".equalsIgnoreCase(speech)||"切换到丁当".equalsIgnoreCase(speech)||"切换到订单".equalsIgnoreCase(speech)){
             VoiceApp.isDuer = false;
-            VoiceManager.getInstance().stopVoiceTriggerDialog();
-            VoiceManager.getInstance().onDestroy();
+            BdController.getInstance().stopVoiceTriggerDialog();
+            BdController.getInstance().onDestroy();
             AbsTTS.getInstance(null).talk("我是叮当");
             AbsController.getInstance().dismissDialog(3000);
             return true;
