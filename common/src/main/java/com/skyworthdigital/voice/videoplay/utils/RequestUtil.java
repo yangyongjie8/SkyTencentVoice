@@ -52,9 +52,9 @@ public class RequestUtil {
         Request.Builder builder = new Request.Builder().url(newUrl);
         String host = getHttpHost(originalUrl);
         if (host != null) {
-        //    builder.addHeader("Host", host);
+            builder.addHeader("Host", host);
         }
-        builder.addHeader("contentChannel", channel);
+        builder.addHeader("channel", channel);
         //builder.addHeader("pkgName", "");
         //builder.addHeader("version", "");
         builder.addHeader("token", "");

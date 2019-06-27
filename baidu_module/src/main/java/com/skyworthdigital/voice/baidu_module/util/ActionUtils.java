@@ -89,7 +89,7 @@ public class ActionUtils {
             //String top = Utils.getTopActivityByExec();
             if (!isSearch) {
                 if (!GuideTip.getInstance().isVideoPlay()/*top != null && !top.contains(GlobalVariable.MEDIAPALY_ACTIVITY)*/) {
-                    SkyVideoPlayUtils.videoPlay(context, json, filmSlots.getFilm(), whepisode);
+                    SkyVideoPlayUtils.videoPlayyy(context, json, filmSlots.getFilm(), whepisode);
                     return;
                 }
             }

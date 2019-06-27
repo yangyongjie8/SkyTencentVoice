@@ -18,6 +18,7 @@ import com.skyworthdigital.voice.common.AbsTTS;
 import com.skyworthdigital.voice.common.R;
 import com.skyworthdigital.voice.dingdang.utils.GlobalVariable;
 import com.skyworthdigital.voice.dingdang.utils.GsonUtils;
+import com.skyworthdigital.voice.dingdang.utils.MLog;
 import com.skyworthdigital.voice.videoplay.utils.RequestUtil;
 import com.skyworthdigital.voice.videosearch.OnGetBeeSearchResultListener;
 import com.skyworthdigital.voice.videosearch.callback.OnGetSearchVideoResultListener;
@@ -34,8 +35,8 @@ import okhttp3.FormBody;
 
 public class SkyVideoPlayUtils {
     private static final String TAG = "VideoPlay";
-    private static final String VOICE_SEARCH_ACTION = "/search/publicInterface/qmzVoiceSearch";//http://119.23.12.86/SmartPai/
-    private static final String SEARCH_HOST_URL = "192.168.0.106";//"search.skyworthbox.com"; // search.skyworthbox.com
+    private static final String VOICE_SEARCH_ACTION = "/search/publicInterface/voicesearch";//"/search/publicInterface/qmzVoiceSearch";//http://119.23.12.86/SmartPai/
+    private static final String SEARCH_HOST_URL = "search.skyworthbox.com"; // search.skyworthbox.com
     private static final String SP_NAME = "launcher";
     private static final String IS_CDN = "isCDN";
     private static final String HTTP = "http://";
@@ -70,7 +71,7 @@ public class SkyVideoPlayUtils {
         RequestUtil.postFromNet(new SkyCommonCallback("startGetSearchVideoList") {
             @Override
             public void onSuccessed(String ret) {
-                //LogUtil.loglong("**************startGetSearchVideoList onSuccess ret=\n" + result);
+                MLog.i(TAG, "**************startGetSearchVideoList onSuccess ret=\n" + ret);
                 SearchVideoResult info = GsonUtils.parseResult(ret, SearchVideoResult.class);
 
                 if (info != null && info.getRows() != null && info.getRows().size() > 0) {
@@ -236,50 +237,52 @@ public class SkyVideoPlayUtils {
     }
 
     public static void getVideoDetailByID(final SkyVideoInfo videoinfo, final int videoId, final int whepisode) {
-        String url = buildGetVideoDetailUrl(videoId, -1);
-        if (url == null) {
-            //listener.onGetVideoDetail(null);
-            return;
-        }
-        RequestUtil.sendRequest(url, new SkyCommonCallback("startGetVideoDetail") {
-                    @Override
-                    public void onSuccessed(String ret) {
-                        //LogUtil.log("***************startGetVideoDetail onSuccess ret=\n" + result);
-                        //LogUtil.log("\n****************************");
-                        VideoDetailResult info = GsonUtils.parseResult(ret, VideoDetailResult.class);
-                        if (info != null) {
-                            startToPlay(videoinfo, videoId, info, whepisode);
-                        }
-                    }
-
-                    @Override
-                    public void onFail() {
-                        Log.e(TAG, "startGetVideoDetail onFail");
-                        //if (RequestUtil.ping()) {
-                        String cdnurl = buildGetCDNVideoDetailUrl(videoId, -1);
-                        RequestUtil.sendRequest(cdnurl, new SkyCommonCallback("startGetVideoDetail") {
-                            @Override
-                            public void onFail() {
-                                //listener.onGetVideoDetail(null);
-                            }
-
-                            @Override
-                            public void onSuccessed(String ret) {
-                                //LogUtil.log("***************startGetVideoDetail onSuccess ret=\n" + result);
-                                VideoDetailResult info = GsonUtils.parseResult(ret, VideoDetailResult.class);
-                                if (info != null) {
-                                    startToPlay(videoinfo, videoId, info, whepisode);
-                                }
-                            }
-                        });
-                        /*} /*else
-                        {
-                             listener.onGetVideoDetail(null);
-                        }*/
-                    }
-                }
-
-        );
+        BeeVideoPlayUtils.startToVideoDetail(VoiceApp.getInstance(), BeeVideoPlayUtils.SOURCE_IQIYI_ID, String.valueOf(videoId));
+        return;
+//        String url = buildGetVideoDetailUrl(videoId, -1);
+//        if (url == null) {
+//            //listener.onGetVideoDetail(null);
+//            return;
+//        }
+//        RequestUtil.sendRequest(url, new SkyCommonCallback("startGetVideoDetail") {
+//                    @Override
+//                    public void onSuccessed(String ret) {
+//                        //LogUtil.log("***************startGetVideoDetail onSuccess ret=\n" + result);
+//                        //LogUtil.log("\n****************************");
+//                        VideoDetailResult info = GsonUtils.parseResult(ret, VideoDetailResult.class);
+//                        if (info != null) {
+//                            startToPlay(videoinfo, videoId, info, whepisode);
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFail() {
+//                        Log.e(TAG, "startGetVideoDetail onFail");
+//                        //if (RequestUtil.ping()) {
+//                        String cdnurl = buildGetCDNVideoDetailUrl(videoId, -1);
+//                        RequestUtil.sendRequest(cdnurl, new SkyCommonCallback("startGetVideoDetail") {
+//                            @Override
+//                            public void onFail() {
+//                                //listener.onGetVideoDetail(null);
+//                            }
+//
+//                            @Override
+//                            public void onSuccessed(String ret) {
+//                                //LogUtil.log("***************startGetVideoDetail onSuccess ret=\n" + result);
+//                                VideoDetailResult info = GsonUtils.parseResult(ret, VideoDetailResult.class);
+//                                if (info != null) {
+//                                    startToPlay(videoinfo, videoId, info, whepisode);
+//                                }
+//                            }
+//                        });
+//                        /*} /*else
+//                        {
+//                             listener.onGetVideoDetail(null);
+//                        }*/
+//                    }
+//                }
+//
+//        );
     }
 
     private static void startToiQIYIPlay(Context context, SkyVideoSubInfo subInfo) {
