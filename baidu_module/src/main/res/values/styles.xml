@@ -4,5 +4,6 @@
     <style name="voice_trigger_dialog" parent="@android:style/Theme.NoTitleBar.Fullscreen">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:turnScreenOn">true</item>
     </style>
 </resources>
