@@ -107,17 +107,17 @@ public class TvlistDialog extends Dialog {
             mButtonRight.setVisibility(View.VISIBLE);
             mButtonMiddle.setVisibility(View.VISIBLE);
             mButtonLeft.setVisibility(View.GONE);
-            mButtonRight.setBackground(mContext.getDrawable(R.drawable.tab_selector));
-            mButtonMiddle.setBackground(mContext.getDrawable(R.drawable.tab_selector));
+            mButtonRight.setBackgroundResource(R.drawable.tab_selector);
+            mButtonMiddle.setBackgroundResource(R.drawable.tab_selector);
             mButtonMiddle.requestFocus();
         } else {
             mButtonRight.setText(mTabs.get(2).mChannelName);
             mButtonMiddle.setText(mTabs.get(1).mChannelName);
             mButtonLeft.setText(mTabs.get(0).mChannelName);
             mButtonRight.setVisibility(View.VISIBLE);
-            mButtonRight.setBackground(mContext.getDrawable(R.drawable.tab_selector));
-            mButtonLeft.setBackground(mContext.getDrawable(R.drawable.tab_selector));
-            mButtonMiddle.setBackground(mContext.getDrawable(R.drawable.tab_selector));
+            mButtonRight.setBackgroundResource(R.drawable.tab_selector);
+            mButtonLeft.setBackgroundResource(R.drawable.tab_selector);
+            mButtonMiddle.setBackgroundResource(R.drawable.tab_selector);
             mButtonMiddle.setVisibility(View.VISIBLE);
             mButtonLeft.setVisibility(View.VISIBLE);
             mButtonLeft.requestFocus();

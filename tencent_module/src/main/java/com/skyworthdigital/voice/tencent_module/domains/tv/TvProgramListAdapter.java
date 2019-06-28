@@ -87,7 +87,7 @@ public class TvProgramListAdapter extends BaseAdapter {
             if (pos1 == 0 || (pos1 > 1 && !TextUtils.equals(list.get(pos1 - 1).mWeekPrint, newsBean.mWeekPrint))) {
                 week1.setBackground(getWeekIcon(newsBean.mWeekPrint));
             } else {
-                week1.setBackground(context.getDrawable(R.drawable.transparent));
+                week1.setBackgroundResource(R.drawable.transparent);
             }
         } else {
             item.setBackgroundColor(Color.parseColor("#00FFFFFF"));
@@ -103,7 +103,7 @@ public class TvProgramListAdapter extends BaseAdapter {
             if (pos2 > 1 && !TextUtils.equals(list.get(pos2 - 1).mWeekPrint, newsBean.mWeekPrint)) {
                 week2.setBackground(getWeekIcon(newsBean.mWeekPrint));
             } else {
-                week2.setBackground(context.getDrawable(R.drawable.transparent));
+                week2.setBackgroundResource(R.drawable.transparent);
             }
         } else {
             programname2.setText("");
@@ -132,22 +132,22 @@ public class TvProgramListAdapter extends BaseAdapter {
     private Drawable getWeekIcon(String week) {
         switch (week) {
             case "周一":
-                return context.getDrawable(R.drawable.monday);
+                return context.getResources().getDrawable(R.drawable.monday);
             case "周二":
-                return context.getDrawable(R.drawable.tuesday);
+                return context.getResources().getDrawable(R.drawable.tuesday);
             case "周三":
-                return context.getDrawable(R.drawable.wednesday);
+                return context.getResources().getDrawable(R.drawable.wednesday);
             case "周四":
-                return context.getDrawable(R.drawable.thursday);
+                return context.getResources().getDrawable(R.drawable.thursday);
             case "周五":
-                return context.getDrawable(R.drawable.friday);
+                return context.getResources().getDrawable(R.drawable.friday);
             case "周六":
-                return context.getDrawable(R.drawable.saturday);
+                return context.getResources().getDrawable(R.drawable.saturday);
             case "周日":
-                return context.getDrawable(R.drawable.sunday);
+                return context.getResources().getDrawable(R.drawable.sunday);
             default:
                 break;
         }
-        return context.getDrawable(R.drawable.transparent);
+        return context.getResources().getDrawable(R.drawable.transparent);
     }
 }

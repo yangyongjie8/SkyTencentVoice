@@ -92,16 +92,16 @@ public class SportsRecordActivity extends Activity {
 
             if (mButtonRight.getVisibility() == View.VISIBLE) {
                 if (index > 0) {
-                    mButtonRight.setBackground(getDrawable(R.color.tab_focus));
+                    mButtonRight.setBackgroundColor(getResources().getColor(R.color.tab_focus));
                 } else {
-                    mButtonRight.setBackground(getDrawable(R.color.tab_unfocus));
+                    mButtonRight.setBackgroundColor(getResources().getColor(R.color.tab_unfocus));
                 }
             }
             if (mButtonLeft.getVisibility() == View.VISIBLE) {
                 if (index == 0) {
-                    mButtonLeft.setBackground(getDrawable(R.color.tab_focus));
+                    mButtonLeft.setBackgroundColor(getResources().getColor(R.color.tab_focus));
                 } else {
-                    mButtonLeft.setBackground(getDrawable(R.color.tab_unfocus));
+                    mButtonLeft.setBackgroundColor(getResources().getColor(R.color.tab_unfocus));
                 }
             }
         }

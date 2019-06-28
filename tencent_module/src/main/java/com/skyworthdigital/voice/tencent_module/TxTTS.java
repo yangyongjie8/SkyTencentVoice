@@ -240,7 +240,7 @@ public class TxTTS extends AbsTTS {
     /**
      *
      * @param text
-     * @param tag 本次语音标签，由{@link VoiceTagger}类创建
+     * @param tag 本次语音标签，由{@link com.skyworthdigital.voice.common.VoiceTagger}类创建
      */
     public void talkThirdApp(String text, String tag){
         mHandler.sendMessage(mHandler.obtainMessage(MSG_TALK_THIRD_APP, new TxTTS.Content(text, text, tag)));
@@ -248,7 +248,7 @@ public class TxTTS extends AbsTTS {
 
     /**
      * 顺序追加文本，等待播放，不显示
-     * @param tag 本次语音标签，由{@link VoiceTagger}类创建
+     * @param tag 本次语音标签，由{@link com.skyworthdigital.voice.common.VoiceTagger}类创建
      */
     public void talkThirdAppWithoutDisplay(String text, String tag){
         mHandler.sendMessage(mHandler.obtainMessage(MSG_TALK_THIRD_APP_WITHOUT_DISPLAY, new TxTTS.Content(text, null, tag)));

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.skyworthdigital.voice.dingdang.utils.MLog;
+import com.skyworthdigital.voice.dingdang.utils.VolumeUtils;
 
 
 /**
@@ -50,6 +51,7 @@ public class BootReceiver extends BroadcastReceiver {
             }
         } else if (action.equals("android.intent.action.BOOT_COMPLETED")) {
             MLog.d("boot", "android.intent.action.BOOT_COMPLETED");
+            mPreVolume = VolumeUtils.getInstance(context).getVolume();
         }
     }
 }
