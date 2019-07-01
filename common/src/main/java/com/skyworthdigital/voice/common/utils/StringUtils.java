@@ -565,12 +565,6 @@ public class StringUtils {
             }
             MLog.i(TAG, "check IoT Cmd" + speech);
 
-            // 关闭前退出所有应用
-            if(Pattern.compile("关.?电视").matcher(speech).find() && !GuideTip.getInstance().isMusicPlay()){
-                MLog.i(TAG, "发送home键，关闭电视");
-                AppUtil.killTopApp();
-            }
-
             // String url = "http://119.23.12.86/SmartJX/api/parse?words=";
             String url = "http://smartmovie.skyworthbox.com/SmartTianmai/api/isiot?txt=";
             //translate some word from Hanzi to decimal
@@ -606,6 +600,13 @@ public class StringUtils {
             IoTParserResult rslt=gson.fromJson(resText,IoTParserResult.class);
             if(rslt!=null&&rslt.iotCommand!=null) {
                 if(rslt.iotCommand.isValid()) {
+
+                    // 关闭前退出所有应用
+                    if(Pattern.compile("关.?电视").matcher(speech).find() && !GuideTip.getInstance().isMusicPlay()){
+                        MLog.i(TAG, "发送home键，关闭电视");
+                        AppUtil.killTopApp();
+                    }
+
                     MLog.i(TAG, "2send broadcast:" + IoTService.MSG_IOT_CMD);
                     Intent intent_IoT = new Intent("action.IoT_CMD");
                     intent_IoT.putExtra("nlu_data", rslt.iotCommand);

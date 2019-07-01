@@ -46,6 +46,8 @@ public class RecognizeService extends AccessibilityService {
                 if (action == KeyEvent.ACTION_DOWN) {
                     //mRecordStart = System.currentTimeMillis();
                     //if (TxController.getInstance().isStartValid()) {
+                    VoiceApp.initBaiduInstances();// 避免实例被回收
+                    VoiceApp.initTencentInstances();
                     AbsController.getInstance().isControllerVoice = true;
                     AbsController.getInstance().manualRecognizeStart();
                 } else if (action == KeyEvent.ACTION_UP) {

@@ -75,7 +75,7 @@ public class VoiceApp extends Application {
         startService(new Intent(this, IoTService.class));
     }
 
-    private void initTencentInstances(){
+    public static void initTencentInstances(){
 //        com.skyworthdigital.voice.VoiceApp.isDuer = false;
 //        initTencentSDK();
 //        AbsAsrTranslator.clearInstance();
@@ -118,7 +118,7 @@ public class VoiceApp extends Application {
         Log.d("VoiceApp", "guid = " + SpeechManager.getInstance().getGuidStr());
     }
 
-    private void initBaiduInstances(){
+    public static void initBaiduInstances(){
 //        com.skyworthdigital.voice.VoiceApp.isDuer = true;
 //        initDuerSDK();
 //        AbsAsrTranslator.clearInstance();
