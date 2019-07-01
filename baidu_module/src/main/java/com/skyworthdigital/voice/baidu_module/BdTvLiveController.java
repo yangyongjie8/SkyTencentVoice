@@ -3,6 +3,7 @@ package com.skyworthdigital.voice.baidu_module;
 import android.text.TextUtils;
 
 import com.skyworthdigital.voice.VoiceApp;
+import com.skyworthdigital.voice.baidu_module.robot.BdTTS;
 import com.skyworthdigital.voice.common.AbsTTS;
 import com.skyworthdigital.voice.common.utils.Utils;
 import com.skyworthdigital.voice.db.DbUtils;
@@ -74,7 +75,7 @@ public class BdTvLiveController extends AbsTvLiveControl {
                 return true;
             }
             if (!TextUtils.isEmpty(mSearchCategoryId) && !TextUtils.isEmpty(mSearchChannelId)) {
-                AbsTTS.getInstance(null).talk(VoiceApp.getInstance().getString(R.string.str_tvlive_unfind));
+                BdTTS.getInstance().talk(VoiceApp.getInstance().getString(R.string.str_tvlive_unfind));
             }
         } else {
             tvLiveInstallPage();

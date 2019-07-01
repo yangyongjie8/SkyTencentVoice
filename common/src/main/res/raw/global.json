@@ -88,6 +88,9 @@
     {"cmds": ["熊猫识字","熊猫狮子"], "app": "air.android.common.A123qibu.com"},
     {"cmds": ["流行歌曲排行榜","流行音乐排行榜"], "action": {"local":"com.skyworthdigital.voiceassistant.music.popular"}},
     {"cmds": ["英国uk","英国流行音乐排行榜","英国音乐排行榜"], "action": {"local":"com.skyworthdigital.voiceassistant.music.en"}},
-    {"cmds": ["日本公信","日本工信"], "action": {"local":"com.skyworthdigital.voiceassistant.music.japon_gx"}}
+    {"cmds": ["日本公信","日本工信"], "action": {"local":"com.skyworthdigital.voiceassistant.music.japon_gx"}},
+    {"cmds": ["乐龄佳苑","乐龄嘉源","乐龄家园","乐陵佳苑","乐陵嘉源","乐陵家园"], "app": "com.tech618.gened.main"},
+    {"cmds": ["乐龄频道","乐龄直播","乐陵频道","乐陵直播","乐陵频道"], "app": "cn.beevideo.xxx"},
+    {"cmds": ["健心助手","建行助手","建新助手"], "app": "com.wisdomaic.hrv"}
   ]
 }
