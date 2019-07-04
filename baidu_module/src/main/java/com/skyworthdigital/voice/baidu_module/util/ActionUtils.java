@@ -108,14 +108,15 @@ public class ActionUtils {
                 if (slots == null) {
                     break;
                 }
-                VolumeUtils.getInstance(context).setVolumePlus((double) slots.getValue());
+                VolumeUtils.getInstance(context).setVolumePlus((int)(double) slots.getValue());
                 BdTTS.getInstance().talk(context.getString(R.string.str_volume_note));
                 break;
             case DefaultCmds.COMMAND_VOL_DOWN:
                 if (slots == null) {
                     break;
                 }
-                VolumeUtils.getInstance(context).setVolumeMinus((int) slots.getValue());
+                MLog.d(TAG, "slots value type:"+slots.getValue().getClass().getSimpleName());
+                VolumeUtils.getInstance(context).setVolumeMinus((int)(double) slots.getValue());
                 BdTTS.getInstance().talk(context.getString(R.string.str_volume_note));
                 break;
             case DefaultCmds.COMMAND_VOL_SET:
