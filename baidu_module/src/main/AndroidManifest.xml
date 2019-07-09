@@ -12,5 +12,15 @@
                 <action android:name="com.skyworthdigital.voiceassistant.fmplay" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".videosearch.SkyVoiceSearchAcitivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <action android:name="com.skyworthdigital.voiceassistant.voicesearch" />
+            </intent-filter>
+        </activity>
     </application>
 </manifest>

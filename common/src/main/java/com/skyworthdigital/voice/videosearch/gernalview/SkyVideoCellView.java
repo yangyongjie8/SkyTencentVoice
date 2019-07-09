@@ -16,6 +16,8 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.facebook.common.util.UriUtil;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
@@ -26,6 +28,7 @@ import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.skyworthdigital.voice.common.R;
 import com.skyworthdigital.voice.dingdang.utils.GlobalVariable;
+import com.skyworthdigital.voice.dingdang.utils.MLog;
 import com.skyworthdigital.voice.videoplay.CollectionVideoInfo;
 import com.skyworthdigital.voice.videoplay.SkyDetailExtensionCellInfo;
 import com.skyworthdigital.voice.videoplay.SkyVideoInfo;
@@ -453,20 +456,20 @@ public class SkyVideoCellView extends SkyWin8RelativeLayout {
         }
         //int width = CELL_WIDTH - mContext.getResources().getDimensionPixelOffset(R.dimen.video_cell_focus_padding);
         //int height = CELL_HEIGHT;
-        //Glide.with(mContext).load(frescoUri).error(R.drawable.index_default_postersbg).placeholder(R.drawable.index_default_postersbg).diskCacheStrategy(DiskCacheStrategy.NONE).into(imgPoster);
-        int width = CELL_WIDTH - mContext.getResources().getDimensionPixelOffset(R.dimen.video_cell_focus_padding);
-        int height = CELL_HEIGHT;
-        ImageRequest request = ImageRequestBuilder.newBuilderWithSource(frescoUri)
-                .setResizeOptions(new ResizeOptions(width, height)).build();
-        DraweeController controller =
-                Fresco
-                        .newDraweeControllerBuilder()
-                        .setControllerListener(null)
-                        .setAutoPlayAnimations(true)
-                        .setUri(frescoUri)
-                        .setImageRequest(request)
-                        .build();
-        imgPoster.setController(controller);
+        Glide.with(mContext).load(frescoUri).error(R.drawable.index_default_postersbg).placeholder(R.drawable.index_default_postersbg).diskCacheStrategy(DiskCacheStrategy.NONE).into(imgPoster);
+//        int width = CELL_WIDTH - mContext.getResources().getDimensionPixelOffset(R.dimen.video_cell_focus_padding);
+//        int height = CELL_HEIGHT;
+//        ImageRequest request = ImageRequestBuilder.newBuilderWithSource(frescoUri)
+//                .setResizeOptions(new ResizeOptions(width, height)).build();
+//        DraweeController controller =
+//                Fresco
+//                        .newDraweeControllerBuilder()
+//                        .setControllerListener(null)
+//                        .setAutoPlayAnimations(true)
+//                        .setUri(frescoUri)
+//                        .setImageRequest(request)
+//                        .build();
+//        imgPoster.setController(controller);
     }
 
     @Override

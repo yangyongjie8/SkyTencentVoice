@@ -152,6 +152,7 @@ public class ActionUtils {
                 break;
             case DefaultCmds.COMMAND_SLEEP:
             case DefaultCmds.COMMAND_TV_OFF:
+                MLog.d(TAG, "##### voice 准备发送power键");
                 Utils.simulateKeystroke(KeyEvent.KEYCODE_POWER);
                 BdTTS.getInstance().talk(context.getString(R.string.str_ok));
                 break;

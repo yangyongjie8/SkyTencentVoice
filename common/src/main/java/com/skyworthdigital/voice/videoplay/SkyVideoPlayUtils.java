@@ -57,7 +57,7 @@ public class SkyVideoPlayUtils {
     private static final String SOUHU_PLAYER_ACTION = "com.sohuott.tv.vod.action.PLAY";
     private static final String SEARCH_PARAM = "searchParam";
     //private static final String PACKAGE_NAME_SEARCH = "com.skyworthdigital.skyallmedia";
-    private static final String ACTION_SEARCH = "com.skyworthdigital.voice.dingdang.voicesearch";
+    private static final String ACTION_SEARCH = "com.skyworthdigital.voiceassistant.voicesearch";
     private static final String SOHU_PACKAGE = "com.sohuott.tv.vod";
     private static final String MGTV_PACKAGE = "com.hunantv.market";
 
@@ -545,8 +545,8 @@ public class SkyVideoPlayUtils {
                 String url = buildGetVoiceSearchVideoListUrl();
                 FormBody.Builder builder = new FormBody.Builder();
                 builder.add("searchParam", filmSlots);
-                builder.add("page", String.valueOf(page));
-                builder.add("rows", String.valueOf(rows));
+                builder.add("pn", String.valueOf(page));
+                builder.add("ps", String.valueOf(rows));
                 RequestUtil.postFromNet(new SkyCommonCallback("startGetSearchVideoList") {
                     @Override
                     public void onSuccessed(String ret) {
