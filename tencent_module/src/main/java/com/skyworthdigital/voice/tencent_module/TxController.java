@@ -467,6 +467,7 @@ public class TxController extends AbsController implements AbsTTS.MyTTSListener 
                 AsrResult bean = GsonUtils.parseResult(result, AsrResult.class);
                 if (bean == null) {
                     MLog.d(TAG, "bean is null");
+                    mAsrDialogControler.dialogDismiss(DISMISS_DELAY_NORMAL);
                     return;
                 }
                 String mIntent = (bean.mSemanticJson != null && bean.mSemanticJson.mSemantic != null

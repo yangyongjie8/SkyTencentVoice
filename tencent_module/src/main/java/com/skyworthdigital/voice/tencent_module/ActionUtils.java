@@ -10,6 +10,7 @@ import com.skyworthdigital.voice.alarm.AlarmHelper;
 import com.skyworthdigital.voice.alarm.database.AlarmDbOperator;
 import com.skyworthdigital.voice.beesearch.BeeSearchParams;
 import com.skyworthdigital.voice.beesearch.BeeSearchUtils;
+import com.skyworthdigital.voice.common.AbsController;
 import com.skyworthdigital.voice.common.AbsTTS;
 import com.skyworthdigital.voice.common.IStatus;
 import com.skyworthdigital.voice.common.utils.StringUtils;
@@ -501,9 +502,11 @@ public class ActionUtils {
                         if (TxController.getInstance().getAsrDialogControler() != null && TxController.getInstance().getAsrDialogControler().mAsrDialog != null) {
                             TxController.getInstance().getAsrDialogControler().mAsrDialog.showGuideDialog(null);
                             TxTTS.getInstance(null).talk(ctx.getString(R.string.str_cando_note));
+                            return;
                         }
                     } else {
                         TxTTS.getInstance(null).talk(ctx.getString(R.string.str_cando));
+                        return;
                     }
                     break;
                 default:
@@ -512,6 +515,7 @@ public class ActionUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        TxController.getInstance().getAsrDialogControler().dialogDismiss(AbsController.DISMISS_DELAY_NORMAL);
     }
 
     public static void jumpToChengyu(Context ctx, AsrResult bean) {

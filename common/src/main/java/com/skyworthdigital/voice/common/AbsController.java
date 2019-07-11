@@ -8,6 +8,7 @@ import com.skyworthdigital.voice.VoiceApp;
 public abstract class AbsController {
 
     public volatile boolean isControllerVoice = true;//是否遥控器语音，可能是远场语音
+    public static final int DISMISS_DELAY_NORMAL = 3000;// 正常延时
     protected volatile static AbsController[] mManagerInstance = new AbsController[2];
 
     public static AbsController getInstance() {
