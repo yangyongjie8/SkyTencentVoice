@@ -173,9 +173,9 @@
     <string name="str_system_set_err">你说的我还不会，尝试换个说法吧</string>
     <string name="str_volume_now">当前音量为</string>
     <string name="str_resolution_error">暂不支持分辨率设置</string>
-    <string name="str_volume_unmute">unmute</string>
-    <string name="str_volume_mute">mute</string>
-    <string name="str_volume_max">str_volume_max</string>
+    <string name="str_volume_unmute">已取消</string>
+    <string name="str_volume_mute">已静音</string>
+    <string name="str_volume_max">音量已调整到</string>
     <string name="str_install_sohu">这是搜狐的视频源,请选择安装搜狐视频~</string>
     <string name="str_install_mgtv">这是芒果tv的视频源,请选择安装芒果tv~</string>
     <string name="searchfail_tips">搜索失败,重试一次</string>

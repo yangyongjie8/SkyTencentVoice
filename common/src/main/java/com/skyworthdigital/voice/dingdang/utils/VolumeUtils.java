@@ -61,6 +61,7 @@ public class VolumeUtils {
 
         if (volume >= 0 && volume < 1.0) {
             volume = (int) (volume * max_vol);
+            AbsTTS.getInstance(null).talk(VoiceApp.getInstance().getString(R.string.str_ok));
         }
         if (volume >= 0 && volume <= max_vol) {
             scaledVolume = (int) volume;

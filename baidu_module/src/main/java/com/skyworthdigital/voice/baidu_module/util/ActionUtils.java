@@ -126,10 +126,12 @@ public class ActionUtils {
                 if (slots.getValue().toString().equals(GlobalVariable.VOLUME_MAX)
                         || speech.contains("百分之百") || speech.contains("百分之一百")) {
                     VolumeUtils.getInstance(context).setVolumeMax();
+                    BdTTS.getInstance().talk(context.getString(R.string.str_volume_note));
+                } else if(speech.contains("%")||speech.contains("百分之")){
+                    VolumeUtils.getInstance(context).setVolume((double) slots.getValue()/100);
                 } else {
                     VolumeUtils.getInstance(context).setVolume((double) slots.getValue());
                 }
-                BdTTS.getInstance().talk(context.getString(R.string.str_volume_note));
                 break;
             case DefaultCmds.COMMAND_MUTE:
                 if (slots == null) {
