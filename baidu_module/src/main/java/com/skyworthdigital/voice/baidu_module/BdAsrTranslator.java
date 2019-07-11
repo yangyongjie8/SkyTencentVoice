@@ -123,6 +123,8 @@ public class BdAsrTranslator extends AbsAsrTranslator<String> {
                                         || TextUtils.equals(nlu.getIntent(), GlobalVariable.INTENT_MUSIC_GOTO)) {
                                     if (!ActionUtils.musicExecute(context, asrResult, originSpeech)) {
                                         BdTTS.getInstance().talk(context.getString(R.string.str_music_note));
+                                    }else {
+                                        BdTTS.getInstance().talk(context.getString(R.string.str_ok));
                                     }
                                 }
                                 break;

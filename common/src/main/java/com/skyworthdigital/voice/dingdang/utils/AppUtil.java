@@ -14,6 +14,7 @@ import android.view.KeyEvent;
 import com.skyworthdigital.voice.VoiceApp;
 import com.skyworthdigital.voice.common.BuildConfig;
 import com.skyworthdigital.voice.common.utils.Utils;
+import com.skyworthdigital.voice.music.utils.QQMusicUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -132,8 +133,11 @@ public class AppUtil {
             for (ActivityManager.RunningTaskInfo runningTask: rTasks) {
                 packageName = runningTask.topActivity.getPackageName();
                 MLog.d("AppUtil", "running Task:" + packageName);
-                if(VoiceApp.getInstance().getPackageName().equals(packageName)){//本语音app，则返回关掉对话。偶现。
+                if(VoiceApp.getInstance().getPackageName().equals(packageName)) {//本语音app，则返回关掉对话。偶现。
                     Utils.simulateKeystroke(KeyEvent.KEYCODE_BACK);
+                    return;
+                }else if(packageName.startsWith(QQMusicUtils.QQ_PACKAGENAME)){
+                    Utils.simulateKeystroke(KeyEvent.KEYCODE_HOME);
                     return;
                 }else if(!killPackage(VoiceApp.getInstance(), packageName)){
                     // 没杀成功，模拟home键
