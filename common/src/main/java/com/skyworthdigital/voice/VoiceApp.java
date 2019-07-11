@@ -8,6 +8,7 @@ import android.util.Log;
 import com.skyworthdigital.voice.common.BuildConfig;
 import com.skyworthdigital.voice.common.utils.Utils;
 import com.skyworthdigital.voice.dingdang.utils.AppUtil;
+import com.skyworthdigital.voice.dingdang.utils.SPUtil;
 
 import okhttp3.OkHttpClient;
 
@@ -49,6 +50,10 @@ public class VoiceApp {
         deviceId=sn;
 
         setAudioBox();
+
+        if(!TextUtils.isEmpty(SPUtil.getString(SPUtil.KEY_VOICE_PLATFORM))){// 有记忆值则使用记忆值
+            isDuer = SPUtil.VALUE_VOICE_PLATFORM_BAIDU.equalsIgnoreCase(SPUtil.getString(SPUtil.KEY_VOICE_PLATFORM));
+        }
     }
 
 

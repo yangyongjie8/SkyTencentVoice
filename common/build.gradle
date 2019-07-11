@@ -18,17 +18,17 @@ android {
     buildTypes {
         debug {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField "boolean", "isDuer", "true"
+            buildConfigField "boolean", "isDuer", "false"
         }
 
         release_origin {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField "boolean", "isDuer", "true"
+            buildConfigField "boolean", "isDuer", "false"
         }
 
         release_privately {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField "boolean", "isDuer", "true"
+            buildConfigField "boolean", "isDuer", "false"
         }
     }
 

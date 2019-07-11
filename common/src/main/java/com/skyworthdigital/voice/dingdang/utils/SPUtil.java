@@ -13,6 +13,10 @@ public class SPUtil {
 
     public static final String KEY_SP_DEMO_SWITCH_ON = "key_sp_demo_switch_2min";// 演示用的2分钟周期开关
 
+    public static final String KEY_VOICE_PLATFORM = "voice_platform";// 语音语义平台：dingdang/baidu
+    public static final String VALUE_VOICE_PLATFORM_DINGDANG = "dingdang";// 叮当
+    public static final String VALUE_VOICE_PLATFORM_BAIDU = "baidu";// 百度
+
     private SPUtil(){}
 
     public static void putString(String key, String value){

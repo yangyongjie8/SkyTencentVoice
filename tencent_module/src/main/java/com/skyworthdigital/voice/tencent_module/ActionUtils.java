@@ -17,6 +17,7 @@ import com.skyworthdigital.voice.dingdang.utils.DialogCellType;
 import com.skyworthdigital.voice.dingdang.utils.GlobalVariable;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
 import com.skyworthdigital.voice.dingdang.utils.PrefsUtils;
+import com.skyworthdigital.voice.dingdang.utils.SPUtil;
 import com.skyworthdigital.voice.dingdang.utils.SkyRing;
 import com.skyworthdigital.voice.globalcmd.GlobalUtil;
 import com.skyworthdigital.voice.guide.GuideTip;
@@ -656,11 +657,13 @@ public class ActionUtils {
 
 //        if("切换到叮当".equalsIgnoreCase(speech)||"切换到订单".equalsIgnoreCase(speech)){
 //            VoiceApp.isDuer = false;
+//        SPUtil.putString(SPUtil.KEY_VOICE_PLATFORM, SPUtil.VALUE_VOICE_PLATFORM_DINGDANG);
 //            AbsTTS.getInstance(null).talk("我就是叮当");
 //            return true;
 //        }
         if("切换到百度".equalsIgnoreCase(speech)){
             VoiceApp.isDuer = true;
+            SPUtil.putString(SPUtil.KEY_VOICE_PLATFORM, SPUtil.VALUE_VOICE_PLATFORM_BAIDU);
             TxController.getInstance().getAsrDialogControler().dialogDismiss(0);
             TxController.getInstance().onDestroy();
             AbsTTS.getInstance(null).talk("我是百度");
