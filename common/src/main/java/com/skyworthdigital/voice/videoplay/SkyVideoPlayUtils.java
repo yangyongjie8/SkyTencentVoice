@@ -578,7 +578,7 @@ public class SkyVideoPlayUtils {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                String url = BeeSearchUtils.getVedioListPath();
+                String url = BeeSearchUtils.getVedioListPath()+"?"+BeeSearchParams.PARAM_INTERFACE_VER;
                 FormBody.Builder builder = new FormBody.Builder();
                 builder.add("abnf", abnf);
                 builder.add("localcallid", BeeSearchParams.getInstance().getLocalcallid());

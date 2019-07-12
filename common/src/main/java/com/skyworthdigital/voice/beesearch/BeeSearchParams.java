@@ -17,6 +17,7 @@ public class BeeSearchParams {
     public static final String RESULT_CORRECT = "3";
     public static final String RESULT_UNCERTAIN = "4";
     public static final String RESULT_PLAY_DIRECT = "5";
+    public static final String PARAM_INTERFACE_VER = "version=10208";
     
     private String mLocalcallid = "";
     private String mLastReply = "";

@@ -73,6 +73,7 @@ public class BeeSearchUtils {
         }
 
         sb.append("&channel=search");
+        sb.append("&").append(BeeSearchParams.PARAM_INTERFACE_VER);
         //MLog.d(TAG, "skynlupath:" + sb.toString());
         return sb.toString();
     }
@@ -104,7 +105,7 @@ public class BeeSearchUtils {
     public static void sendSearchRequest(@NonNull String abnf, String lastreply,/*String localcallid, String usrid, String token,*/ SkyCommonCallback callback) {
         String newUrl = getSearchPath();
         //MLog.d(TAG,"skydosearchpath:" + newUrl);
-        Request.Builder builder = new Request.Builder().url(newUrl);
+        Request.Builder builder = new Request.Builder().url(newUrl+"?"+BeeSearchParams.PARAM_INTERFACE_VER);
         FormBody.Builder bodybuilder = new FormBody.Builder();
 
         bodybuilder.add("abnf", abnf);
