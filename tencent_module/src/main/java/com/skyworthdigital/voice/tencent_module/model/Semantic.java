@@ -138,9 +138,9 @@ public class Semantic implements Serializable {
             int unit = -1;
             if (mSlots != null && mSlots.size() > 0) {
                 for (Slot temp : mSlots) {
-                    switch (temp.mName) {
-                        case "moment_location":
-                            if (!TextUtils.isEmpty(temp.mValueList.get(0).mUnit))
+//                    switch (temp.mName) {
+//                        case "moment_location":
+                            if (!TextUtils.isEmpty(temp.mValueList.get(0).mUnit)) {
                                 if (TextUtils.equals(temp.mValueList.get(0).mUnit, "秒")) {
                                     unit = 1;
                                 } else if (TextUtils.equals(temp.mValueList.get(0).mUnit, "分")) {
@@ -148,15 +148,16 @@ public class Semantic implements Serializable {
                                 } else if (TextUtils.equals(temp.mValueList.get(0).mUnit, "小时")) {
                                     unit = 3600;
                                 }
+                            }
                             if (!TextUtils.isEmpty(temp.mValueList.get(0).mAmount.mInteger)) {
                                 return unit * Integer.parseInt(temp.mValueList.get(0).mAmount.mInteger);
                             } else if (!TextUtils.isEmpty(temp.mValueList.get(0).mAmount.mDecimal)) {
                                 return (int) (unit * Float.parseFloat(temp.mValueList.get(0).mAmount.mDecimal));
                             }
-                            return 0xffff;//Integer.parseInt(temp.mValueList.get(0).mAmount);
-                        default:
-                            break;
-                    }
+                            return Semantic.INVALID_DIGIT;//Integer.parseInt(temp.mValueList.get(0).mAmount);
+//                        default:
+//                            break;
+//                    }
                 }
                 if (digit > 0) {
                     if (unit > 0) {

@@ -10,6 +10,7 @@ import com.skyworthdigital.voice.VoiceApp;
 import com.skyworthdigital.voice.common.AbsTTS;
 import com.skyworthdigital.voice.common.R;
 import com.skyworthdigital.voice.common.utils.Utils;
+import com.skyworthdigital.voice.dingdang.utils.MLog;
 import com.skyworthdigital.voice.scene.ISkySceneListener;
 import com.skyworthdigital.voice.scene.SceneJsonUtil;
 import com.skyworthdigital.voice.scene.SkyScene;
@@ -52,6 +53,7 @@ public class MusicCmd implements ISkySceneListener {
         uri.append("&m1=");
         uri.append(offset);
         intent.setData(Uri.parse(uri.toString()));
+//        MLog.d("####", "uri:"+uri.toString());
         //intent.setComponent(new ComponentName("com.tencent.qqmusictv", "com.tencent.qqmusictv.app.reciver.BroadcastReceiverCenterForThird"));  //（android8.0广播需要）
         VoiceApp.getInstance().sendBroadcast(intent);
     }
@@ -89,6 +91,7 @@ public class MusicCmd implements ISkySceneListener {
     @Override
     public void onCmdExecute(Intent intent) {
         //LogUtil.log("voiceCallback intent : " + intent.getExtras().toString());
+        MLog.d("MusicCmd", "onCmdExecute, command:"+intent.getStringExtra(DefaultCmds.COMMAND));
         if (intent.hasExtra(DefaultCmds.COMMAND)) {
             String command = intent.getStringExtra(DefaultCmds.COMMAND);
             //LogUtil.log("music command:" + command);
@@ -97,6 +100,7 @@ public class MusicCmd implements ISkySceneListener {
             if (intent.hasExtra(DefaultCmds.INTENT)) {
                 action = intent.getStringExtra(DefaultCmds.INTENT);
             }
+            MLog.d("MusicCmd", "onCmdExecute, action:"+action);
             switch (command) {
                 case "next":
                     executeCmd(3);
@@ -127,7 +131,7 @@ public class MusicCmd implements ISkySceneListener {
                             executeCmd(1);
                             AbsTTS.getInstance(null).talk(ctx.getString(R.string.str_music_stop));
                         }
-                    } else if (DefaultCmds.PLAYER_CMD_FASTFORWARD.equals(action)) {
+                    } else if (DefaultCmds.PLAYER_CMD_FASTFORWARD.equals(action)||DefaultCmds.PLAYER_CMD_GOTO.equals(action)) {
                         executeCmd(7, value);
                         AbsTTS.getInstance(null).talk(ctx.getString(R.string.str_music_fastforward));
                     } else if (DefaultCmds.PLAYER_CMD_BACKFORWARD.equals(action)) {

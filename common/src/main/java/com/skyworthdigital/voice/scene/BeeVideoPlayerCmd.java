@@ -74,16 +74,21 @@ public class BeeVideoPlayerCmd implements ISkySceneListener {
                 String remoteArgs = remoteIntents.optString(command);
                 MLog.i(TAG, "参数:"+remoteArgs);
 
+                int value = -1;
+                if (intent.hasExtra(DefaultCmds.VALUE)) {
+                    value = intent.getIntExtra(DefaultCmds.VALUE, 0);
+                    MLog.i(TAG, "value:"+value);
+                }
                 switch (command){
                     case "read_summary"://查看简介
                         break;
                     case "seek_forward_to"://快进到
-                        break;
                     case "seek_reverse_to"://快退到
-                        break;
                     case "seek_forward"://快进
-                        break;
                     case "seek_reverse"://快退
+                        if(value!=-1) {
+                            remoteArgs = String.format(remoteArgs, value *1000);//单位：s
+                        }
                         break;
                     case "volume_min"://音量最小
                         remoteArgs = String.format(remoteArgs, 0);

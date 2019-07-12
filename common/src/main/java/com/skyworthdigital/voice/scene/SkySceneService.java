@@ -20,7 +20,7 @@ import java.util.List;
  * Created by SDT03046 on 2017/6/5.
  */
 public class SkySceneService extends Service {
-    private static final String TAG = "SceneService";
+    private static final String TAG = SkySceneService.class.getSimpleName();
     public static final String INTENT_TOPACTIVITY_COMMIT = "com.skyworthdigital.voiceassistant.topActivity.COMMIT";
     public static final String INTENT_TOPACTIVITY_CALL = "com.skyworthdigital.voiceassistant.app.CALL";
     private static final String INTENT_RELEASE_SCENE = "com.skyworthdigital.voiceassistant.topActivity.RELEASE";

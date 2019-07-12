@@ -24,6 +24,7 @@ import java.util.List;
  * 如果匹配列表中某条item的cmds中其中一个，那么按item中定义的action或package name做跳转
  */
 public class GlobalUtil {
+    private static String TAG = GlobalUtil.class.getSimpleName();
     private static GlobalUtil mGlobalUtilInstance = null;
     private static List<Cell> mListJson = null;
     private final static String[] START_FILTER = {"我要", "帮我", "我想", "打开", "进入", "开启", "启动"};
@@ -78,7 +79,7 @@ public class GlobalUtil {
         if (TextUtils.isEmpty(arg1) && TextUtils.isEmpty(arg2)) {
             return false;
         }
-        MLog.d("wyf", "global:" + arg1 + " " + arg2);
+        MLog.d(TAG, "global:" + arg1 + " " + arg2);
 
         for (int i = 0; i < mListJson.size(); i++) {
             Cell cell = mListJson.get(i);

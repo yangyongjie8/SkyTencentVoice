@@ -84,11 +84,9 @@ public class TxCmds extends DefaultCmds {
                 case "fast_forward":
                 case "play_forward":
                     num = bean.mSemanticJson.mSemantic.getTimeLocation();
-                    if (num != Semantic.INVALID_DIGIT) {
-                        mIntent = PLAYER_CMD_GOTO;
-                        break;
-                    } else {
-                        mIntent = PLAYER_CMD_FASTFORWARD;
+                    MLog.i("TxCmds####", "num:"+num);
+                    mIntent = PLAYER_CMD_FASTFORWARD;
+                    if (num == Semantic.INVALID_DIGIT) {
                         num = bean.mSemanticJson.mSemantic.getDuration();
                         if (num == Semantic.INVALID_DIGIT) {
                             num = 30;
