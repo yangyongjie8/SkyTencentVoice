@@ -12,6 +12,12 @@ import android.util.Log;
 import com.skyworthdigital.voice.VoiceApp;
 import com.skyworthdigital.voice.dingdang.utils.GlobalVariable;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 
@@ -256,5 +262,126 @@ public class Utils {
 
     public static int getWakeupProperty() {
         return Settings.System.getInt(VoiceApp.getInstance().getContentResolver(), "voiceopen", 1);
+    }
+
+    // 切换hdmi/音箱输出
+    public static void openHdmi(boolean open){
+        Class<?> clazz = null;
+        try {
+            clazz = Class.forName("android.os.SystemProperties");
+            Method method = clazz.getMethod("set", String.class, String.class);
+            if(open){
+                Settings.Secure.putInt(VoiceApp.getInstance().getContentResolver(), "sound_hdmi_soundbox", 0);
+                method.invoke(null,"persist.sys.hdmi.soundbox.mute", "0");
+            }else {
+                Settings.Secure.putInt(VoiceApp.getInstance().getContentResolver(), "sound_hdmi_soundbox", 1);
+                method.invoke(null,"persist.sys.hdmi.soundbox.mute", "1");
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void openScreen(boolean open){
+        if(open){
+            rootExec("echo 1 > /sys/class/amhdmitx/amhdmitx0/phy");
+        }else {
+            rootExec("echo 0 > /sys/class/amhdmitx/amhdmitx0/phy");
+        }
+    }
+
+    // 执行一段普通的linux命令
+    private static String exec(String[] args) {
+        String result = "";
+        ProcessBuilder processBuilder = new ProcessBuilder(args);
+        Process process = null;
+        InputStream errIs = null;
+        InputStream inIs = null;
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            int read = -1;
+            process = processBuilder.start();
+            errIs = process.getErrorStream();
+            while ((read = errIs.read()) != -1) {
+                baos.write(read);
+            }
+            baos.write('\n');
+            inIs = process.getInputStream();
+            while ((read = inIs.read()) != -1) {
+                baos.write(read);
+            }
+            byte[] data = baos.toByteArray();
+            result = new String(data);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (errIs != null) {
+                    errIs.close();
+                }
+                if (inIs != null) {
+                    inIs.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (process != null) {
+                process.destroy();
+            }
+        }
+        return result;
+    }
+    // 执行一段root命令
+    private static String rootExec(String cmd) {
+        if (cmd.startsWith("su")|cmd.startsWith("ping")) {
+            return "不允许执行的命令";
+        }
+        String result = "";
+        DataOutputStream dos = null;
+        DataInputStream dis = null;
+        try {
+            Process ps = Runtime.getRuntime().exec("sh");
+            dos = new DataOutputStream(ps.getOutputStream());
+            dis = new DataInputStream(ps.getInputStream());
+            dos.writeBytes(cmd + "\n");
+            dos.flush();
+            dos.writeBytes("exit\n");
+            dos.flush();
+            String line = null;
+            while ((line = dis.readLine())!=null) {
+                result += "\n"+line;
+                //   Message ms = new Message();
+                //   ms.obj = line;
+                //   handler.sendMessageDelayed(ms,1000);
+            }
+
+            ps.waitFor();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (dos != null) {
+                try {
+                    dos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (dis != null) {
+                try {
+                    dis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return result;
     }
 }

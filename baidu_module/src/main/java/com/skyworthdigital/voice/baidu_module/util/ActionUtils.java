@@ -423,6 +423,19 @@ public class ActionUtils {
 //            return true;
 //        }
 
+        if("关闭屏幕".equals(speech)){
+            Utils.openScreen(false);
+            Utils.openHdmi(false);
+            AbsTTS.getInstance(null).talk("已关闭");
+            return true;
+        }
+        if("打开屏幕".equals(speech)||"恢复屏幕".equals(speech)||"显示屏幕".equals(speech)){
+//            Utils.openHdmi(true);
+            Utils.openScreen(true);
+            AbsTTS.getInstance(null).talk("已打开");
+            return true;
+        }
+
         try {
             GuideTip tip = GuideTip.getInstance();
             if (tip != null && !tip.isAudioPlay()) {// 不是正在播放页面

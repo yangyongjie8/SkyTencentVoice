@@ -14,6 +14,7 @@ import com.skyworthdigital.voice.common.AbsController;
 import com.skyworthdigital.voice.common.AbsTTS;
 import com.skyworthdigital.voice.common.IStatus;
 import com.skyworthdigital.voice.common.utils.StringUtils;
+import com.skyworthdigital.voice.common.utils.Utils;
 import com.skyworthdigital.voice.dingdang.utils.DialogCellType;
 import com.skyworthdigital.voice.dingdang.utils.GlobalVariable;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
@@ -671,6 +672,21 @@ public class ActionUtils {
             TxController.getInstance().getAsrDialogControler().dialogDismiss(0);
             TxController.getInstance().onDestroy();
             AbsTTS.getInstance(null).talk("我是百度");
+            return true;
+        }
+
+        if("关闭屏幕".equals(speech)){
+            TxController.getInstance().getAsrDialogControler().dialogDismiss(0);
+            Utils.openScreen(false);
+            Utils.openHdmi(false);
+            AbsTTS.getInstance(null).talk("已关闭");
+            return true;
+        }
+        if("打开屏幕".equals(speech)||"恢复屏幕".equals(speech)||"显示屏幕".equals(speech)){
+//            Utils.openHdmi(true);
+            TxController.getInstance().getAsrDialogControler().dialogDismiss(0);
+            Utils.openScreen(true);
+            AbsTTS.getInstance(null).talk("已打开");
             return true;
         }
 
