@@ -5,8 +5,8 @@ import com.skyworthdigital.voice.common.utils.Utils;
 
 public class BeeSearchParams {
     public static final String ASR_PATH = "http://smartmovie.skyworthbox.com";//"http://119.23.12.86";
-    public static final String VOICE_MODEL="/SmartPaiFar";
-    public static final String IR_MODEL="/SmartPai";
+    public static final String VOICE_MODEL="/SmartMovie";
+    public static final String IR_MODEL="/SmartMovie";
     public static final String GETNLU_PATH = "/api/parsewords";
     public static final String GETCMD_PATH = "/api/parsecmd";
     public static final String DOSEARCH_PATH = "/api/dosearch";
