@@ -10,7 +10,12 @@ import com.skyworthdigital.voice.common.utils.Utils;
 import com.skyworthdigital.voice.dingdang.utils.AppUtil;
 import com.skyworthdigital.voice.dingdang.utils.SPUtil;
 
+import java.io.IOException;
+
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 /**
  * Created by Ives 2019/5/30
@@ -36,7 +41,9 @@ public class VoiceApp {
         sInstance = context;
         sVoiceApp = this;
         mAiType = Utils.getAiType();
-        mOkHttpClient = new OkHttpClient();
+        OkHttpClient.Builder okBuilder = new OkHttpClient.Builder();
+        okBuilder.addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY));
+        mOkHttpClient = okBuilder.build();
 
         DisplayMetrics dm = context.getResources().getDisplayMetrics();
         mScreenWidth = dm.widthPixels;
