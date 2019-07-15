@@ -584,7 +584,7 @@ public class SkyVideoPlayUtils {
                 builder.add("localcallid", BeeSearchParams.getInstance().getLocalcallid());
                 builder.add("pageno", String.valueOf(page));
                 builder.add("pagesize", String.valueOf(rows));
-                builder.add("channel", "search");
+                builder.add("channel", "mifeng");
                 RequestUtil.postFromNet(new SkyCommonCallback("DoSearchVideoList") {
                     @Override
                     public void onSuccessed(String ret) {

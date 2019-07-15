@@ -72,7 +72,7 @@ public class BeeSearchUtils {
             sb.append(token);
         }
 
-        sb.append("&channel=search");
+        sb.append("&channel=mifeng");
         sb.append("&").append(BeeSearchParams.PARAM_INTERFACE_VER);
         //MLog.d(TAG, "skynlupath:" + sb.toString());
         return sb.toString();
@@ -90,7 +90,7 @@ public class BeeSearchUtils {
         return sb.toString();
     }
 
-    public static void sendNluRequest(@NonNull String txt, /*String localcallid, String usrid, String token,*/ SkyCommonCallback callback) {
+    private static void sendNluRequest(@NonNull String txt, /*String localcallid, String usrid, String token,*/ SkyCommonCallback callback) {
         String token = "voice";
         UUID uuid = UUID.randomUUID();
 
@@ -102,7 +102,7 @@ public class BeeSearchUtils {
         VoiceApp.getOkHttpClient().newCall(request).enqueue(callback);
     }
 
-    public static void sendSearchRequest(@NonNull String abnf, String lastreply,/*String localcallid, String usrid, String token,*/ SkyCommonCallback callback) {
+    private static void sendSearchRequest(@NonNull String abnf, String lastreply,/*String localcallid, String usrid, String token,*/ SkyCommonCallback callback) {
         String newUrl = getSearchPath();
         //MLog.d(TAG,"skydosearchpath:" + newUrl);
         Request.Builder builder = new Request.Builder().url(newUrl+"?"+BeeSearchParams.PARAM_INTERFACE_VER);
@@ -115,7 +115,7 @@ public class BeeSearchUtils {
         bodybuilder.add("usrid", BeeSearchParams.getInstance().getUserid());
         bodybuilder.add("localcallid", BeeSearchParams.getInstance().getLocalcallid());
         bodybuilder.add("token", "voice");
-        bodybuilder.add("channel", "search");
+        bodybuilder.add("channel", "mifeng");
 
         final Request request = builder.post(bodybuilder.build()).build();
         Call call = VoiceApp.getVoiceApp().getOkHttpClient().newCall(request);
