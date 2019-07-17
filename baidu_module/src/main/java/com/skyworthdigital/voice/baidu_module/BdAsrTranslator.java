@@ -164,7 +164,7 @@ public class BdAsrTranslator extends AbsAsrTranslator<String> {
                                     Intent intent = new Intent();
                                     intent.setAction("cn.mipt.videohj.intent.action.LOAD_NEWS");//intent.setAction("com.skyworthdigital.skyallmedia.ShortVideoList");
                                     //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                    //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     context.startActivity(intent);
                                     BdTTS.getInstance().talk(context.getString(R.string.str_news));
                                 } catch (Exception e) {

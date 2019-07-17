@@ -452,7 +452,7 @@ public class ActionUtils {
             Intent intent = new Intent();
             intent.setAction("cn.mipt.videohj.intent.action.LOAD_NEWS");//"com.skyworthdigital.skyallmedia.ShortVideoList"
 //            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             ctx.startActivity(intent);
             TxTTS.getInstance(null).talk(ctx.getString(R.string.str_news));
         } catch (Exception e) {

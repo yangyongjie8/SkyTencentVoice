@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.text.TextUtils;
 
 import com.skyworthdigital.voice.beesearch.BeeSearchParams;
+import com.skyworthdigital.voice.common.AbsController;
 import com.skyworthdigital.voice.common.AbsTTS;
 import com.skyworthdigital.voice.common.IStatus;
 import com.skyworthdigital.voice.common.R;
@@ -184,6 +185,10 @@ public class DefaultCmds {
                 return true;
             } else if (StringUtils.isExitCmdFromSpeech(speech)) {
                 MLog.i(TAG, "SystemCmdPatch");
+                if(GuideTip.getInstance().isLauncherHome()){
+                    AbsController.getInstance().dismissDialog(0);
+                    return true;
+                }
                 AppUtil.killTopApp();
                 AbsTTS.getInstance(null).talk(ctx.getString(R.string.str_exit));
                 if (IStatus.mSceneType != IStatus.SCENE_GLOBAL) {

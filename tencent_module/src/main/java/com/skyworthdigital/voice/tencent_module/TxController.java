@@ -488,6 +488,10 @@ public class TxController extends AbsController implements AbsTTS.MyTTSListener 
                     }
                 }
                 if (StringUtils.isHomeCmdFromSpeech(bean.mQuery)) {
+                    if(GuideTip.getInstance().isLauncherHome()){
+                        mAsrDialogControler.dialogDismiss(0);
+                        return;
+                    }
                     AppUtil.killTopApp();
                     TxTTS.getInstance(null).talk(ctx.getString(R.string.str_exit));
                     return;

@@ -99,6 +99,10 @@ public class GuideTip {
         return (mClassname != null && mClassname.contains("details.SkyMediaDetailActivity"));
     }
 
+    public boolean isLauncherHome(){
+        return (mClassname==null || "cn.beevideo.launch.activity.HomeActivity".equalsIgnoreCase(mClassname));
+    }
+
     public String getClassName(){
         return mClassname;
     }

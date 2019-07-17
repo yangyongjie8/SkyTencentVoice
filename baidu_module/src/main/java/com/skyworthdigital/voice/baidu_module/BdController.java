@@ -165,7 +165,20 @@ public class BdController extends AbsController {
 
     @Override
     public void dismissDialog(long delay) {
-        //TODO 百度版暂时不需要
+        //mVoiceHandler.removeCallbacksAndMessages(null);
+        mVoiceHandler.removeMessages(MSG_DIALOG_DISMISS);
+        mVoiceHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (mVoiceTriggerDialog != null) {
+                    MLog.i(TAG, "dismissDialog");
+                    mVoiceTriggerDialog.dismiss();
+                    mVoiceTriggerDialog.cancel();
+                    mVoiceTriggerDialog = null;
+                    mDialogShow = false;
+                }
+            }
+        }, delay);
     }
 
     private enum VoiceStatus {
@@ -361,20 +374,7 @@ public class BdController extends AbsController {
         dismissDialog();
     }
     public void dismissDialog(){
-        if (mVoiceTriggerDialog != null) {
-            MLog.i(TAG, "dismissDialog");
-            //mVoiceHandler.removeCallbacksAndMessages(null);
-            mVoiceHandler.removeMessages(MSG_DIALOG_DISMISS);
-            mVoiceHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    mVoiceTriggerDialog.dismiss();
-                    mVoiceTriggerDialog.cancel();
-                    mVoiceTriggerDialog = null;
-                    mDialogShow = false;
-                }
-            });
-        }
+        dismissDialog(0);
     }
 
     /**
