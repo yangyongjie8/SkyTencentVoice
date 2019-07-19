@@ -106,7 +106,7 @@ public class IoTService extends Service {
             else if(MSG_IOT_RESET.equals(action)){
                 //if(d618SDK!=null)
                 //    d618SDK.cleanup();
-                delete("/data/data/com.skyworthdigital.voiceassistant/files/d618_cache");
+                delete("/data/data/com.skyworthdigital.voice.dingdang/files/d618_cache");
                 //init618SDK();
             }
 
@@ -115,7 +115,7 @@ public class IoTService extends Service {
 
     public static boolean isD618_gw_recognized()
     {
-        File file = new File("/data/data/com.skyworthdigital.voiceassistant/files/d618_cache");
+        File file = new File("/data/data/com.skyworthdigital.voice.dingdang/files/d618_cache");
         if (file.exists() && file.isFile())
         {
             return true;
