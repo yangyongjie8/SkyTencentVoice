@@ -28,6 +28,7 @@ import com.skyworthdigital.voice.common.utils.Utils;
 import com.skyworthdigital.voice.dingdang.utils.AppUtil;
 import com.skyworthdigital.voice.dingdang.utils.GlobalVariable;
 import com.skyworthdigital.voice.dingdang.utils.GsonUtils;
+import com.skyworthdigital.voice.dingdang.utils.LedUtil;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
 import com.skyworthdigital.voice.dingdang.utils.VolumeUtils;
 import com.skyworthdigital.voice.guide.GuideTip;
@@ -194,6 +195,7 @@ public class TxController extends AbsController implements AbsTTS.MyTTSListener 
                 myRecognizer.endRecognize();
                 isKeyDown = true;
                 VolumeUtils.getInstance(mContext).setMuteWithNoUi(false);
+                LedUtil.openHorseLight();
                 mAsrDialogControler.animStop();
             }
         };

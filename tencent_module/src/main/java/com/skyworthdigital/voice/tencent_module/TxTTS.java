@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.skyworthdigital.voice.VoiceApp;
 import com.skyworthdigital.voice.common.AbsTTS;
+import com.skyworthdigital.voice.dingdang.utils.LedUtil;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
 import com.skyworthdigital.voice.sdk.VoiceService;
 import com.tencent.ai.sdk.tts.ITtsInitListener;
@@ -319,6 +320,7 @@ public class TxTTS extends AbsTTS {
         public void onPlayBegin() {
             String msg = "播放开始：onPlayBegin";
             Log.i(TAG, msg);
+            LedUtil.closeHorseLight();
         }
 
         @Override

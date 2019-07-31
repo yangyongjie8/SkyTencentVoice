@@ -15,6 +15,7 @@ import com.skyworthdigital.voice.baidu_module.BdController;
 import com.skyworthdigital.voice.baidu_module.EventMsg;
 import com.skyworthdigital.voice.common.AbsTTS;
 import com.skyworthdigital.voice.common.VoiceTagger;
+import com.skyworthdigital.voice.dingdang.utils.LedUtil;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
 import com.skyworthdigital.voice.sdk.VoiceService;
 
@@ -177,6 +178,7 @@ public class BdTTS extends AbsTTS {
             @Override
             public void onSynthesizeFinish(String utteranceId) {
                 //LogUtil.log("playStatus:语音合成结束 = " + utteranceId);
+                LedUtil.closeHorseLight();
             }
 
             @Override

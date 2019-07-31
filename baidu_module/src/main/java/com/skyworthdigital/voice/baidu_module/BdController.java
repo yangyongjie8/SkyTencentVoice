@@ -36,6 +36,7 @@ import com.skyworthdigital.voice.baidu_module.voicemode.WakeupMode;
 import com.skyworthdigital.voice.common.AbsController;
 import com.skyworthdigital.voice.common.AbsTTS;
 import com.skyworthdigital.voice.dingdang.utils.GlobalVariable;
+import com.skyworthdigital.voice.dingdang.utils.LedUtil;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
 import com.skyworthdigital.voice.dingdang.utils.VolumeUtils;
 import com.skyworthdigital.voice.guide.GuideTip;
@@ -285,6 +286,7 @@ public class BdController extends AbsController {
 
     public void finishRecognize() {
         MLog.i(TAG, "stopRecognize");
+        LedUtil.openHorseLight();
         mDuserSdk.getVoiceRecognize().recognitionFinish(DuerSDKImpl.getInstance().getmContext());
     }
 
