@@ -10,6 +10,7 @@ import com.skyworthdigital.voice.common.AbsController;
 import com.skyworthdigital.voice.dingdang.BuildConfig;
 import com.skyworthdigital.voice.dingdang.VoiceApp;
 import com.skyworthdigital.voice.dingdang.utils.AppUtil;
+import com.skyworthdigital.voice.dingdang.utils.LedUtil;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
 import com.skyworthdigital.voice.dingdang.utils.VolumeUtils;
 import com.skyworthdigital.voice.guide.GuideTip;
@@ -32,11 +33,12 @@ public class RecognizeService extends AccessibilityService {
     protected boolean onKeyEvent(KeyEvent event) {
         int code = event.getKeyCode();
         int action = event.getAction();
-        MLog.i(TAG, "keyCode:" + code + "  action:" + action);
+        MLog.i(TAG, "RecognizeService keyCode:" + code + "  action:" + action);
         switch (code) {
             case KeyEvent.KEYCODE_BACK:
             case com.skyworthdigital.voice.VoiceApp.KEYCODE_TA412_BACK:
                 if (action == KeyEvent.ACTION_DOWN) {
+                    LedUtil.closeHorseLight();
                     return AbsController.getInstance().onKeyEvent(code);
                 }
                 break;
@@ -71,8 +73,8 @@ public class RecognizeService extends AccessibilityService {
                         VolumeUtils.getInstance(VoiceApp.getInstance()).setVoiceVolumeMinus(1);
                         return true;
                     }
-                    VolumeUtils.getInstance(VoiceApp.getInstance()).setVolumeMinus(1);
-                    return true;
+//                    VolumeUtils.getInstance(VoiceApp.getInstance()).setVolumeMinus(1);
+//                    return true;
                 }
                 break;
             case KeyEvent.KEYCODE_VOLUME_UP:
@@ -81,8 +83,8 @@ public class RecognizeService extends AccessibilityService {
                         VolumeUtils.getInstance(VoiceApp.getInstance()).setVoiceVolumePlus(1);
                         return true;
                     }
-                    VolumeUtils.getInstance(VoiceApp.getInstance()).setVolumePlus(1);
-                    return true;
+//                    VolumeUtils.getInstance(VoiceApp.getInstance()).setVolumePlus(1);
+//                    return true;
                 }
                 break;
 
@@ -96,13 +98,13 @@ public class RecognizeService extends AccessibilityService {
             default:
                 break;
         }
-        return false;
+        return super.onKeyEvent(event);
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        MLog.i(TAG, "onCreate");
+        MLog.i(TAG, "RecognizeService onCreate");
 //        mControler = new TxController();
     }
 
@@ -110,12 +112,13 @@ public class RecognizeService extends AccessibilityService {
     public void onDestroy() {
         super.onDestroy();
         //mControler.onDestroy();
+        MLog.i(TAG, "RecognizeService onDestroy");
     }
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
         if (event.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
-            MLog.i(TAG, "onAccessibilityEvent event:"+event.toString());
+            MLog.i(TAG, "RecognizeService onAccessibilityEvent event:"+event.toString());
             if(!BuildConfig.APPLICATION_ID.equals(event.getPackageName().toString())) {
                 AppUtil.topPackageName = (String) event.getPackageName();
             }
