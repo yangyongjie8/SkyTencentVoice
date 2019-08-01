@@ -617,6 +617,7 @@ public class BdController extends AbsController {
             mVoiceHandler.sendMessage(mVoiceHandler.obtainMessage(MSG_SHOW_ERROR, note));
         }
         Led.showLedOff();
+        LedUtil.closeHorseLight();
     }
 
 

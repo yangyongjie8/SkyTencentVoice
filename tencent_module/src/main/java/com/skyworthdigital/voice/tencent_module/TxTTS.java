@@ -346,6 +346,7 @@ public class TxTTS extends AbsTTS {
             clearList();
             lock.unlock();
 //            checkSendThirthAppListener(content==null?lastText:content, VoiceService.STATUS_CHANGED_VALUE_OVER);
+            LedUtil.closeHorseLight();
         }
 
         @Override

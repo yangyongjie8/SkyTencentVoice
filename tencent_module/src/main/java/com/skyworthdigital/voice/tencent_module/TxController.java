@@ -263,11 +263,13 @@ public class TxController extends AbsController implements AbsTTS.MyTTSListener 
     private IRecogListener mRecogListener = new IRecogListener() {
         @Override
         public void onAsrBegin() {
+            MLog.d(TAG, "onAsrBegin:");
             IStatus.mRecognizeStatus = IStatus.STATUS_READY;
         }
 
         @Override
         public void onAsrEnd() {
+            MLog.d(TAG, "onAsrEnd");
             IStatus.mRecognizeStatus = IStatus.STATUS_END;
             mAsrDialogControler.animStop();
         }
@@ -314,6 +316,7 @@ public class TxController extends AbsController implements AbsTTS.MyTTSListener 
             MLog.d(TAG, "onAsrError:" + descMessage + " code:" + errorCode);
             VolumeUtils.getInstance(mContext).setMuteWithNoUi(false);
             mAsrDialogControler.dialogDismiss(3000);
+            LedUtil.closeHorseLight();
             IStatus.mAsrErrorCnt += 1;
             IStatus.mRecognizeStatus = IStatus.STATUS_ERROR;
             if (errorCode == ISSErrors.ISS_ERROR_NETWORK_RESPONSE_FAIL ||
@@ -351,11 +354,13 @@ public class TxController extends AbsController implements AbsTTS.MyTTSListener 
 
     @Override
     public void onChange(int status) {
+        MLog.d(TAG, "onChange status:"+status);
         mAsrDialogControler.paipaiRefresh(status);
     }
 
     @Override
     public void onOutputChange(String output, int delay) {
+        MLog.d(TAG, "onOutputChange");
         if (IStatus.mSceneType != IStatus.SCENE_GIVEN) {
             mAsrDialogControler.dialogRefresh(mContext, null, output, delay);
         }

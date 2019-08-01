@@ -216,6 +216,7 @@ public class BdTTS extends AbsTTS {
                 clearList();
                 lock.unlock();
                 checkSendThirthAppListener(content, VoiceService.STATUS_CHANGED_VALUE_OVER);
+                LedUtil.closeHorseLight();
             }
         };
         DuerSDKFactory.getDuerSDK().getSpeech().addTTSStateListener(mTTSListener);
