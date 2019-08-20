@@ -134,6 +134,7 @@
             android:enabled="true"
             android:exported="true"
             android:directBootAware="true"
+            android:persistent="true"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService" />
