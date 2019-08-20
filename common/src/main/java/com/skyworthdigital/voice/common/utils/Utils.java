@@ -290,9 +290,9 @@ public class Utils {
 
     public static void openScreen(boolean open){
         if(open){
-            rootExec("echo 1 > /sys/class/amhdmitx/amhdmitx0/phy");
+            rootExec("echo -1 > /sys/class/amhdmitx/amhdmitx0/avmute");
         }else {
-            rootExec("echo 0 > /sys/class/amhdmitx/amhdmitx0/phy");
+            rootExec("echo 1 > /sys/class/amhdmitx/amhdmitx0/avmute");
         }
     }
 

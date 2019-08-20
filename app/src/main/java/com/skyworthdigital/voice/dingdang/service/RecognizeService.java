@@ -7,6 +7,7 @@ import android.view.KeyEvent;
 import android.view.accessibility.AccessibilityEvent;
 
 import com.skyworthdigital.voice.common.AbsController;
+import com.skyworthdigital.voice.common.utils.Utils;
 import com.skyworthdigital.voice.dingdang.BuildConfig;
 import com.skyworthdigital.voice.dingdang.VoiceApp;
 import com.skyworthdigital.voice.dingdang.utils.AppUtil;
@@ -38,6 +39,7 @@ public class RecognizeService extends AccessibilityService {
             case KeyEvent.KEYCODE_BACK:
             case com.skyworthdigital.voice.VoiceApp.KEYCODE_TA412_BACK:
                 if (action == KeyEvent.ACTION_DOWN) {
+                    Utils.openScreen(true);
                     LedUtil.closeHorseLight();
                     return AbsController.getInstance().onKeyEvent(code);
                 }
@@ -48,6 +50,7 @@ public class RecognizeService extends AccessibilityService {
                 if (action == KeyEvent.ACTION_DOWN) {
                     //mRecordStart = System.currentTimeMillis();
                     //if (TxController.getInstance().isStartValid()) {
+                    Utils.openScreen(true);
                     VoiceApp.initBaiduInstances();// 避免实例被回收
                     VoiceApp.initTencentInstances();
                     AbsController.getInstance().isControllerVoice = true;
@@ -73,8 +76,8 @@ public class RecognizeService extends AccessibilityService {
                         VolumeUtils.getInstance(VoiceApp.getInstance()).setVoiceVolumeMinus(1);
                         return true;
                     }
-//                    VolumeUtils.getInstance(VoiceApp.getInstance()).setVolumeMinus(1);
-//                    return true;
+                    VolumeUtils.getInstance(VoiceApp.getInstance()).setVolumeMinus(1);
+                    return true;
                 }
                 break;
             case KeyEvent.KEYCODE_VOLUME_UP:
@@ -83,8 +86,8 @@ public class RecognizeService extends AccessibilityService {
                         VolumeUtils.getInstance(VoiceApp.getInstance()).setVoiceVolumePlus(1);
                         return true;
                     }
-//                    VolumeUtils.getInstance(VoiceApp.getInstance()).setVolumePlus(1);
-//                    return true;
+                    VolumeUtils.getInstance(VoiceApp.getInstance()).setVolumePlus(1);
+                    return true;
                 }
                 break;
 
