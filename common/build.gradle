@@ -6,7 +6,7 @@ android {
 
 
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion versions.minSdk
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -34,12 +34,19 @@ android {
 
 }
 
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
+    api(name: 'skysmartsdk', ext: 'aar')
     api 'com.android.support:support-annotations:28.0.0'
     api 'com.android.support:recyclerview-v7:28.0.0'
     api 'com.android.support:support-v13:28.0.0'
-    api 'com.google.code.gson:gson:2.8.2'
+    api 'com.google.code.gson:gson:2.8.5'
     api 'com.squareup.okhttp3:okhttp:3.8.1'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
     // 一些自定义view SimpleDraweeView

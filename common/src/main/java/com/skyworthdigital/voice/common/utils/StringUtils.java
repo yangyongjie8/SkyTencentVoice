@@ -15,6 +15,7 @@ import com.skyworthdigital.voice.guide.GuideTip;
 import com.skyworthdigital.voice.iot.IoTParserResult;
 import com.skyworthdigital.voice.iot.IoTService;
 import com.skyworthdigital.voice.tianmai.TianmaiIntent;
+import com.skyworthdigital.voice.wemust.WemustApi;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -554,6 +555,18 @@ public class StringUtils {
         return sb.toString();
     }
 
+    // 威玛斯特iot服务
+    public static boolean isWemustIotCmd(String speech){
+        try {
+            return WemustApi.talk(VoiceApp.getInstance(), speech);
+        } catch (Exception e) {
+            MLog.e(TAG, "exception message:"+e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    // 创维iot服务
     public static boolean isIoTCmdFromSpeech(String speech) {
         try {
             if(speech.equals("重新入网"))
@@ -691,7 +704,7 @@ public class StringUtils {
      */
     public static boolean isHelpCmdFromSpeech(String speech) {
         String regex = ".*(怎么使用|如何使用|功能介绍|使用说明|功能说明|使用帮助).*";
-        MLog.d(TAG, "isExitCmdFromSpeech");
+        MLog.d(TAG, "isHelpCmdFromSpeech");
         return Pattern.matches(regex, speech);
     }
 
@@ -700,7 +713,7 @@ public class StringUtils {
      */
     public static boolean isHomeCmdFromSpeech(String speech) {
         String regex = "^(退出).*";
-        MLog.d(TAG, "isExitCmdFromSpeech");
+        MLog.d(TAG, "isHomeCmdFromSpeech");
         return Pattern.matches(regex, speech);
     }
 

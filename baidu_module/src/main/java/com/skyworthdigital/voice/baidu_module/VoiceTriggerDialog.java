@@ -4,6 +4,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -101,15 +103,34 @@ public class VoiceTriggerDialog extends Dialog {
 
     @Override
     public void show() {
-        super.show();
-        GuideTip tip = GuideTip.getInstance();
-        if (tip != null) {
-            String tipStr = tip.getGuidetips();
-            if(!TextUtils.isEmpty(tipStr)) {
-                mTextViewTip.setText(tipStr);
+        if(Thread.currentThread().getId()!= Looper.getMainLooper().getThread().getId()) {
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+
+                    VoiceTriggerDialog.super.show();
+                    GuideTip tip = GuideTip.getInstance();
+                    if (tip != null) {
+                        String tipStr = tip.getGuidetips();
+                        if (!TextUtils.isEmpty(tipStr)) {
+                            mTextViewTip.setText(tipStr);
+                        }
+                    }
+                    showPaiPaiByID(PaiPaiAnimUtil.ID_PAIPAI_HELLO);
+                }
+            });
+        }else {
+
+            super.show();
+            GuideTip tip = GuideTip.getInstance();
+            if (tip != null) {
+                String tipStr = tip.getGuidetips();
+                if (!TextUtils.isEmpty(tipStr)) {
+                    mTextViewTip.setText(tipStr);
+                }
             }
+            showPaiPaiByID(PaiPaiAnimUtil.ID_PAIPAI_HELLO);
         }
-        showPaiPaiByID(PaiPaiAnimUtil.ID_PAIPAI_HELLO);
         MLog.i(TAG, "================>show");
     }
 
@@ -443,10 +464,10 @@ public class VoiceTriggerDialog extends Dialog {
         if (action == KeyEvent.ACTION_DOWN) {
             switch (keyCode) {
                 case VOLUME_PLUS:
-                    VolumeUtils.getInstance(VoiceApp.getInstance()).setVoiceVolumePlus(1);
+                    VolumeUtils.getInstance(VoiceApp.getInstance()).setAlarmVolumePlus(1);
                     return true;
                 case VOLUME_MINUS:
-                    VolumeUtils.getInstance(VoiceApp.getInstance()).setVoiceVolumeMinus(1);
+                    VolumeUtils.getInstance(VoiceApp.getInstance()).setAlarmVolumeMinus(1);
                     return true;
                 default:
                     break;

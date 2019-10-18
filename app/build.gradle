@@ -26,15 +26,16 @@ android {
     buildToolsVersion "28.0.3"
     defaultConfig {
         applicationId "com.skyworthdigital.voice.dingdang"
-        minSdkVersion 17
+        minSdkVersion versions.minSdk
         targetSdkVersion 26
-        versionCode 10204
+        versionCode 10205
         versionName "1.02.04"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
 
         ndk {
             // 设置支持的SO库架构
-            abiFilters 'armeabi'//, 'armeabi-v7a'
+            abiFilters 'armeabi'//'armeabi-v7a'
         }
     }
     buildTypes {
@@ -86,6 +87,7 @@ dependencies {
     })
     //implementation 'com.android.support:appcompat-v7:26.0.0-alpha1'
     testImplementation 'junit:junit:4.12'
+    implementation 'org.robolectric:shadows-multidex:3.3.1'
 
     api project(':tencent_module')
     api project(':baidu_module')

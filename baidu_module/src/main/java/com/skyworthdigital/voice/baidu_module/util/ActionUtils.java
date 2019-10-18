@@ -10,6 +10,9 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 
 import com.google.gson.Gson;
+import com.skyworthdigital.skysmartsdk.RequestCallback;
+import com.skyworthdigital.skysmartsdk.SkySmartSDK;
+import com.skyworthdigital.skysmartsdk.bean.SkyBean;
 import com.skyworthdigital.voice.DefaultCmds;
 import com.skyworthdigital.voice.VoiceApp;
 import com.skyworthdigital.voice.baidu_module.BdController;
@@ -43,6 +46,7 @@ import com.skyworthdigital.voice.sdk.VoiceService;
 import com.skyworthdigital.voice.tianmai.TianmaiCommandUtil;
 import com.skyworthdigital.voice.tianmai.TianmaiIntent;
 import com.skyworthdigital.voice.videoplay.SkyVideoPlayUtils;
+import com.skyworthdigital.voice.wemust.WemustApi;
 
 import java.util.List;
 
@@ -109,15 +113,15 @@ public class ActionUtils {
                 if (slots == null) {
                     break;
                 }
-                VolumeUtils.getInstance(context).setVolumePlus((int)(double) slots.getValue());
+                VolumeUtils.getInstance(context).setVolumePlus((int) (double) slots.getValue());
                 BdTTS.getInstance().talk(context.getString(R.string.str_volume_note));
                 break;
             case DefaultCmds.COMMAND_VOL_DOWN:
                 if (slots == null) {
                     break;
                 }
-                MLog.d(TAG, "slots value type:"+slots.getValue().getClass().getSimpleName());
-                VolumeUtils.getInstance(context).setVolumeMinus((int)(double) slots.getValue());
+                MLog.d(TAG, "slots value type:" + slots.getValue().getClass().getSimpleName());
+                VolumeUtils.getInstance(context).setVolumeMinus((int) (double) slots.getValue());
                 BdTTS.getInstance().talk(context.getString(R.string.str_volume_note));
                 break;
             case DefaultCmds.COMMAND_VOL_SET:
@@ -128,8 +132,8 @@ public class ActionUtils {
                         || speech.contains("百分之百") || speech.contains("百分之一百")) {
                     VolumeUtils.getInstance(context).setVolumeMax();
                     BdTTS.getInstance().talk(context.getString(R.string.str_volume_note));
-                } else if(speech.contains("%")||speech.contains("百分之")){
-                    VolumeUtils.getInstance(context).setVolume((double) slots.getValue()/100);
+                } else if (speech.contains("%") || speech.contains("百分之")) {
+                    VolumeUtils.getInstance(context).setVolume((double) slots.getValue() / 100);
                 } else {
                     VolumeUtils.getInstance(context).setVolume((double) slots.getValue());
                 }
@@ -332,12 +336,12 @@ public class ActionUtils {
 
 
     /*
-    *功能：由于搜索的片名中如果带第*季或第*部或战狼2这类时，百度解析得到的film字段会省去季或部的内容，而是填入Whdepart或Whsuffix字段。
-    * 而服务器的片名是必须完整的带第*季或第*部才能搜索到。
-    * filmNameSpecicalProcess是将带第*季或第*部或战狼2这类影片名特殊处理。
-    * 1.首先根据用户语音的内容（speech）查找到有季或部的内容，有则重置影片名。如用户说播放欢乐颂第二季第三集，则影片名为欢乐颂第二季；
-    * 2.如果上一步没有查找到，则判断slots中是否有getWhdepart或getWhsuffix描述，有则获取到可能的影片名，重置影片名。
-    *   服务器能同时支持多个影片名搜索，例如百度解析filmName：速度与激情 getWhdepart：5，则搜索影片名filmName是：速度与激情5，速度与激情 5，速度与激情五，速度与激情 五
+     *功能：由于搜索的片名中如果带第*季或第*部或战狼2这类时，百度解析得到的film字段会省去季或部的内容，而是填入Whdepart或Whsuffix字段。
+     * 而服务器的片名是必须完整的带第*季或第*部才能搜索到。
+     * filmNameSpecicalProcess是将带第*季或第*部或战狼2这类影片名特殊处理。
+     * 1.首先根据用户语音的内容（speech）查找到有季或部的内容，有则重置影片名。如用户说播放欢乐颂第二季第三集，则影片名为欢乐颂第二季；
+     * 2.如果上一步没有查找到，则判断slots中是否有getWhdepart或getWhsuffix描述，有则获取到可能的影片名，重置影片名。
+     *   服务器能同时支持多个影片名搜索，例如百度解析filmName：速度与激情 getWhdepart：5，则搜索影片名filmName是：速度与激情5，速度与激情 5，速度与激情五，速度与激情 五
      */
     private static FilmSlots filmNameSpecicalProcess(Slots slots, FilmSlots filmSlots, String speech) {
         String whff = StringUtils.composeNameWithSpeech(slots.getFilm(), speech);
@@ -354,8 +358,8 @@ public class ActionUtils {
     /**
      * 首先由SkySceneService去处理当前语音结果是否是注册的命令，是的话，则不再进入视频搜索等操作
      */
-    public static void skySceneProcess(Context ctx, DuerBean duerBean, String originSpeech) {
-        if (DefaultCmds.SystemCmdPatchProcess(ctx,originSpeech)) {
+    public static void skySceneProcess(final Context ctx, DuerBean duerBean, String originSpeech) {
+        if (DefaultCmds.SystemCmdPatchProcess(ctx, originSpeech)) {
             return;
         }
         if (duerBean != null) {
@@ -365,7 +369,7 @@ public class ActionUtils {
                 MLog.i(TAG, "Nlu:" + nlu.toString());
                 //String originSpeech = duerBean.getOriginSpeech();
                 try {
-                    ReportUtils.report2Smartmovie(VoiceApp.deviceId,VoiceApp.lanMac,originSpeech);//上报的deviceId统一用mac
+                    ReportUtils.report2Smartmovie(VoiceApp.deviceId, VoiceApp.lanMac, originSpeech);//上报的deviceId统一用mac
                     Intent intent;
                     if (BdCommands.isPlay(nlu) || DefaultCmds.isMusicCmd(nlu.getIntent())) {
                         intent = BdCommands.composePlayControlIntent(duerBean);
@@ -394,6 +398,28 @@ public class ActionUtils {
                     intent.putExtra(DefaultCmds.SEQUERY, originSpeech);
                     intent.setPackage(strPackage);
                     ctx.startService(intent);
+//                    final String text = originSpeech;
+//                    SkySmartSDK.executeCommand(ctx, originSpeech, new RequestCallback() {
+//                        @Override
+//                        public void onFinish(SkyBean skyBean) {
+//                            if (skyBean == null || (TextUtils.isEmpty(skyBean.getAnswer())) && TextUtils.isEmpty(skyBean.getAccident())
+//                                    || "unknown".equals(skyBean.getIntentType())) {
+//                                Intent intent = new Intent(SkySceneService.INTENT_TOPACTIVITY_CALL);
+//                                String strPackage = GlobalVariable.VOICE_PACKAGE_NAME;
+//                                intent.putExtra(DefaultCmds.SEQUERY, text);
+//                                intent.setPackage(strPackage);
+//                                ctx.startService(intent);
+//                            } else if (RequestCallback.UNLOGIN.equals(skyBean.getAccident())) {
+//                                SkySmartSDK.gotoLoginJd(ctx);
+//                                BdTTS.getInstance().talk("您未用小京鱼授权");
+//                            } else if (RequestCallback.INVALID_AUTHORIZE.equals(skyBean.getAccident())) {
+//                                SkySmartSDK.gotoAuthorizeJd(ctx);
+//                                BdTTS.getInstance().talk("您未用小京鱼授权");
+//                            } else {
+//                                BdTTS.getInstance().talk(skyBean.getAnswer());
+//                            }
+//                        }
+//                    });
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -407,11 +433,12 @@ public class ActionUtils {
     private static boolean specialCmdProcess(Context ctx, String speech) {
         MLog.i(TAG, "######### specialCmdProcess");
 
-        if("切换到叮当".equalsIgnoreCase(speech)||"切换到丁当".equalsIgnoreCase(speech)||"切换到订单".equalsIgnoreCase(speech)){
+        if ("切换到叮当".equalsIgnoreCase(speech) || "切换到丁当".equalsIgnoreCase(speech) || "切换到订单".equalsIgnoreCase(speech)) {
             VoiceApp.isDuer = false;
             SPUtil.putString(SPUtil.KEY_VOICE_PLATFORM, SPUtil.VALUE_VOICE_PLATFORM_DINGDANG);
             BdController.getInstance().stopVoiceTriggerDialog();
             BdController.getInstance().onDestroy();
+            VolumeUtils.getInstance(ctx).setAlarmDefaultVolume(ctx);
             AbsTTS.getInstance(null).talk("我是叮当");
             AbsController.getInstance().dismissDialog(3000);
             return true;
@@ -423,13 +450,13 @@ public class ActionUtils {
 //            return true;
 //        }
 
-        if("关闭屏幕".equals(speech)){
+        if ("关闭屏幕".equals(speech)) {
             Utils.openScreen(false);
             Utils.openHdmi(false);
             AbsTTS.getInstance(null).talk("已关闭");
             return true;
         }
-        if("打开屏幕".equals(speech)||"恢复屏幕".equals(speech)||"显示屏幕".equals(speech)){
+        if ("打开屏幕".equals(speech) || "恢复屏幕".equals(speech) || "显示屏幕".equals(speech)) {
 //            Utils.openHdmi(true);
             Utils.openScreen(true);
             AbsTTS.getInstance(null).talk("已打开");
@@ -446,19 +473,19 @@ public class ActionUtils {
                     return true;
                 }
 
-                if(StringUtils.doTwoMinSwitch(speech))return true;
+                if (StringUtils.doTwoMinSwitch(speech)) return true;
 
                 TianmaiIntent tianmaiIntent;
-                if((tianmaiIntent=StringUtils.isTianMaiDemoSpeech(speech))!=null){
+                if ((tianmaiIntent = StringUtils.isTianMaiDemoSpeech(speech)) != null) {
                     DefaultCmds.startTianmaiPlay(ctx, tianmaiIntent);
                     MLog.i(TAG, "special tianmai action");
                     return true;
                 }
 
                 // 天脉乐龄情志前台运行，所有未能识别的指令都传到乐龄
-                if(AppUtil.isForegroundRunning(TianmaiCommandUtil.PACKAGENAME_LELINGQINGZHI)){
+                if (AppUtil.isForegroundRunning(TianmaiCommandUtil.PACKAGENAME_LELINGQINGZHI)) {
                     int number = TianmaiCommandUtil.getQingzhiCommandCode(speech);
-                    if(number!=-1){
+                    if (number != -1) {
                         // todo
 //                      VoiceService.trySendRecognizeCompletedCommand(originSpeech, 1);//这个1根据sdk接口确定
                         VoiceService.trySendRecognizeCompletedCommand(speech, number);
@@ -479,13 +506,13 @@ public class ActionUtils {
                 }
 //
             }
-            if(StringUtils.isIoTCmdFromSpeech(speech)){
+            if(StringUtils.isWemustIotCmd(speech)){
                 MLog.i(TAG, "special IoT cmd");
                 return true;
             }
 
             Intent intent = null;
-            if ((intent = DefaultCmds.PlayCmdPatchProcess(speech))!=null) {
+            if ((intent = DefaultCmds.PlayCmdPatchProcess(speech)) != null) {
                 MLog.d(TAG, "CmdPatchProcess intent");
                 ctx.startService(intent);
                 return true;

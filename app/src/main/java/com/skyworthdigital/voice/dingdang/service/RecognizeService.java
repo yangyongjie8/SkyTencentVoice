@@ -73,7 +73,7 @@ public class RecognizeService extends AccessibilityService {
             case KeyEvent.KEYCODE_VOLUME_DOWN:
                 if (action == KeyEvent.ACTION_DOWN) {
                     if (AbsController.getInstance().isAsrDialogShowing() && !VolumeUtils.getInstance(VoiceApp.getInstance()).isM2001()) {
-                        VolumeUtils.getInstance(VoiceApp.getInstance()).setVoiceVolumeMinus(1);
+                        VolumeUtils.getInstance(VoiceApp.getInstance()).setAlarmVolumeMinus(1);
                         return true;
                     }
                     VolumeUtils.getInstance(VoiceApp.getInstance()).setVolumeMinus(1);
@@ -83,7 +83,7 @@ public class RecognizeService extends AccessibilityService {
             case KeyEvent.KEYCODE_VOLUME_UP:
                 if (action == KeyEvent.ACTION_DOWN) {
                     if (AbsController.getInstance().isAsrDialogShowing() && !VolumeUtils.getInstance(VoiceApp.getInstance()).isM2001()) {
-                        VolumeUtils.getInstance(VoiceApp.getInstance()).setVoiceVolumePlus(1);
+                        VolumeUtils.getInstance(VoiceApp.getInstance()).setAlarmVolumePlus(1);
                         return true;
                     }
                     VolumeUtils.getInstance(VoiceApp.getInstance()).setVolumePlus(1);

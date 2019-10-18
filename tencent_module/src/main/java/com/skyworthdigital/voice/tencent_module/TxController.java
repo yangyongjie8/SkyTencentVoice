@@ -13,6 +13,9 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 
+import com.skyworthdigital.skysmartsdk.RequestCallback;
+import com.skyworthdigital.skysmartsdk.SkySmartSDK;
+import com.skyworthdigital.skysmartsdk.bean.SkyBean;
 import com.skyworthdigital.voice.DefaultCmds;
 import com.skyworthdigital.voice.VoiceApp;
 import com.skyworthdigital.voice.common.AbsAsrTranslator;
@@ -363,6 +366,7 @@ public class TxController extends AbsController implements AbsTTS.MyTTSListener 
         MLog.d(TAG, "onOutputChange");
         if (IStatus.mSceneType != IStatus.SCENE_GIVEN) {
             mAsrDialogControler.dialogRefresh(mContext, null, output, delay);
+            mAsrDialogControler.dialogDismiss(3000);// 默认3秒消失
         }
     }
 
@@ -466,12 +470,12 @@ public class TxController extends AbsController implements AbsTTS.MyTTSListener 
         }
     };
 
-    private void skySceneProcess(Context ctx, String result) {
+    private void skySceneProcess(final Context ctx, String result) {
         mRecoResult = result;
         if (mRecoResult != null) {
             try {
                 Intent intent;
-                AsrResult bean = GsonUtils.parseResult(result, AsrResult.class);
+                final AsrResult bean = GsonUtils.parseResult(result, AsrResult.class);
                 if (bean == null) {
                     MLog.d(TAG, "bean is null");
                     mAsrDialogControler.dialogDismiss(DISMISS_DELAY_NORMAL);
@@ -539,6 +543,27 @@ public class TxController extends AbsController implements AbsTTS.MyTTSListener 
                     intent.putExtra(DefaultCmds.SEQUERY, bean.mQuery);
                     intent.setPackage(strPackage);
                     ctx.startService(intent);
+//                    SkySmartSDK.executeCommand(ctx, bean.mQuery, new RequestCallback() {
+//                        @Override
+//                        public void onFinish(SkyBean skyBean) {
+//                            if(skyBean==null || (TextUtils.isEmpty(skyBean.getAnswer()))&&TextUtils.isEmpty(skyBean.getAccident())
+//                                    || "unknown".equals(skyBean.getIntentType())){
+//                                Intent intent = new Intent(SkySceneService.INTENT_TOPACTIVITY_CALL);
+//                                String strPackage = GlobalVariable.VOICE_PACKAGE_NAME;
+//                                intent.putExtra(DefaultCmds.SEQUERY, bean.mQuery);
+//                                intent.setPackage(strPackage);
+//                                ctx.startService(intent);;
+//                            }else if (RequestCallback.UNLOGIN.equals(skyBean.getAccident())){
+//                                SkySmartSDK.gotoLoginJd(ctx);
+//                                TxTTS.getInstance(null).talk("您未用小京鱼授权");
+//                            }else if(RequestCallback.INVALID_AUTHORIZE.equals(skyBean.getAccident())){
+//                                SkySmartSDK.gotoAuthorizeJd(ctx);
+//                                TxTTS.getInstance(null).talk("您未用小京鱼授权");
+//                            }else {
+//                                TxTTS.getInstance(null).talk(skyBean.getAnswer());
+//                            }
+//                        }
+//                    });
                 }
             } catch (Exception e) {
                 e.printStackTrace();

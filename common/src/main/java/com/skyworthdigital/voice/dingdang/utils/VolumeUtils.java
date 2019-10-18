@@ -78,6 +78,16 @@ public class VolumeUtils {
         mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, max_vol, AudioManager.FLAG_SHOW_UI);
     }
 
+    public void setAlarmDefaultVolume(Context ctx){
+        int max_vol = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_ALARM);
+        int scaledVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_ALARM);
+        if(VoiceApp.isDuer){
+            mAudioManager.setStreamVolume(AudioManager.STREAM_ALARM, max_vol/2, AudioManager.FLAG_VIBRATE);
+        }else {
+            mAudioManager.setStreamVolume(AudioManager.STREAM_ALARM, max_vol/2, AudioManager.FLAG_VIBRATE);
+        }
+    }
+
     /**
      * 增加音量，并显示音量条
      * <p>
@@ -210,7 +220,7 @@ public class VolumeUtils {
         return current_vol;
     }
 
-    public void setVoiceVolumePlus(int volume) {
+    public void setAlarmVolumePlus(int volume) {
         if(Build.VERSION.SDK_INT<Build.VERSION_CODES.M) {
             mAudioManager.setStreamMute(AudioManager.STREAM_ALARM, false);
         }else {
@@ -231,7 +241,7 @@ public class VolumeUtils {
      * 减小音量，并显示音量条，
      * param volume
      */
-    public void setVoiceVolumeMinus(int volume) {
+    public void setAlarmVolumeMinus(int volume) {
         if(Build.VERSION.SDK_INT<Build.VERSION_CODES.M) {
             mAudioManager.setStreamMute(AudioManager.STREAM_ALARM, false);
         }else {

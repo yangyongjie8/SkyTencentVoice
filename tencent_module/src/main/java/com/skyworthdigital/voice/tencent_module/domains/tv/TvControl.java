@@ -76,10 +76,12 @@ public class TvControl {
                 case "volumn_down":
                 case "turn_down":
                     VolumeUtils.getInstance(ctx).setVolumeMinus(2);
+                    TxTTS.getInstance(null).talk(ctx.getString(R.string.str_ok));
                     break;
                 case "volumn_up":
                 case "turn_up":
-                    VolumeUtils.getInstance(ctx).setVoiceVolumePlus(2);
+                    VolumeUtils.getInstance(ctx).setVolumePlus(2);
+                    TxTTS.getInstance(null).talk(ctx.getString(R.string.str_ok));
                     break;
                 case "volumn_to":
                 case "turn_volume_to":

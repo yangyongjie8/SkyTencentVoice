@@ -177,7 +177,7 @@ public class BdTTS extends AbsTTS {
 
             @Override
             public void onSynthesizeFinish(String utteranceId) {
-                //LogUtil.log("playStatus:语音合成结束 = " + utteranceId);
+                MLog.i(TAG, "playStatus:语音合成结束 = " + utteranceId);
                 LedUtil.closeHorseLight();
             }
 

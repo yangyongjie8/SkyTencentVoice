@@ -258,6 +258,8 @@ public class SkyAsrDialog extends Dialog {
         }
         if (status == AbsTTS.STATUS_TALKING) {
             mHandler.sendEmptyMessage(MSG_PAIPAI_SPEAK);
+        } else if(status == AbsTTS.STATUS_TALKOVER){
+            TxController.getInstance().getAsrDialogControler().dialogDismiss(1000);
         } else {
             mHandler.sendEmptyMessage(MSG_PAIPAI_DEFAULT);
         }

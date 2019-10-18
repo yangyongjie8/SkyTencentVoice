@@ -1,5 +1,6 @@
 package com.skyworthdigital.voice.tencent_module;
 
+import android.media.AudioManager;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Message;
@@ -73,6 +74,8 @@ public class TxTTS extends AbsTTS {
             }
         };
         mTTSSession = new TtsSession(VoiceApp.getInstance(), ttSInitListener, "");
+        mTTSSession.setStreamType(AudioManager.STREAM_ALARM);
+//        mTTSSession.setTTSPlayVolum(10);
     }
 
     private static final int MSG_TALK_NEXT = 0;
@@ -329,6 +332,7 @@ public class TxTTS extends AbsTTS {
             myTTSListener.onChange(STATUS_INTERRUPT);
             String msg = "播放被中断：onPlayInterrupted";
             Log.i(TAG, msg);
+            LedUtil.closeHorseLight();
         }
 
         @Override

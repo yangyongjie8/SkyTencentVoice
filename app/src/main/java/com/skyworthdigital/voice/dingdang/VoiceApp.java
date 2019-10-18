@@ -1,10 +1,11 @@
 package com.skyworthdigital.voice.dingdang;
 
-import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
+import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -20,6 +21,8 @@ import com.forest.bigdatasdk.hosttest.IErrorListener;
 import com.forest.bigdatasdk.model.ForestInitParam;
 import com.forest.bigdatasdk.util.BaseParamUtils;
 import com.forest.bigdatasdk.util.SystemUtil;
+import com.skyworthdigital.skysmartsdk.SdkConfig;
+import com.skyworthdigital.skysmartsdk.SkySmartSDK;
 import com.skyworthdigital.voice.baidu_module.AppConfig;
 import com.skyworthdigital.voice.baidu_module.BdAsrTranslator;
 import com.skyworthdigital.voice.baidu_module.BdGuideAgent;
@@ -35,6 +38,7 @@ import com.skyworthdigital.voice.tencent_module.TxAsrTranslator;
 import com.skyworthdigital.voice.tencent_module.TxGuideAgent;
 import com.skyworthdigital.voice.tencent_module.TxTvLiveController;
 import com.skyworthdigital.voice.tencent_module.record.PcmRecorder;
+import com.skyworthdigital.voice.wemust.WemustApi;
 import com.tencent.ai.sdk.control.SpeechManager;
 import com.tencent.ai.sdk.utils.ISSErrors;
 
@@ -44,7 +48,7 @@ import java.io.File;
 
 import static com.forest.bigdatasdk.app.ForestAdvertCrossAppDataReport.HTTP_PREFIX;
 
-public class VoiceApp extends Application {
+public class VoiceApp extends MultiDexApplication {
     private static final String TAG = VoiceApp.class.getSimpleName();
     private static com.skyworthdigital.voice.VoiceApp sInstance;
     private static VoiceApp sVoiceApp;
@@ -54,6 +58,7 @@ public class VoiceApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        MultiDex.install(this);
         setAccessibilityEnable();
         sInstance = new com.skyworthdigital.voice.VoiceApp();
         sInstance.onCreate(this);
@@ -73,6 +78,23 @@ public class VoiceApp extends Application {
         initBigDataReport();
 
         startService(new Intent(this, IoTService.class));
+
+        SdkConfig sdkConfig = new SdkConfig();
+        sdkConfig.setNlpUrl(this, "http://smartgt.skyworthbox.com/smartdm/processSentence?sentence=");
+        sdkConfig.setJdAppKey(this, "NGNE5PPGQ6HIWHNCW7F6AHHPPNDCMBU6");// 使用京东的家居控制
+        sdkConfig.setJdAppSecret(this, "94wfzxjyu2fxsnff5yidqq6htphbr6xh");
+        SkySmartSDK.initConfig(this, sdkConfig);
+        // 初始化威玛斯特相关秘钥
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    WemustApi.initKeys(getBaseContext());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     public static void initTencentInstances(){
