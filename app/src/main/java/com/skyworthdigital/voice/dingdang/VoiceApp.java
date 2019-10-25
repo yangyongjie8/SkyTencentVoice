@@ -58,7 +58,6 @@ public class VoiceApp extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        MultiDex.install(this);
         setAccessibilityEnable();
         sInstance = new com.skyworthdigital.voice.VoiceApp();
         sInstance.onCreate(this);
@@ -95,6 +94,7 @@ public class VoiceApp extends MultiDexApplication {
                 }
             }
         }).start();
+        MultiDex.install(this);
     }
 
     public static void initTencentInstances(){

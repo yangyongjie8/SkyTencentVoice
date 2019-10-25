@@ -61,11 +61,6 @@ public class WemustApi {
                 e.printStackTrace();
             }
         }
-        if(TextUtils.isEmpty(svrPubKey) || svrExpiredDate==null || svrExpiredDate.before(DateUtil.getDateOneWeekLater())){
-            Log.i("WemustApi", "远程公钥过期或不存在，重新请求");
-            requestPublicKey(context);
-        }
-
         // 客户端秘钥
         String cliPriKey = SPUtil.getString(context, SP_KEY_CLIENT_PRIKEY);
         String cliPubKey = SPUtil.getString(context, SP_KEY_CLIENT_PUBKEY);
@@ -80,8 +75,12 @@ public class WemustApi {
                 e.printStackTrace();
             }
         }
-        if(TextUtils.isEmpty(cliPubKey)||TextUtils.isEmpty(cliPriKey)||cliExpiredDate==null||cliExpiredDate.before(DateUtil.getDateOneWeekLater())){
-            Log.i("WemustApi", "客户端秘钥过期或不存在，重新创建");
+        boolean isServerKeyExpired = TextUtils.isEmpty(svrPubKey) || svrExpiredDate==null || svrExpiredDate.before(DateUtil.getDateOneWeekLater());
+        boolean isClientKeyExpired = TextUtils.isEmpty(cliPubKey)||TextUtils.isEmpty(cliPriKey)||cliExpiredDate==null||cliExpiredDate.before(DateUtil.getDateOneWeekLater());
+        Log.d("WemustApi", "isServerKeyExpired:"+isServerKeyExpired+" isClientKeyExpired:"+isClientKeyExpired);
+        if(isServerKeyExpired || isClientKeyExpired){
+            Log.i("WemustApi", "秘钥过期或不存在，重新请求远程公钥并创建本地秘钥");
+            requestPublicKey(context);
 
             // 新创建秘钥对
             KeyPair pair = RsaUtil.generateRSAKeyPair();
