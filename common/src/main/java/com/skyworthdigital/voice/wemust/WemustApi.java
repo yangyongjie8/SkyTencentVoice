@@ -45,6 +45,12 @@ public class WemustApi {
 
     private static int info_i = 0;//对话序列，0 正常对话； 大于0，多轮对话的序号
 
+    private static void clearKeys(Context context){
+        SPUtil.putString(context, SP_KEY_SERVER_PUBKEY, null);
+        SPUtil.putString(context, SP_KEY_CLIENT_PRIKEY, null);
+        SPUtil.putString(context, SP_KEY_CLIENT_PUBKEY, null);
+    }
+
     public static synchronized void initKeys(Context context) throws Exception {
         if(Thread.currentThread().getId()== Looper.getMainLooper().getThread().getId()) throw new Exception("cannot invoke from main thread.");
 
@@ -216,6 +222,11 @@ public class WemustApi {
             if(response!=null && response.code()==200){
                 String bodyStr = response.body().string();
                 WrapResponse commonResponse = new Gson().fromJson(bodyStr, WrapResponse.class);
+                // 为空则后台秘钥可能已丢失，需要尝试重新更新秘钥
+                if(TextUtils.isEmpty(commonResponse.getEn_data())){
+                    clearKeys(context);
+                    return false;
+                }
                 EnData enDataObj = new Gson().fromJson(decrypt(context,commonResponse.getEn_data()), EnData.class);
                 // 被威玛斯特消费
                 if(enDataObj!=null && "000000".equals(enDataObj.getRet_code())){
