@@ -21,20 +21,18 @@ import com.forest.bigdatasdk.hosttest.IErrorListener;
 import com.forest.bigdatasdk.model.ForestInitParam;
 import com.forest.bigdatasdk.util.BaseParamUtils;
 import com.forest.bigdatasdk.util.SystemUtil;
-import com.skyworthdigital.skysmartsdk.SdkConfig;
-import com.skyworthdigital.skysmartsdk.SkySmartSDK;
 import com.skyworthdigital.voice.baidu_module.AppConfig;
 import com.skyworthdigital.voice.baidu_module.BdAsrTranslator;
+import com.skyworthdigital.voice.baidu_module.BdController;
 import com.skyworthdigital.voice.baidu_module.BdGuideAgent;
 import com.skyworthdigital.voice.baidu_module.BdTvLiveController;
-import com.skyworthdigital.voice.baidu_module.BdController;
 import com.skyworthdigital.voice.common.utils.Utils;
 import com.skyworthdigital.voice.dingdang.service.RecognizeService;
 import com.skyworthdigital.voice.dingdang.utils.GlobalVariable;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
 import com.skyworthdigital.voice.iot.IoTService;
-import com.skyworthdigital.voice.tencent_module.TxController;
 import com.skyworthdigital.voice.tencent_module.TxAsrTranslator;
+import com.skyworthdigital.voice.tencent_module.TxController;
 import com.skyworthdigital.voice.tencent_module.TxGuideAgent;
 import com.skyworthdigital.voice.tencent_module.TxTvLiveController;
 import com.skyworthdigital.voice.tencent_module.record.PcmRecorder;
@@ -70,7 +68,7 @@ public class VoiceApp extends MultiDexApplication {
         initTencentSDK();
         initDuerSDK();
         initBaiduInstances();
-        initTencentInstances();
+        initTencentInstances();getBaseContext().startActivity(new Intent());
 
         Fresco.initialize(this);
 
@@ -78,11 +76,6 @@ public class VoiceApp extends MultiDexApplication {
 
         startService(new Intent(this, IoTService.class));
 
-        SdkConfig sdkConfig = new SdkConfig();
-        sdkConfig.setNlpUrl(this, "http://smartgt.skyworthbox.com/smartdm/processSentence?sentence=");
-        sdkConfig.setJdAppKey(this, "NGNE5PPGQ6HIWHNCW7F6AHHPPNDCMBU6");// 使用京东的家居控制
-        sdkConfig.setJdAppSecret(this, "94wfzxjyu2fxsnff5yidqq6htphbr6xh");
-        SkySmartSDK.initConfig(this, sdkConfig);
         // 初始化威玛斯特相关秘钥
         new Thread(new Runnable() {
             @Override

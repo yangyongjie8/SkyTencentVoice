@@ -656,7 +656,8 @@ public class ActionUtils {
             return true;
         }
 
-        if(StringUtils.isWemustIotCmd(speech)){
+        if(StringUtils.isIoTCmdFromSpeech(speech)){
+//            if(StringUtils.isWemustIotCmd(speech)){
             MLog.i(TAG, "special IoT cmd");
             return true;
         }

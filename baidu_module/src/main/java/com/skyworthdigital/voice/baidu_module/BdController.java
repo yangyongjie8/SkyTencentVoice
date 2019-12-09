@@ -21,6 +21,9 @@ import com.baidu.duersdk.DuerSDK;
 import com.baidu.duersdk.DuerSDKFactory;
 import com.baidu.duersdk.DuerSDKImpl;
 import com.baidu.duersdk.voice.VoiceInterface;
+import com.skyworthdigital.skysmartsdk.RequestCallback;
+import com.skyworthdigital.skysmartsdk.SkySmartSDK;
+import com.skyworthdigital.skysmartsdk.bean.SkyBean;
 import com.skyworthdigital.voice.VoiceApp;
 import com.skyworthdigital.voice.alarm.database.AlarmDbOperator;
 import com.skyworthdigital.voice.baidu_module.duerbean.DuerBean;
@@ -629,12 +632,13 @@ public class BdController extends AbsController {
         mVoiceHandler.sendMessage(mVoiceHandler.obtainMessage(MSG_REC_PARTIAL, msg));
     }
 
+    private String originSpeech;
     private void onRecognizeFinish(VoiceInterface.VoiceResult voiceResult) {
         Context ctx = VoiceApp.getInstance();
         if (mVoiceTriggerDialog != null && voiceResult != null) {
             try {
                 String result = voiceResult.getDuerResult();
-                String originSpeech = voiceResult.getSpeakText();
+                originSpeech = voiceResult.getSpeakText();
                 MLog.i(TAG, "result:" + result);
                 if (!TextUtils.isEmpty(result)) {
                     DuerBean duerBean = GsonUtils.getDuerBean(result);
@@ -733,9 +737,18 @@ public class BdController extends AbsController {
                         onSetDialogDismissTimer(RECOGNIZE_FINISH_DEALY);
                     }
                     if (!matched) {
-                        //开始识别
-                        Log.i(TAG, "voiceResultProc");
-                        BdAsrTranslator.getInstance().translate(mDuerResult);
+
+                        // 自有平台结果
+                        SkySmartSDK.executeCommand(VoiceApp.getInstance(), BdController.this.originSpeech, new RequestCallback() {
+                            @Override
+                            public void onFinish(SkyBean skyBean) {
+                                if(!doFinish(skyBean)){
+                                    //百度平台结果
+                                    Log.i(TAG, "voiceResultProc");
+                                    BdAsrTranslator.getInstance().translate(mDuerResult);
+                                }
+                            }
+                        });
                     }
                 }
 
@@ -762,6 +775,43 @@ public class BdController extends AbsController {
             mService = null;
         }
     };
+
+    /**
+     * 解析处理自有nlp结果
+     * @param bean
+     * @return true 已消费
+     */
+    private boolean doFinish(SkyBean bean){
+
+        if(bean==null || (TextUtils.isEmpty(bean.getAnswer())&&TextUtils.isEmpty(bean.getAccident()))){
+            Log.w(TAG, "无应答结果，可根据需要继续执行自有业务流程");
+            return false;
+        }
+        if("unknown".equals(bean.getIntentType())){
+            Log.w(TAG, "未被成功理解，可根据需要继续执行自有业务流程");
+            return false;
+        }
+//                if(!"smarthome".equals(bean.getIntentType())){
+//                    Log.w(TAG, "不是家居控制指令。");
+//                    return;
+//                }
+        if(TextUtils.isEmpty(bean.getAccident())){// 完成应答
+            Log.i(TAG, "应答："+bean.getAnswer());
+            BdTTS.getInstance().talk(bean.getAnswer());
+            return true;
+        }else {
+            return false;
+        }
+//        // 缓存slots，用于翻页查找
+//        if("movie".equals(bean.getIntentType())){
+//            if(!bean.getVideos().getMovieSlots().equals(slots)){
+//                Log.w(TAG, "这次的slots和前一个不相同哦");
+//                Log.i(TAG, "前一个："+slots);
+//                slots = bean.getVideos().getMovieSlots();
+//                Log.i(TAG, "最新："+slots);
+//            }
+//        }
+    }
 
     public class AudioBoxReceiver extends BroadcastReceiver {
         private boolean mSceenOn = true;

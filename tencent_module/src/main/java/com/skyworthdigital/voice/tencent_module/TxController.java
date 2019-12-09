@@ -120,7 +120,7 @@ public class TxController extends AbsController implements AbsTTS.MyTTSListener 
                         mAsrDialogControler.mAsrDialog.closeGuideDialog();
                         return true;
                     } else if (mAsrDialogControler != null && !mAsrDialogControler.isTvDialog() &&
-                            mAsrDialogControler.mAsrDialog != null && !mAsrDialogControler.mAsrDialog.isGuideDialogShow()) {
+                            mAsrDialogControler.mAsrDialog != null && (!mAsrDialogControler.mAsrDialog.isGuideDialogShow()||mAsrDialogControler.mAsrDialog.isShowing())) {
                         Log.d(TAG, "not tv schedule & not dialog showing");
                         myTTS.stopSpeak();
                         IStatus.mSmallDialogDimissTime = System.currentTimeMillis() - 1;
@@ -413,8 +413,18 @@ public class TxController extends AbsController implements AbsTTS.MyTTSListener 
                                 }
                                 MLog.d(TAG, "unmatch intent:" + bean.mSemanticJson.mSemantic.mIntent + " scenetype:" + IStatus.mSceneType);
 
-                                AbsAsrTranslator.getInstance().translate(bean);
-                                mRecoResult = null;
+                                // 自有平台结果
+                                SkySmartSDK.executeCommand(VoiceApp.getInstance(), bean.mQuery, new RequestCallback() {
+                                    @Override
+                                    public void onFinish(SkyBean skyBean) {
+                                        if(!doFinish(skyBean)){
+                                            //百度平台结果
+                                            Log.i(TAG, "voiceResultProc");
+                                            AbsAsrTranslator.getInstance().translate(bean);
+                                            mRecoResult = null;
+                                        }
+                                    }
+                                });
                             }
                         }
                     };
@@ -469,6 +479,43 @@ public class TxController extends AbsController implements AbsTTS.MyTTSListener 
             mSceneService = null;
         }
     };
+
+    /**
+     * 解析处理自有nlp结果
+     * @param bean
+     * @return true 已消费
+     */
+    private boolean doFinish(SkyBean bean){
+
+        if(bean==null || (TextUtils.isEmpty(bean.getAnswer())&&TextUtils.isEmpty(bean.getAccident()))){
+            Log.w(TAG, "无应答结果，可根据需要继续执行自有业务流程");
+            return false;
+        }
+        if("unknown".equals(bean.getIntentType())){
+            Log.w(TAG, "未被成功理解，可根据需要继续执行自有业务流程");
+            return false;
+        }
+//                if(!"smarthome".equals(bean.getIntentType())){
+//                    Log.w(TAG, "不是家居控制指令。");
+//                    return;
+//                }
+        if(TextUtils.isEmpty(bean.getAccident())){// 完成应答
+            Log.i(TAG, "应答："+bean.getAnswer());
+            TxTTS.getInstance(null).talk(bean.getAnswer());
+            return true;
+        }else {
+            return false;
+        }
+//        // 缓存slots，用于翻页查找
+//        if("movie".equals(bean.getIntentType())){
+//            if(!bean.getVideos().getMovieSlots().equals(slots)){
+//                Log.w(TAG, "这次的slots和前一个不相同哦");
+//                Log.i(TAG, "前一个："+slots);
+//                slots = bean.getVideos().getMovieSlots();
+//                Log.i(TAG, "最新："+slots);
+//            }
+//        }
+    }
 
     private void skySceneProcess(final Context ctx, String result) {
         mRecoResult = result;
@@ -543,27 +590,7 @@ public class TxController extends AbsController implements AbsTTS.MyTTSListener 
                     intent.putExtra(DefaultCmds.SEQUERY, bean.mQuery);
                     intent.setPackage(strPackage);
                     ctx.startService(intent);
-//                    SkySmartSDK.executeCommand(ctx, bean.mQuery, new RequestCallback() {
-//                        @Override
-//                        public void onFinish(SkyBean skyBean) {
-//                            if(skyBean==null || (TextUtils.isEmpty(skyBean.getAnswer()))&&TextUtils.isEmpty(skyBean.getAccident())
-//                                    || "unknown".equals(skyBean.getIntentType())){
-//                                Intent intent = new Intent(SkySceneService.INTENT_TOPACTIVITY_CALL);
-//                                String strPackage = GlobalVariable.VOICE_PACKAGE_NAME;
-//                                intent.putExtra(DefaultCmds.SEQUERY, bean.mQuery);
-//                                intent.setPackage(strPackage);
-//                                ctx.startService(intent);;
-//                            }else if (RequestCallback.UNLOGIN.equals(skyBean.getAccident())){
-//                                SkySmartSDK.gotoLoginJd(ctx);
-//                                TxTTS.getInstance(null).talk("您未用小京鱼授权");
-//                            }else if(RequestCallback.INVALID_AUTHORIZE.equals(skyBean.getAccident())){
-//                                SkySmartSDK.gotoAuthorizeJd(ctx);
-//                                TxTTS.getInstance(null).talk("您未用小京鱼授权");
-//                            }else {
-//                                TxTTS.getInstance(null).talk(skyBean.getAnswer());
-//                            }
-//                        }
-//                    });
+
                 }
             } catch (Exception e) {
                 e.printStackTrace();

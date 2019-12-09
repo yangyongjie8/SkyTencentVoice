@@ -3,8 +3,13 @@ package com.skyworthdigital.voice.common.utils;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.skyworthdigital.skysmartsdk.RequestCallback;
+import com.skyworthdigital.skysmartsdk.SkySmartSDK;
+import com.skyworthdigital.skysmartsdk.bean.SkyBean;
 import com.skyworthdigital.voice.VoiceApp;
 import com.skyworthdigital.voice.common.AbsTTS;
 import com.skyworthdigital.voice.common.R;

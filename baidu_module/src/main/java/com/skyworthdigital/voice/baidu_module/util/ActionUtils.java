@@ -10,9 +10,6 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 
 import com.google.gson.Gson;
-import com.skyworthdigital.skysmartsdk.RequestCallback;
-import com.skyworthdigital.skysmartsdk.SkySmartSDK;
-import com.skyworthdigital.skysmartsdk.bean.SkyBean;
 import com.skyworthdigital.voice.DefaultCmds;
 import com.skyworthdigital.voice.VoiceApp;
 import com.skyworthdigital.voice.baidu_module.BdController;
@@ -46,7 +43,6 @@ import com.skyworthdigital.voice.sdk.VoiceService;
 import com.skyworthdigital.voice.tianmai.TianmaiCommandUtil;
 import com.skyworthdigital.voice.tianmai.TianmaiIntent;
 import com.skyworthdigital.voice.videoplay.SkyVideoPlayUtils;
-import com.skyworthdigital.voice.wemust.WemustApi;
 
 import java.util.List;
 
@@ -390,40 +386,23 @@ public class ActionUtils {
                     MLog.i(TAG, "originSpeech:" + originSpeech);
                 }
             }
-            try {
-                Intent intent;
-                if (!specialCmdProcess(ctx, originSpeech)) {
-                    intent = new Intent(SkySceneService.INTENT_TOPACTIVITY_CALL);
-                    String strPackage = GlobalVariable.VOICE_PACKAGE_NAME;
-                    intent.putExtra(DefaultCmds.SEQUERY, originSpeech);
-                    intent.setPackage(strPackage);
-                    ctx.startService(intent);
-//                    final String text = originSpeech;
-//                    SkySmartSDK.executeCommand(ctx, originSpeech, new RequestCallback() {
-//                        @Override
-//                        public void onFinish(SkyBean skyBean) {
-//                            if (skyBean == null || (TextUtils.isEmpty(skyBean.getAnswer())) && TextUtils.isEmpty(skyBean.getAccident())
-//                                    || "unknown".equals(skyBean.getIntentType())) {
-//                                Intent intent = new Intent(SkySceneService.INTENT_TOPACTIVITY_CALL);
-//                                String strPackage = GlobalVariable.VOICE_PACKAGE_NAME;
-//                                intent.putExtra(DefaultCmds.SEQUERY, text);
-//                                intent.setPackage(strPackage);
-//                                ctx.startService(intent);
-//                            } else if (RequestCallback.UNLOGIN.equals(skyBean.getAccident())) {
-//                                SkySmartSDK.gotoLoginJd(ctx);
-//                                BdTTS.getInstance().talk("您未用小京鱼授权");
-//                            } else if (RequestCallback.INVALID_AUTHORIZE.equals(skyBean.getAccident())) {
-//                                SkySmartSDK.gotoAuthorizeJd(ctx);
-//                                BdTTS.getInstance().talk("您未用小京鱼授权");
-//                            } else {
-//                                BdTTS.getInstance().talk(skyBean.getAnswer());
-//                            }
-//                        }
-//                    });
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+
+            doNotSkywork(ctx, originSpeech);
+        }
+    }
+
+    private static void doNotSkywork(Context ctx, String speech){
+        try {
+            Intent intent;
+            if (!specialCmdProcess(ctx, speech)) {
+                intent = new Intent(SkySceneService.INTENT_TOPACTIVITY_CALL);
+                String strPackage = GlobalVariable.VOICE_PACKAGE_NAME;
+                intent.putExtra(DefaultCmds.SEQUERY, speech);
+                intent.setPackage(strPackage);
+                ctx.startService(intent);
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -506,7 +485,8 @@ public class ActionUtils {
                 }
 //
             }
-            if(StringUtils.isWemustIotCmd(speech)){
+            if(StringUtils.isIoTCmdFromSpeech(speech)){
+//            if(StringUtils.isWemustIotCmd(speech)){
                 MLog.i(TAG, "special IoT cmd");
                 return true;
             }

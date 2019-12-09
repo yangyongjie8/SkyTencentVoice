@@ -5,6 +5,8 @@ import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
+import com.skyworthdigital.skysmartsdk.SdkConfig;
+import com.skyworthdigital.skysmartsdk.SkySmartSDK;
 import com.skyworthdigital.voice.common.BuildConfig;
 import com.skyworthdigital.voice.common.utils.Utils;
 import com.skyworthdigital.voice.dingdang.utils.AppUtil;
@@ -61,6 +63,8 @@ public class VoiceApp {
         if(!TextUtils.isEmpty(SPUtil.getString(SPUtil.KEY_VOICE_PLATFORM))){// 有记忆值则使用记忆值
             isDuer = SPUtil.VALUE_VOICE_PLATFORM_BAIDU.equalsIgnoreCase(SPUtil.getString(SPUtil.KEY_VOICE_PLATFORM));
         }
+
+        initSkySmartSdk();
     }
 
 
@@ -90,5 +94,18 @@ public class VoiceApp {
 
     public static OkHttpClient getOkHttpClient() {
         return mOkHttpClient;
+    }
+
+    private void initSkySmartSdk(){
+        SdkConfig config = new SdkConfig(getInstance());
+//        config.setJdAppKey("QBZHP8ASGUECYPC9Q7RUNPRJUCXSXND7");// baidu
+//        config.setJdAppSecret("vyttw64yrnrb52k7ae4zm5x4bc9bamr3");
+        config.setNlpUrl("http://smartmovie.skyworthbox.com:8080/");
+        config.setSerialNo(Utils.get("ro.serialno"));
+        config.setModelType("tianmai");
+        config.setDeviceId("ro.boot.deviceid");
+        config.setContentChannel("search");// mifeng / search
+//        config.setKeepMode(this, Mode.BIND_WHILE_USING);// 可选配置，默认 KEEP_BACKGROUND
+        SkySmartSDK.initConfig(getInstance(), config);
     }
 }
