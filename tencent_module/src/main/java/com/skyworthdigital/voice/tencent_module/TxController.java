@@ -13,8 +13,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 
-import com.skyworthdigital.skysmartsdk.RequestCallback;
-import com.skyworthdigital.skysmartsdk.SkySmartSDK;
 import com.skyworthdigital.skysmartsdk.bean.SkyBean;
 import com.skyworthdigital.voice.DefaultCmds;
 import com.skyworthdigital.voice.VoiceApp;
@@ -414,17 +412,17 @@ public class TxController extends AbsController implements AbsTTS.MyTTSListener 
                                 MLog.d(TAG, "unmatch intent:" + bean.mSemanticJson.mSemantic.mIntent + " scenetype:" + IStatus.mSceneType);
 
                                 // 自有平台结果
-                                SkySmartSDK.executeCommand(VoiceApp.getInstance(), bean.mQuery, new RequestCallback() {
-                                    @Override
-                                    public void onFinish(SkyBean skyBean) {
-                                        if(!doFinish(skyBean)){
+//                                SkySmartSDK.executeCommand(VoiceApp.getInstance(), bean.mQuery, new RequestCallback() {
+//                                    @Override
+//                                    public void onFinish(SkyBean skyBean) {
+//                                        if(!doFinish(skyBean)){
                                             //百度平台结果
                                             Log.i(TAG, "voiceResultProc");
                                             AbsAsrTranslator.getInstance().translate(bean);
                                             mRecoResult = null;
-                                        }
-                                    }
-                                });
+//                                        }
+//                                    }
+//                                });
                             }
                         }
                     };

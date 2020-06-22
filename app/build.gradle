@@ -28,8 +28,9 @@ android {
         applicationId "com.skyworthdigital.voice.dingdang"
         minSdkVersion versions.minSdk
         targetSdkVersion 26
-        versionCode 10205
-        versionName "1.02.04"
+        
+        versionCode 10207
+        versionName "1.02.07"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 

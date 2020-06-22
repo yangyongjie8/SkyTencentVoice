@@ -2,12 +2,12 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/SkyTencentVoice.iml" filepath="$PROJECT_DIR$/SkyTencentVoice.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/assistantsdk/assistantsdk.iml" filepath="$PROJECT_DIR$/assistantsdk/assistantsdk.iml" />
-      <module fileurl="file://$PROJECT_DIR$/baidu_module/baidu_module.iml" filepath="$PROJECT_DIR$/baidu_module/baidu_module.iml" />
-      <module fileurl="file://$PROJECT_DIR$/common/common.iml" filepath="$PROJECT_DIR$/common/common.iml" />
-      <module fileurl="file://$PROJECT_DIR$/tencent_module/tencent_module.iml" filepath="$PROJECT_DIR$/tencent_module/tencent_module.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SkyTencentVoice.iml" filepath="$PROJECT_DIR$/SkyTencentVoice.iml" group="SkyTencentVoice" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="SkyTencentVoice/app" />
+      <module fileurl="file://$PROJECT_DIR$/assistantsdk/assistantsdk.iml" filepath="$PROJECT_DIR$/assistantsdk/assistantsdk.iml" group="SkyTencentVoice/assistantsdk" />
+      <module fileurl="file://$PROJECT_DIR$/baidu_module/baidu_module.iml" filepath="$PROJECT_DIR$/baidu_module/baidu_module.iml" group="SkyTencentVoice/baidu_module" />
+      <module fileurl="file://$PROJECT_DIR$/common/common.iml" filepath="$PROJECT_DIR$/common/common.iml" group="SkyTencentVoice/common" />
+      <module fileurl="file://$PROJECT_DIR$/tencent_module/tencent_module.iml" filepath="$PROJECT_DIR$/tencent_module/tencent_module.iml" group="SkyTencentVoice/tencent_module" />
     </modules>
   </component>
 </project>

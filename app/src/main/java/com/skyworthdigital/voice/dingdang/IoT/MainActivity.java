@@ -8,12 +8,6 @@ import com.d618.mqttsdk.D618CBInterface;
 import com.d618.mqttsdk.D618SDK;
 import com.skyworthdigital.voice.dingdang.utils.AppUtil;
 
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.util.Enumeration;
-
-import static com.skyworthdigital.voice.dingdang.utils.AppUtil.getMachineHardwareAddress;
-
 public class MainActivity extends Activity
 {
     public static final int STATUS_CONNECTING = 1;

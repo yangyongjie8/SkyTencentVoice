@@ -3,13 +3,8 @@ package com.skyworthdigital.voice.common.utils;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.skyworthdigital.skysmartsdk.RequestCallback;
-import com.skyworthdigital.skysmartsdk.SkySmartSDK;
-import com.skyworthdigital.skysmartsdk.bean.SkyBean;
 import com.skyworthdigital.voice.VoiceApp;
 import com.skyworthdigital.voice.common.AbsTTS;
 import com.skyworthdigital.voice.common.R;
@@ -42,7 +37,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.Request;
 import okhttp3.Response;
 

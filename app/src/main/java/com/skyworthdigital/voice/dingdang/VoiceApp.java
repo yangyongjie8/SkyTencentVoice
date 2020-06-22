@@ -27,6 +27,8 @@ import com.skyworthdigital.voice.baidu_module.BdController;
 import com.skyworthdigital.voice.baidu_module.BdGuideAgent;
 import com.skyworthdigital.voice.baidu_module.BdTvLiveController;
 import com.skyworthdigital.voice.common.utils.Utils;
+import com.skyworthdigital.voice.dingdang.service.AppUpgradeService;
+import com.skyworthdigital.voice.dingdang.service.InstallUtils;
 import com.skyworthdigital.voice.dingdang.service.RecognizeService;
 import com.skyworthdigital.voice.dingdang.utils.GlobalVariable;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
@@ -68,7 +70,7 @@ public class VoiceApp extends MultiDexApplication {
         initTencentSDK();
         initDuerSDK();
         initBaiduInstances();
-        initTencentInstances();getBaseContext().startActivity(new Intent());
+        initTencentInstances();
 
         Fresco.initialize(this);
 
@@ -76,6 +78,10 @@ public class VoiceApp extends MultiDexApplication {
 
         startService(new Intent(this, IoTService.class));
 
+        //启动 升级service
+        startService(new Intent(this, AppUpgradeService.class));
+//        Toast.makeText(this, "当前版本:" + InstallUtils.getVersionCode(this), Toast.LENGTH_LONG).show();
+        Log.d(TAG, "skyTencentVoice current version:" + InstallUtils.getVersionCode(this));
         // 初始化威玛斯特相关秘钥
         new Thread(new Runnable() {
             @Override

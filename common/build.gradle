@@ -54,6 +54,6 @@ dependencies {
     api 'com.facebook.fresco:animated-gif:0.14.1'
     api 'com.facebook.fresco:imagepipeline-okhttp3:0.14.1'
     implementation files('libs/glide-3.7.0.jar')
-
+    api files('libs/bcprov-jdk15on-1.62.jar')
     api project(':assistantsdk')
 }

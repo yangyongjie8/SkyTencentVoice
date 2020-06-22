@@ -2,6 +2,8 @@ package com.skyworthdigital.voice.videoplay.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.util.Log;
 
 import com.forest.bigdatasdk.httpdns.HttpDNS;
@@ -103,6 +105,18 @@ public class RequestUtil {
         call.enqueue(callback);
     }
 
+    public static void sendRequest2(Context context, String originalUrl, Callback callback, String channel) {
+        String newUrl = handleByHttpDns(originalUrl);
+        Request.Builder builder = new Request.Builder().url(newUrl);
+        String host = getHttpHost(originalUrl);
+        if (host != null) {
+            builder.addHeader("Host", host);
+        }
+        Request request = builder.build();
+        Call call = VoiceApp.getOkHttpClient().newCall(request);
+        call.enqueue(callback);
+    }
+
     /*public static boolean ping() {
         String result = null;
         try {
@@ -126,4 +140,16 @@ public class RequestUtil {
         return false;
     }*/
 
+
+    public static synchronized int getVersionCode(Context context) {
+        try {
+            PackageManager packageManager = context.getPackageManager();
+            PackageInfo packageInfo = packageManager.getPackageInfo(
+                    context.getPackageName(), 0);
+            return packageInfo.versionCode;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }

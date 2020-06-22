@@ -21,8 +21,6 @@ import com.baidu.duersdk.DuerSDK;
 import com.baidu.duersdk.DuerSDKFactory;
 import com.baidu.duersdk.DuerSDKImpl;
 import com.baidu.duersdk.voice.VoiceInterface;
-import com.skyworthdigital.skysmartsdk.RequestCallback;
-import com.skyworthdigital.skysmartsdk.SkySmartSDK;
 import com.skyworthdigital.skysmartsdk.bean.SkyBean;
 import com.skyworthdigital.voice.VoiceApp;
 import com.skyworthdigital.voice.alarm.database.AlarmDbOperator;
@@ -739,16 +737,16 @@ public class BdController extends AbsController {
                     if (!matched) {
 
                         // 自有平台结果
-                        SkySmartSDK.executeCommand(VoiceApp.getInstance(), BdController.this.originSpeech, new RequestCallback() {
-                            @Override
-                            public void onFinish(SkyBean skyBean) {
-                                if(!doFinish(skyBean)){
+//                        SkySmartSDK.executeCommand(VoiceApp.getInstance(), BdController.this.originSpeech, new RequestCallback() {
+//                            @Override
+//                            public void onFinish(SkyBean skyBean) {
+//                                if(!doFinish(skyBean)){
                                     //百度平台结果
                                     Log.i(TAG, "voiceResultProc");
                                     BdAsrTranslator.getInstance().translate(mDuerResult);
-                                }
-                            }
-                        });
+//                                }
+//                            }
+//                        });
                     }
                 }
 

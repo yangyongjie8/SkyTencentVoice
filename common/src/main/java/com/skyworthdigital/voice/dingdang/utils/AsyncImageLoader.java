@@ -1,5 +1,8 @@
 package com.skyworthdigital.voice.dingdang.utils;
 
+import android.graphics.drawable.Drawable;
+import android.os.Handler;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.SoftReference;
@@ -8,9 +11,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import android.graphics.drawable.Drawable;
-import android.os.Handler;
 
 public class AsyncImageLoader {
     private Map<String, SoftReference<Drawable>> imageCache = new HashMap<String, SoftReference<Drawable>>();

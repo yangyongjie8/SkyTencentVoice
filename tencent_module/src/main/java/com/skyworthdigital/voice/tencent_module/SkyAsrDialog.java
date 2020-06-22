@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.skyworthdigital.voice.guide.GuideTip;
 import com.skyworthdigital.voice.VoiceApp;
 import com.skyworthdigital.voice.common.AbsTTS;
 import com.skyworthdigital.voice.common.IStatus;
@@ -24,6 +23,7 @@ import com.skyworthdigital.voice.dingdang.utils.DialogCellType;
 import com.skyworthdigital.voice.dingdang.utils.GlobalVariable;
 import com.skyworthdigital.voice.dingdang.utils.MLog;
 import com.skyworthdigital.voice.dingdang.utils.VolumeUtils;
+import com.skyworthdigital.voice.guide.GuideTip;
 import com.skyworthdigital.voice.tencent_module.domains.baike.BaikeInfoCell;
 import com.skyworthdigital.voice.tencent_module.domains.sports.cell.SportsInfoCell;
 import com.skyworthdigital.voice.tencent_module.domains.sports.cell.SportsScoresCell;
@@ -31,8 +31,6 @@ import com.skyworthdigital.voice.tencent_module.guide.GuideDialog;
 import com.skyworthdigital.voice.tencent_module.model.TemplateItem;
 import com.skyworthdigital.voice.tencent_module.view.paipaianim.PaiPaiAnimUtil;
 import com.skyworthdigital.voice.view.SkyVerticalMarqueeTextview;
-
-import java.util.List;
 
 
 /**
